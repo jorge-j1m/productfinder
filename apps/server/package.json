@@ -1,14 +1,21 @@
 {
   "name": "server",
+  "type": "module",
   "scripts": {
     "start": "bun run src/index.ts",
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "lint": "eslint",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "bun": "^1.2.23",
     "hono": "^4.9.10"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/bun": "latest",
+    "eslint": "^9",
+    "typescript": "^5"
   }
 }

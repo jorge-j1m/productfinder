@@ -3,7 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint",
+    "check-types": "tsc --noEmit"
   },
   "exports": {
     "./add": {
@@ -16,7 +18,9 @@
     }
   },
   "devDependencies": {
+    "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "eslint": "^9",
     "typescript": "latest"
   }
 }
