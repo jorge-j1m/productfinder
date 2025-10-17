@@ -1,9 +1,16 @@
 import { Hono } from "hono";
+import { db } from "./db";
+import { usersTable } from "./db/schema";
 
 const app = new Hono();
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
+});
+
+app.get("/test", async (c) => {
+  const users = await db.select().from(usersTable);
+  return c.json(users);
 });
 
 const server = Bun.serve({

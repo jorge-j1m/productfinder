@@ -8,13 +8,20 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@orpc/contract": "^1.9.3",
+    "@orpc/server": "^1.9.3",
     "bun": "^1.2.23",
-    "hono": "^4.9.10"
+    "drizzle-orm": "^0.44.6",
+    "hono": "^4.9.10",
+    "orpc": "^0.1.1",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/bun": "latest",
+    "@types/pg": "^8.15.5",
+    "drizzle-kit": "^0.31.5",
     "eslint": "^9",
     "typescript": "^5"
   }
