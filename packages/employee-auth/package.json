@@ -1,0 +1,25 @@
+{
+  "name": "@repo/employee-auth",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "eslint",
+    "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/types.ts",
+      "default": "./dist/client.js"
+    }
+  },
+  "dependencies": {
+    "better-auth": "^1.3.26"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "eslint": "^9",
+    "typescript": "latest"
+  }
+}
