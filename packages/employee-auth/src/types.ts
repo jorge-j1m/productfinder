@@ -32,6 +32,7 @@ export const EmployeeExtension: Record<string, DBFieldAttribute> = {
   storeId: {
     type: "string",
     required: true,
+    references: { model: "stores", field: "id" },
   },
   status: {
     type: "string",
