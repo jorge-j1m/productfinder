@@ -1,12 +1,12 @@
 import { fromString } from "typeid-js";
 
 // Entity ID branded types - these are strings with compile-time type branding
-export type StoreBrandId = Brand<string, 'StoreBrandId'>;
-export type StoreId = Brand<string, 'StoreId'>;
-export type EmployeeId = Brand<string, 'EmployeeId'>;
-export type EmployeeSessionId = Brand<string, 'EmployeeSessionId'>;
-export type EmployeeAccountId = Brand<string, 'EmployeeAccountId'>;
-export type EmployeeVerificationId = Brand<string, 'EmployeeVerificationId'>;
+export type StoreBrandId = Brand<string, "StoreBrandId">;
+export type StoreId = Brand<string, "StoreId">;
+export type EmployeeId = Brand<string, "EmployeeId">;
+export type EmployeeSessionId = Brand<string, "EmployeeSessionId">;
+export type EmployeeAccountId = Brand<string, "EmployeeAccountId">;
+export type EmployeeVerificationId = Brand<string, "EmployeeVerificationId">;
 
 // Branded type utilities for type-safe entity IDs
 declare const __brand: unique symbol;
@@ -58,7 +58,9 @@ export function isEmployeeAccountId(id: string): id is EmployeeAccountId {
   }
 }
 
-export function isEmployeeVerificationId(id: string): id is EmployeeVerificationId {
+export function isEmployeeVerificationId(
+  id: string,
+): id is EmployeeVerificationId {
   try {
     fromString(id, "evfn");
     return true;
@@ -71,6 +73,9 @@ export function isEmployeeVerificationId(id: string): id is EmployeeVerification
 export const asStoreBrandId = (id: string): StoreBrandId => id as StoreBrandId;
 export const asStoreId = (id: string): StoreId => id as StoreId;
 export const asEmployeeId = (id: string): EmployeeId => id as EmployeeId;
-export const asEmployeeSessionId = (id: string): EmployeeSessionId => id as EmployeeSessionId;
-export const asEmployeeAccountId = (id: string): EmployeeAccountId => id as EmployeeAccountId;
-export const asEmployeeVerificationId = (id: string): EmployeeVerificationId => id as EmployeeVerificationId;
+export const asEmployeeSessionId = (id: string): EmployeeSessionId =>
+  id as EmployeeSessionId;
+export const asEmployeeAccountId = (id: string): EmployeeAccountId =>
+  id as EmployeeAccountId;
+export const asEmployeeVerificationId = (id: string): EmployeeVerificationId =>
+  id as EmployeeVerificationId;

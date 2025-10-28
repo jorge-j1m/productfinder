@@ -4,8 +4,8 @@
  * And then a user with that store
  */
 
-import { db } from "../src/db";
-import { employees, storeBrands, stores } from "../src/db/schema";
+import { _localDb } from "../";
+import { employees, storeBrands, stores } from "../schemas";
 
 const randomString = () => {
   return Math.random().toString(36).substring(2, 8);
@@ -16,7 +16,7 @@ const brand: typeof storeBrands.$inferInsert = {
   name: `Test Brand ${randomString()}`,
 };
 
-const fromDb = await db.insert(storeBrands).values(brand).returning();
+const fromDb = await _localDb.insert(storeBrands).values(brand).returning();
 console.log("Brand created:", fromDb);
 
 const store: typeof stores.$inferInsert = {
@@ -31,7 +31,7 @@ const store: typeof stores.$inferInsert = {
   longitude: 0,
 };
 
-const storeFromDb = await db.insert(stores).values(store).returning();
+const storeFromDb = await _localDb.insert(stores).values(store).returning();
 console.log("Store created:", storeFromDb);
 
 const employee: typeof employees.$inferInsert = {
@@ -44,6 +44,6 @@ const employee: typeof employees.$inferInsert = {
   status: "active",
 };
 
-const employeeFromDb = await db.insert(employees).values(employee).returning();
+const employeeFromDb = await _localDb.insert(employees).values(employee).returning();
 console.log("Employee created:", employeeFromDb);
 process.exit(0);

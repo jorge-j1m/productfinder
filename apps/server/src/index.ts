@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { db } from "./db";
-import { usersTable } from "./db/schema";
+import { employees } from "./db/schema";
 import type { Employee } from "@repo/employee-auth";
 const app = new Hono();
 
@@ -9,7 +9,7 @@ app.get("/", (c) => {
 });
 
 app.get("/test", async (c) => {
-  const users = (await db.select().from(usersTable)) as unknown as Employee[];
+  const users = (await db.select().from(employees)) as unknown as Employee[];
   return c.json(users);
 });
 
