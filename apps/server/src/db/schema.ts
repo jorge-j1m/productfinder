@@ -1,4 +1,6 @@
 export {
+  employeeRoles,
+  employeeStatus,
   storeBrands,
   stores,
   employees,

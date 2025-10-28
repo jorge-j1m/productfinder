@@ -5,7 +5,9 @@ import {
   boolean,
   timestamp,
   varchar,
+  pgEnum,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { typeid } from "typeid-js";
 import {
   StoreBrandId,
@@ -15,6 +17,16 @@ import {
   EmployeeAccountId,
   EmployeeVerificationId,
 } from "./id";
+
+export const employeeRoles = pgEnum("employee_roles", [
+  "STAFF",
+  "MANAGER",
+  "ADMIN",
+]);
+export const employeeStatus = pgEnum("employee_status", [
+  "ACTIVE",
+  "SUSPENDED",
+]);
 
 export const storeBrands = pgTable("store_brands", {
   id: text("id")
@@ -64,12 +76,12 @@ export const employees = pgTable("employees", {
     .notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
-  role: text("role").notNull(),
+  role: employeeRoles().notNull(),
   storeId: text("store_id")
     .notNull()
     .references(() => stores.id, { onDelete: "cascade" })
     .$type<StoreId>(),
-  status: text("status").notNull(),
+  status: employeeStatus().notNull(),
 });
 
 export const employee_sessions = pgTable("employee_sessions", {
@@ -131,3 +143,45 @@ export const employee_verifications = pgTable("employee_verifications", {
 });
 
 // END OF GENERATED TABLES FROM BETTER-AUTH
+
+// RELATIONS for nested queries
+export const storeBrandsRelations = relations(storeBrands, ({ many }) => ({
+  stores: many(stores),
+}));
+
+export const storesRelations = relations(stores, ({ one, many }) => ({
+  brand: one(storeBrands, {
+    fields: [stores.brandId],
+    references: [storeBrands.id],
+  }),
+  employees: many(employees),
+}));
+
+export const employeesRelations = relations(employees, ({ one, many }) => ({
+  store: one(stores, {
+    fields: [employees.storeId],
+    references: [stores.id],
+  }),
+  sessions: many(employee_sessions),
+  accounts: many(employee_accounts),
+}));
+
+export const employeeSessionsRelations = relations(
+  employee_sessions,
+  ({ one }) => ({
+    employee: one(employees, {
+      fields: [employee_sessions.userId],
+      references: [employees.id],
+    }),
+  }),
+);
+
+export const employeeAccountsRelations = relations(
+  employee_accounts,
+  ({ one }) => ({
+    employee: one(employees, {
+      fields: [employee_accounts.userId],
+      references: [employees.id],
+    }),
+  }),
+);

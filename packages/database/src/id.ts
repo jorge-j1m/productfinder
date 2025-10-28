@@ -69,13 +69,42 @@ export function isEmployeeVerificationId(
   }
 }
 
-// Helper functions to cast validated strings to branded types (use with caution)
-export const asStoreBrandId = (id: string): StoreBrandId => id as StoreBrandId;
-export const asStoreId = (id: string): StoreId => id as StoreId;
-export const asEmployeeId = (id: string): EmployeeId => id as EmployeeId;
-export const asEmployeeSessionId = (id: string): EmployeeSessionId =>
-  id as EmployeeSessionId;
-export const asEmployeeAccountId = (id: string): EmployeeAccountId =>
-  id as EmployeeAccountId;
-export const asEmployeeVerificationId = (id: string): EmployeeVerificationId =>
-  id as EmployeeVerificationId;
+// Helper functions to cast strings to branded types, they will verify the string is valid
+export const asStoreBrandId = (id: string): StoreBrandId => {
+  if (!isStoreBrandId(id)) {
+    throw new Error("Invalid StoreBrandId");
+  }
+  return id as StoreBrandId;
+};
+export const asStoreId = (id: string): StoreId => {
+  if (!isStoreId(id)) {
+    throw new Error("Invalid StoreId");
+  }
+  return id as StoreId;
+};
+export const asEmployeeId = (id: string): EmployeeId => {
+  if (!isEmployeeId(id)) {
+    throw new Error("Invalid EmployeeId");
+  }
+  return id as EmployeeId;
+};
+export const asEmployeeSessionId = (id: string): EmployeeSessionId => {
+  if (!isEmployeeSessionId(id)) {
+    throw new Error("Invalid EmployeeSessionId");
+  }
+  return id as EmployeeSessionId;
+};
+export const asEmployeeAccountId = (id: string): EmployeeAccountId => {
+  if (!isEmployeeAccountId(id)) {
+    throw new Error("Invalid EmployeeAccountId");
+  }
+  return id as EmployeeAccountId;
+};
+export const asEmployeeVerificationId = (
+  id: string,
+): EmployeeVerificationId => {
+  if (!isEmployeeVerificationId(id)) {
+    throw new Error("Invalid EmployeeVerificationId");
+  }
+  return id as EmployeeVerificationId;
+};

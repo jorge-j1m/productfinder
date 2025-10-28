@@ -19,6 +19,7 @@
     "@eslint/eslintrc": "^3",
     "@repo/eslint-config": "*",
     "@repo/employee-auth": "*",
+    "@repo/database": "*",
     "@repo/typescript-config": "*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
