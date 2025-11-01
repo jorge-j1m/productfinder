@@ -70,6 +70,9 @@ const employeeWithStoreNested = await _localDb.query.employees.findFirst({
     },
   },
 });
-console.log("Nested structure:", JSON.stringify(employeeWithStoreNested, null, 2));
+console.log(
+  "Nested structure:",
+  JSON.stringify(employeeWithStoreNested, null, 2),
+);
 
 process.exit(0);

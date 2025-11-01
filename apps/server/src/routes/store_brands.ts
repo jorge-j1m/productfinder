@@ -1,0 +1,106 @@
+import { Hono } from "hono";
+import { db } from "../db";
+import { storeBrands } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { asStoreBrandId, newStoreBrandSchema } from "@repo/database";
+
+const storeBrandsRouter = new Hono();
+
+// GET all store brands
+storeBrandsRouter.get("/", async (c) => {
+  try {
+    const brands = await db.select().from(storeBrands);
+    return c.json(brands);
+  } catch {
+    return c.json({ error: "Failed to fetch store brands" }, 500);
+  }
+});
+
+// GET a single store brand by ID
+storeBrandsRouter.get("/:id", async (c) => {
+  try {
+    const id = asStoreBrandId(c.req.param("id"));
+    const brand = await db
+      .select()
+      .from(storeBrands)
+      .where(eq(storeBrands.id, id));
+
+    if (brand.length === 0) {
+      return c.json({ error: "Store brand not found" }, 404);
+    }
+
+    return c.json(brand[0]);
+  } catch {
+    return c.json({ error: "Failed to fetch store brand" }, 500);
+  }
+});
+
+// POST create a new store brand
+storeBrandsRouter.post("/", async (c) => {
+  try {
+    const body = await c.req.json();
+    const validatedData = newStoreBrandSchema.parse(body);
+    const { id: _id, ...insertData } = validatedData;
+
+    const newBrand = await db
+      .insert(storeBrands)
+      .values(insertData)
+      .returning();
+
+    return c.json(newBrand[0], 201);
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ error: error.message }, 400);
+    }
+    return c.json({ error: "Failed to create store brand" }, 500);
+  }
+});
+
+// PUT update a store brand
+storeBrandsRouter.put("/:id", async (c) => {
+  try {
+    const id = asStoreBrandId(c.req.param("id"));
+    const body = await c.req.json();
+    const validatedData = newStoreBrandSchema.parse(body);
+    const { id: _brandId, ...updateData } = validatedData;
+
+    const updatedBrand = await db
+      .update(storeBrands)
+      .set(updateData)
+      .where(eq(storeBrands.id, id))
+      .returning();
+
+    if (updatedBrand.length === 0) {
+      return c.json({ error: "Store brand not found" }, 404);
+    }
+
+    return c.json(updatedBrand[0]);
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ error: error.message }, 400);
+    }
+    return c.json({ error: "Failed to update store brand" }, 500);
+  }
+});
+
+// DELETE a store brand
+storeBrandsRouter.delete("/:id", async (c) => {
+  try {
+    const id = asStoreBrandId(c.req.param("id"));
+
+    const deletedBrand = await db
+      .delete(storeBrands)
+      .where(eq(storeBrands.id, id))
+      .returning();
+
+    if (deletedBrand.length === 0) {
+      return c.json({ error: "Store brand not found" }, 404);
+    }
+
+    return c.json({ message: "Store brand deleted successfully" });
+  } catch {
+    return c.json({ error: "Failed to delete store brand" }, 500);
+  }
+});
+
+export default storeBrandsRouter;
