@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { db } from "../db";
+import { db as defaultDb } from "../db";
 import { stores, storeBrands } from "../db/schema";
 import { eq } from "drizzle-orm";
 import {
@@ -14,6 +14,7 @@ const storesRouter = new Hono();
 // GET all stores
 storesRouter.get("/", async (c) => {
   try {
+    const db = c.get("db") || defaultDb;
     const allStores = await db.select().from(stores);
     return c.json(allStores);
   } catch {
@@ -24,6 +25,7 @@ storesRouter.get("/", async (c) => {
 // GET a single store by ID
 storesRouter.get("/:id", async (c) => {
   try {
+    const db = c.get("db") || defaultDb;
     const id = asStoreId(c.req.param("id"));
     const store = await db.select().from(stores).where(eq(stores.id, id));
 
@@ -32,7 +34,10 @@ storesRouter.get("/:id", async (c) => {
     }
 
     return c.json(store[0]);
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Invalid")) {
+      return c.json({ error: "Invalid store ID" }, 400);
+    }
     return c.json({ error: "Failed to fetch store" }, 500);
   }
 });
@@ -40,12 +45,13 @@ storesRouter.get("/:id", async (c) => {
 // POST create a new store
 storesRouter.post("/", async (c) => {
   try {
+    const db = c.get("db") || defaultDb;
     const body = await c.req.json();
     const validatedData = newStoreSchema.parse(body);
     const { id: _id, ...insertData } = validatedData;
 
     // Check if the brand exists
-    const typedBrandId = asStoreBrandId(insertData.brandId);
+    const typedBrandId = asStoreBrandId(insertData.brandId as unknown as string);
     const brand = await db
       .select()
       .from(storeBrands)
@@ -72,13 +78,14 @@ storesRouter.post("/", async (c) => {
 // PUT update a store
 storesRouter.put("/:id", async (c) => {
   try {
+    const db = c.get("db") || defaultDb;
     const id = asStoreId(c.req.param("id"));
     const body = await c.req.json();
     const validatedData = newStoreSchema.parse(body);
     const { id: _storeId, ...updateData } = validatedData;
 
     // Check if the brand exists
-    const typedBrandId = asStoreBrandId(updateData.brandId);
+    const typedBrandId = asStoreBrandId(updateData.brandId as unknown as string);
     const brand = await db
       .select()
       .from(storeBrands)
@@ -110,6 +117,7 @@ storesRouter.put("/:id", async (c) => {
 // DELETE a store
 storesRouter.delete("/:id", async (c) => {
   try {
+    const db = c.get("db") || defaultDb;
     const id = asStoreId(c.req.param("id"));
 
     const deletedStore = await db
@@ -122,7 +130,10 @@ storesRouter.delete("/:id", async (c) => {
     }
 
     return c.json({ message: "Store deleted successfully" });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Invalid")) {
+      return c.json({ error: "Invalid store ID" }, 400);
+    }
     return c.json({ error: "Failed to delete store" }, 500);
   }
 });

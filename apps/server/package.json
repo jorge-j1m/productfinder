@@ -4,6 +4,9 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "dev": "bun run --hot src/index.ts",
+    "test": "bun test",
+    "test:setup": "bunx drizzle-kit push --config=drizzle.config.test.ts",
+    "test:watch": "bun test --watch",
     "lint": "eslint",
     "check-types": "tsc --noEmit"
   },
@@ -19,10 +22,10 @@
     "typeid-js": "^1.2.0"
   },
   "devDependencies": {
+    "@repo/database": "*",
     "@repo/employee-auth": "*",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "@repo/database": "*",
     "@types/bun": "latest",
     "@types/pg": "^8.15.5",
     "eslint": "^9",
