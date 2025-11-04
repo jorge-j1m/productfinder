@@ -1,13 +1,13 @@
 import { describe, test, expect, beforeEach } from "bun:test";
 import { testDb } from "../../test/setup";
-import { createTestApp } from "../../test/test-app";
+import { createApp } from "../app";
 import { storeBrands } from "../db/schema";
 
 describe("Store Brands API", () => {
-  let app: ReturnType<typeof createTestApp>;
+  let app: ReturnType<typeof createApp>;
 
   beforeEach(() => {
-    app = createTestApp(testDb);
+    app = createApp(testDb);
   });
 
   describe("GET /api/store-brands", () => {
@@ -37,7 +37,9 @@ describe("Store Brands API", () => {
 
   describe("GET /api/store-brands/:id", () => {
     test("returns 404 when brand doesn't exist", async () => {
-      const res = await app.request("/api/store-brands/sb_01jafake000000000000000000");
+      const res = await app.request(
+        "/api/store-brands/sb_01jafake000000000000000000",
+      );
 
       expect(res.status).toBe(404);
       const data = await res.json();
@@ -130,14 +132,17 @@ describe("Store Brands API", () => {
     });
 
     test("returns 404 when updating non-existent brand", async () => {
-      const res = await app.request("/api/store-brands/sb_01jafake000000000000000000", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: "New Name",
-          logo: "https://example.com/new.png",
-        }),
-      });
+      const res = await app.request(
+        "/api/store-brands/sb_01jafake000000000000000000",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "New Name",
+            logo: "https://example.com/new.png",
+          }),
+        },
+      );
 
       expect(res.status).toBe(404);
     });
@@ -177,9 +182,12 @@ describe("Store Brands API", () => {
     });
 
     test("returns 404 when deleting non-existent brand", async () => {
-      const res = await app.request("/api/store-brands/sb_01jafake000000000000000000", {
-        method: "DELETE",
-      });
+      const res = await app.request(
+        "/api/store-brands/sb_01jafake000000000000000000",
+        {
+          method: "DELETE",
+        },
+      );
 
       expect(res.status).toBe(404);
     });

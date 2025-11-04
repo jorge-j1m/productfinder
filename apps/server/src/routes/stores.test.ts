@@ -1,15 +1,15 @@
 import { describe, test, expect, beforeEach } from "bun:test";
 import { testDb } from "../../test/setup";
-import { createTestApp } from "../../test/test-app";
+import { createApp } from "../app";
 import { stores, storeBrands } from "../db/schema";
 import type { StoreBrandId } from "@repo/database";
 
 describe("Stores API", () => {
-  let app: ReturnType<typeof createTestApp>;
+  let app: ReturnType<typeof createApp>;
   let testBrandId: StoreBrandId;
 
   beforeEach(async () => {
-    app = createTestApp(testDb);
+    app = createApp(testDb);
 
     // Create a test brand for stores to reference
     const [brand] = await testDb
@@ -70,7 +70,9 @@ describe("Stores API", () => {
 
   describe("GET /api/stores/:id", () => {
     test("returns 404 when store doesn't exist", async () => {
-      const res = await app.request("/api/stores/store_01jafake000000000000000000");
+      const res = await app.request(
+        "/api/stores/store_01jafake000000000000000000",
+      );
 
       expect(res.status).toBe(404);
       const data = await res.json();
@@ -212,21 +214,24 @@ describe("Stores API", () => {
     });
 
     test("returns 404 when updating non-existent store", async () => {
-      const res = await app.request("/api/stores/store_01jafake000000000000000000", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          brandId: testBrandId,
-          name: "Name",
-          address: "Address",
-          city: "City",
-          state: "CA",
-          zip: "90001",
-          countryCode: "US",
-          latitude: 0,
-          longitude: 0,
-        }),
-      });
+      const res = await app.request(
+        "/api/stores/store_01jafake000000000000000000",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            brandId: testBrandId,
+            name: "Name",
+            address: "Address",
+            city: "City",
+            state: "CA",
+            zip: "90001",
+            countryCode: "US",
+            latitude: 0,
+            longitude: 0,
+          }),
+        },
+      );
 
       expect(res.status).toBe(404);
     });
@@ -283,9 +288,12 @@ describe("Stores API", () => {
     });
 
     test("returns 404 when deleting non-existent store", async () => {
-      const res = await app.request("/api/stores/store_01jafake000000000000000000", {
-        method: "DELETE",
-      });
+      const res = await app.request(
+        "/api/stores/store_01jafake000000000000000000",
+        {
+          method: "DELETE",
+        },
+      );
 
       expect(res.status).toBe(404);
     });

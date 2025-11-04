@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { db as defaultDb } from "../db";
 import { storeBrands } from "../db/schema";
 import { eq } from "drizzle-orm";
 import {
@@ -13,8 +12,7 @@ const storeBrandsRouter = new Hono();
 // GET all store brands
 storeBrandsRouter.get("/", async (c) => {
   try {
-    // Use injected db from context, fallback to default
-    const db = c.get("db") || defaultDb;
+    const db = c.get("db");
     const brands = await db.select().from(storeBrands);
     return c.json(brands);
   } catch {
@@ -25,7 +23,7 @@ storeBrandsRouter.get("/", async (c) => {
 // GET a single store brand by ID
 storeBrandsRouter.get("/:id", async (c) => {
   try {
-    const db = c.get("db") || defaultDb;
+    const db = c.get("db");
     const id = asStoreBrandId(c.req.param("id"));
     const brand = await db
       .select()
@@ -48,7 +46,7 @@ storeBrandsRouter.get("/:id", async (c) => {
 // POST create a new store brand
 storeBrandsRouter.post("/", async (c) => {
   try {
-    const db = c.get("db") || defaultDb;
+    const db = c.get("db");
     const body = await c.req.json();
     const validatedData = newStoreBrandSchema.parse(body);
     const { id: _id, ...insertData } = validatedData;
@@ -70,7 +68,7 @@ storeBrandsRouter.post("/", async (c) => {
 // PUT update a store brand
 storeBrandsRouter.put("/:id", async (c) => {
   try {
-    const db = c.get("db") || defaultDb;
+    const db = c.get("db");
     const id = asStoreBrandId(c.req.param("id"));
     const body = await c.req.json();
     const validatedData = newStoreBrandSchema.parse(body);
@@ -98,7 +96,7 @@ storeBrandsRouter.put("/:id", async (c) => {
 // DELETE a store brand
 storeBrandsRouter.delete("/:id", async (c) => {
   try {
-    const db = c.get("db") || defaultDb;
+    const db = c.get("db");
     const id = asStoreBrandId(c.req.param("id"));
 
     const deletedBrand = await db
