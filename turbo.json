@@ -18,6 +18,19 @@
       "cache": false,
       "persistent": true,
       "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "TEST_DATABASE_URL"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "test/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        ".env.test",
+        ".env.test.example"
+      ],
+      "env": ["TEST_DATABASE_URL"],
+      "cache": true
     }
   }
 }
