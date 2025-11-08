@@ -16,7 +16,8 @@ storesRouter.get("/", async (c) => {
     const db = c.get("db");
     const allStores = await db.select().from(stores);
     return c.json(allStores);
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch stores", error);
     return c.json({ error: "Failed to fetch stores" }, 500);
   }
 });

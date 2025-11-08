@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import storeBrandsRouter from "./routes/store_brands";
 import storesRouter from "./routes/stores";
-import { type DB } from "./db";
+import { type DB } from "@repo/database";
 
 /**
  * Creates the Hono app with database injection.
