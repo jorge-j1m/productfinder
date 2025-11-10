@@ -2,12 +2,12 @@ import { beforeAll, afterAll, beforeEach, afterEach } from "bun:test";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { sql } from "drizzle-orm";
-import type { DB } from "../src/db";
-import * as schema from "../src/db/schema";
+import type { DB } from "@repo/database";
+import * as schema from "@repo/database/schema";
 
 const TEST_DB_URL =
   process.env.TEST_DATABASE_URL ||
-  "postgres://localhost:5432/productfinder_test";
+  "postgres://postgres:postgres@127.0.0.1:5432/productfinder_test";
 
 let pool: Pool;
 export let testDb: DB;

@@ -1,4 +1,4 @@
-import { ORPCError, os, type  } from "@orpc/server";
+import { ORPCError, os, type } from "@orpc/server";
 import {
   storeBrandSchema,
   newStoreBrandSchema,
@@ -20,7 +20,9 @@ export const storeBrandsProcedures = {
       });
 
       if (!brand) {
-        throw new ORPCError(`Store brand with id ${input.id} not found`, { status: 404 });
+        throw new ORPCError(`Store brand with id ${input.id} not found`, {
+          status: 404,
+        });
       }
 
       return brand;

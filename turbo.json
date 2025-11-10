@@ -19,8 +19,12 @@
       "persistent": true,
       "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "TEST_DATABASE_URL"]
     },
+    "test:setup": {
+      "cache": false,
+      "env": ["TEST_DATABASE_URL"]
+    },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "test:setup"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "test/**",

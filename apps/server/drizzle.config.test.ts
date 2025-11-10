@@ -6,6 +6,6 @@ export default defineConfig({
   dbCredentials: {
     url:
       process.env.TEST_DATABASE_URL ||
-      "postgres://localhost:5432/productfinder_test",
+      "postgres://postgres:postgres@localhost:5432/productfinder_test",
   },
 });

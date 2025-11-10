@@ -1,4 +1,4 @@
-import { DB } from "../db";
+import { type DB } from "@repo/database";
 
 declare module "hono" {
   interface ContextVariableMap {
