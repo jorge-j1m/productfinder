@@ -1,4 +1,5 @@
-import { ORPCError, os, type } from "@orpc/server";
+import { os } from "@orpc/server";
+import { z } from "zod";
 import {
   storeBrandSchema,
   newStoreBrandSchema,
@@ -7,38 +8,51 @@ import {
   asStoreBrandId,
 } from "@repo/database";
 
-const osdb = os.$context<{ db: DB }>();
+const osdb = os.$context<{ db: DB; requestId: string }>().errors({
+  INTERNAL_SERVER_ERROR: {
+    status: 500,
+    message: "Internal server error",
+  },
+});
+
+const pathBase = "/store-brands";
 
 export const storeBrandsProcedures = {
   get: osdb
-    .input(type<{ id: string }>())
+    .route({ method: "GET", path: `${pathBase}/{id}` }) // We use {id} to make it compatible with OpenAPI
+    .input(z.object({ id: z.string() }))
     .output(storeBrandSchema)
-    .handler(async ({ input, context }) => {
+    .errors({
+      NOT_FOUND: {
+        status: 404,
+        message: "Store brand not found",
+      },
+    })
+    .handler(async ({ input, context, errors }) => {
       const id = asStoreBrandId(input.id);
       const brand = await context.db.query.storeBrands.findFirst({
         where: (fields, { eq }) => eq(fields.id, id),
       });
 
       if (!brand) {
-        throw new ORPCError(`Store brand with id ${input.id} not found`, {
-          status: 404,
-        });
+        throw errors.NOT_FOUND();
       }
 
       return brand;
     }),
 
   create: osdb
+    .route({ method: "POST", path: `${pathBase}` })
     .input(newStoreBrandSchema.omit({ id: true }))
     .output(storeBrandSchema)
-    .handler(async ({ input, context }) => {
+    .handler(async ({ input, context, errors }) => {
       const [storeBrand] = await context.db
         .insert(storeBrands)
         .values(input)
         .returning();
 
       if (!storeBrand) {
-        throw new ORPCError("Failed to create store brand", { status: 500 });
+        throw errors.INTERNAL_SERVER_ERROR();
       }
 
       return storeBrand;

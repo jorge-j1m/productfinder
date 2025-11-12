@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import storeBrandsRouter from "./routes/store_brands";
 import storesRouter from "./routes/stores";
 import { type DB } from "@repo/database";
+import { typeid } from "typeid-js";
+import { rpcHandler } from "./orpc";
 
 /**
  * Creates the Hono app with database injection.
@@ -9,15 +11,34 @@ import { type DB } from "@repo/database";
  */
 export function createApp(db: DB) {
   const app = new Hono();
+  
   // Inject database into context for all requests
-  app.use("*", async (c, next) => {
+  app.use("*", (c, next) => {
+    const requestId = typeid("req").toString();
     c.set("db", db);
-    await next();
+    c.set("requestId", requestId);
+    return next();
   });
 
   // Health check
   app.get("/", (c) => {
     return c.text("Hello Hono!");
+  });
+
+  app.use("/rpc/*", async (c, next) => {
+    const { matched, response } = await rpcHandler.handle(c.req.raw, {
+      prefix: "/rpc",
+      context: {
+        db: c.get("db"),
+        requestId: c.get("requestId"),
+      },
+    });
+
+    if (matched) {
+      return c.newResponse(response.body, response);
+    }
+
+    return next();
   });
 
   // Mount CRUD routes
