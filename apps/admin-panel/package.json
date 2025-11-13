@@ -10,6 +10,8 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@orpc/client": "^1.9.3",
+    "@orpc/openapi-client": "^1.9.3",
     "better-auth": "^1.3.26",
     "next": "15.5.4",
     "react": "19.2.0",
@@ -17,9 +19,10 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@repo/eslint-config": "*",
-    "@repo/employee-auth": "*",
+    "@repo/admin-orpc": "*",
     "@repo/database": "*",
+    "@repo/employee-auth": "*",
+    "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

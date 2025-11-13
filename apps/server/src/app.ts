@@ -11,7 +11,7 @@ import { rpcHandler } from "./orpc";
  */
 export function createApp(db: DB) {
   const app = new Hono();
-  
+
   // Inject database into context for all requests
   app.use("*", (c, next) => {
     const requestId = typeid("req").toString();

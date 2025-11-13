@@ -1,3 +1,4 @@
+import { RouterClient } from "@orpc/server";
 import { storeBrandsProcedures } from "./store_brands";
 
 export const adminRouter = {
@@ -5,3 +6,5 @@ export const adminRouter = {
     ...storeBrandsProcedures,
   },
 };
+
+export type AdminRouter = RouterClient<typeof adminRouter>;

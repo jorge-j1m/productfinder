@@ -18,8 +18,20 @@ const osdb = os.$context<{ db: DB; requestId: string }>().errors({
 const pathBase = "/store-brands";
 
 export const storeBrandsProcedures = {
+  getAll: osdb
+    .route({ method: "GET", path: pathBase, summary: "Get All Store Brands" })
+    .output(z.array(storeBrandSchema))
+    .handler(async ({ context }) => {
+      const brands = await context.db.query.storeBrands.findMany();
+      return brands;
+    }),
+
   get: osdb
-    .route({ method: "GET", path: `${pathBase}/{id}` }) // We use {id} to make it compatible with OpenAPI
+    .route({
+      method: "GET",
+      path: `${pathBase}/{id}`,
+      summary: "Get Store Brand by ID",
+    }) // We use {id} to make it compatible with OpenAPI
     .input(z.object({ id: z.string() }))
     .output(storeBrandSchema)
     .errors({
@@ -42,7 +54,12 @@ export const storeBrandsProcedures = {
     }),
 
   create: osdb
-    .route({ method: "POST", path: `${pathBase}` })
+    .route({
+      method: "POST",
+      path: pathBase,
+      summary: "Create Store Brand",
+      successStatus: 201,
+    })
     .input(newStoreBrandSchema.omit({ id: true }))
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {

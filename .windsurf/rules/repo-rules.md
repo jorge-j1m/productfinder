@@ -20,6 +20,11 @@ trigger: always_on
 - Make sure that testing is not too focused on edge cases, keep them lean and fast but rigorous enough
 - DO NOT accomodate tests to the code, make the code fit the tests
 
+## Admin-panel (apps/admin-panel)
+
+- Next js application with tailwind
+- Uses #/\* as import prefix for local imports (imports from the same app, not from other monorepo packages).
+
 ## Naming Conventions
 
 - Use snake_case for database table names

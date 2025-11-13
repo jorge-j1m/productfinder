@@ -4,7 +4,6 @@ import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { onError, onStart } from "@orpc/server";
 
-
 export const rpcHandler = new OpenAPIHandler(adminRouter, {
   plugins: [
     new OpenAPIReferencePlugin({
