@@ -1,6 +1,8 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { storeBrands, stores, employees } from "./schemas";
 
+export * from "./id";
+
 export type StoreBrand = typeof storeBrands.$inferSelect;
 export type Store = typeof stores.$inferSelect;
 export type Employee = typeof employees.$inferSelect;

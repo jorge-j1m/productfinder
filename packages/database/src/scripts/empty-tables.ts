@@ -2,7 +2,7 @@
  * Will empty all the tables from the database
  */
 
-import { _localDb } from "../";
+import { _localDb } from "../db";
 
 console.log("Emptying tables...");
 await _localDb.execute(`DELETE FROM employees`);

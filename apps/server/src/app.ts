@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import storeBrandsRouter from "./routes/store_brands";
 import storesRouter from "./routes/stores";
 import { type DB } from "@repo/database";
@@ -19,6 +20,13 @@ export function createApp(db: DB) {
     c.set("requestId", requestId);
     return next();
   });
+
+  app.use(
+    "*",
+    cors({
+      origin: ["http://localhost:3000"],
+    }),
+  );
 
   // Health check
   app.get("/", (c) => {

@@ -9,7 +9,7 @@ export type EmployeeAccountId = Brand<string, "EmployeeAccountId">;
 export type EmployeeVerificationId = Brand<string, "EmployeeVerificationId">;
 
 // Branded type utilities for type-safe entity IDs
-declare const __brand: unique symbol;
+export declare const __brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [__brand]: TBrand };
 
 // Runtime validation functions with type predicates

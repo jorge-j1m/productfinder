@@ -16,6 +16,14 @@
     "./schema": {
       "types": "./src/schemas.ts",
       "default": "./src/schemas.ts"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./src/types.ts"
+    },
+    "./db": {
+      "types": "./src/db.ts",
+      "default": "./src/db.ts"
     }
   },
   "dependencies": {

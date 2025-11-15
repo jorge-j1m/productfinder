@@ -4,7 +4,8 @@
  * And then a user with that store
  */
 
-import { _localDb, NewEmployee, NewStore, NewStoreBrand } from "../";
+import { _localDb } from "../db";
+import { NewEmployee, NewStore, NewStoreBrand } from "../";
 import { employees, storeBrands, stores } from "../schemas";
 import { eq } from "drizzle-orm";
 

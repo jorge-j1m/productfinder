@@ -2,7 +2,7 @@
  * Will drop all the tables from the database
  */
 
-import { _localDb } from "../";
+import { _localDb } from "../db";
 
 console.log("Dropping tables...");
 await _localDb.execute(`DROP TABLE IF EXISTS employees CASCADE`);
