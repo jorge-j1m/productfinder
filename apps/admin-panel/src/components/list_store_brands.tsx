@@ -6,17 +6,22 @@ import { orpc } from "#/lib/query/orpc";
 export function ListStoreBrands() {
   const {
     data: storeBrands,
-    isError,
     refetch,
+    isRefetching,
   } = useSuspenseQuery(orpc.storeBrands.getAll.queryOptions());
-
-  if (isError) {
-    return <p className="text-red-500">Something went wrong</p>;
-  }
 
   return (
     <div className="mb-8">
-      <h2 className="text-2xl font-semibold mb-4">Store Brands</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-semibold">Store Brands</h2>
+        <button
+          onClick={() => refetch()}
+          disabled={isRefetching}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+        >
+          {isRefetching ? "Refreshing..." : "Refresh"}
+        </button>
+      </div>
 
       {storeBrands.length === 0 ? (
         <p className="text-gray-500">No store brands found.</p>
@@ -27,20 +32,12 @@ export function ListStoreBrands() {
               key={String(brand.id)}
               className="border rounded-lg p-4 hover:shadow-md transition-shadow"
             >
-              <div className="flex items-center gap-4">
-                <div>
-                  <h3 className="font-semibold text-lg">
-                    {String(brand.name)}
-                  </h3>
-                  <p className="text-sm text-gray-500">{String(brand.id)}</p>
-                </div>
-              </div>
+              <h3 className="font-semibold text-lg">{String(brand.name)}</h3>
+              <p className="text-sm text-gray-500">{String(brand.id)}</p>
             </div>
           ))}
         </div>
       )}
-
-      <button onClick={() => refetch()}>Refetch</button>
     </div>
   );
 }

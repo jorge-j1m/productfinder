@@ -1,18 +1,31 @@
-import { getQueryClient, HydrateClient } from "#/lib/query/hydration";
-import { orpc } from "#/lib/query/orpc";
+import { Suspense } from "react";
 import { ListStoreBrands } from "#/components/list_store_brands";
 
 export default function Home() {
-  const queryClient = getQueryClient();
+  return (
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <ListStoreBrands />
+      </Suspense>
+    </div>
+  );
+}
 
-  queryClient.prefetchQuery(orpc.storeBrands.getAll.queryOptions());
+function LoadingSkeleton() {
+  console.log("LoadingSkeleton");
 
   return (
-    <HydrateClient client={queryClient}>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
-        <ListStoreBrands />
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold mb-4">Store Brands</h2>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="border rounded-lg p-4 animate-pulse">
+            <div className="h-6 bg-gray-200 rounded w-3/4 mb-2" />
+            <div className="h-4 bg-gray-200 rounded w-1/2" />
+          </div>
+        ))}
       </div>
-    </HydrateClient>
+    </div>
   );
 }

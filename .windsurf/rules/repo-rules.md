@@ -24,6 +24,7 @@ trigger: always_on
 
 - Next js application with tailwind
 - Uses #/\* as import prefix for local imports (imports from the same app, not from other monorepo packages).
+- Data fetching, state and external data (inluding data from oRPC) should always be handled client side, avoid server hydration and pre-rendering complexity, this is an admin-panel. Freshness matters, SEO not so much.
 
 ## Naming Conventions
 
