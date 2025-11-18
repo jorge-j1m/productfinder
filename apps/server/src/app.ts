@@ -5,6 +5,7 @@ import storesRouter from "./routes/stores";
 import { type DB } from "@repo/database";
 import { typeid } from "typeid-js";
 import { rpcHandler } from "./orpc";
+import { createAuth } from "./lib/employee-auth";
 
 /**
  * Creates the Hono app with database injection.
@@ -12,6 +13,10 @@ import { rpcHandler } from "./orpc";
  */
 export function createApp(db: DB) {
   const app = new Hono();
+  
+  // Create auth instance with the injected database
+  // This ensures tests and production use the correct database connection
+  const auth = createAuth(db);
 
   // Inject database into context for all requests
   app.use("*", (c, next) => {
@@ -25,12 +30,20 @@ export function createApp(db: DB) {
     "*",
     cors({
       origin: ["http://localhost:3000"],
+      credentials: true, // Allow cookies for authentication
     }),
   );
 
   // Health check
   app.get("/", (c) => {
     return c.text("Hello Hono!");
+  });
+
+  // Employee Auth endpoints
+  // Handles all authentication-related requests: sign-in, sign-up, sign-out, sessions, etc.
+  // Mounted at /api/employee-auth/* to match the client configuration
+  app.all("/api/employee-auth/*", (c) => {
+    return auth.handler(c.req.raw);
   });
 
   app.use("/rpc/*", async (c, next) => {

@@ -2,10 +2,36 @@ import { betterAuth, type Auth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import { employeeAuthConfig } from "@repo/database";
+import type { DB } from "@repo/database";
 
-export const auth: Auth = betterAuth({
-  ...employeeAuthConfig,
-  database: drizzleAdapter(db, {
-    provider: "pg",
-  }),
-});
+/**
+ * Creates a better-auth instance with the given database.
+ * This allows us to inject different database connections for testing.
+ */
+export function createAuth(database: DB): Auth {
+  return betterAuth({
+    // Spread the shared employee auth configuration
+    // This includes: custom table names, employee fields, and ID generation
+    ...employeeAuthConfig,
+
+    // Database adapter using Drizzle ORM with PostgreSQL
+    database: drizzleAdapter(database, {
+      provider: "pg",
+    }),
+
+    // Base URL for the auth server
+    // Used for generating callback URLs and handling redirects
+    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:8080",
+
+    // Base path for auth endpoints
+    // All auth routes will be prefixed with this path
+    basePath: "/api/employee-auth",
+
+    // Secret key for encryption and signing
+    // MUST be set in production via environment variable
+    secret: process.env.BETTER_AUTH_SECRET,
+  });
+}
+
+// Production auth instance using the production database
+export const auth = createAuth(db);

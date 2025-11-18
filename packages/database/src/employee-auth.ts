@@ -1,12 +1,11 @@
 import { typeid } from "typeid-js";
-import { BetterAuthOptions } from "better-auth";
 import { EmployeeExtension } from "@repo/employee-auth/types";
 
-export const employeeAuthConfig: Omit<BetterAuthOptions, "database"> = {
+export const employeeAuthConfig = {
   telemetry: { enabled: false },
   advanced: {
     database: {
-      generateId: ({ model }) => {
+      generateId: ({ model }: { model: string }) => {
         const prefixMap: Record<string, string> = {
           employees: "emp",
           employee_sessions: "esess",
