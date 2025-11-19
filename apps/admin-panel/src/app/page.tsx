@@ -1,10 +1,14 @@
 import { Suspense } from "react";
 import { ListStoreBrands } from "#/components/list_store_brands";
+import { AuthStatus } from "#/components/auth-status";
 
 export default function Home() {
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Admin Panel</h1>
+        <AuthStatus />
+      </div>
       <Suspense fallback={<LoadingSkeleton />}>
         <ListStoreBrands />
       </Suspense>

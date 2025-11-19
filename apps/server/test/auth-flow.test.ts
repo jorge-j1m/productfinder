@@ -204,7 +204,7 @@ describe("Auth Flow", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newEmployee),
-      }
+      },
     );
 
     const signUpData = await signUpResponse.json();
@@ -221,7 +221,7 @@ describe("Auth Flow", () => {
         headers: {
           Cookie: setCookie || `better-auth.session_token=${sessionToken}`,
         },
-      }
+      },
     );
 
     expect(sessionResponse.status).toBe(200);
@@ -258,7 +258,7 @@ describe("Auth Flow", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newEmployee),
-      }
+      },
     );
 
     await signUpResponse.json();
@@ -282,7 +282,7 @@ describe("Auth Flow", () => {
         headers: {
           Cookie: setCookie || "",
         },
-      }
+      },
     );
 
     expect(sessionResponse.status).toBe(200);
@@ -313,7 +313,7 @@ describe("Auth Flow", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(employeeData),
-      }
+      },
     );
 
     expect(firstResponse.status).toBe(200);
@@ -327,7 +327,7 @@ describe("Auth Flow", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(employeeData),
-      }
+      },
     );
 
     expect(secondResponse.status).toBe(422);

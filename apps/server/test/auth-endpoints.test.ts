@@ -26,7 +26,7 @@ describe("Auth Endpoints", () => {
 
     expect(response.status).toBe(200);
     const data = await response.json();
-    
+
     // Better auth returns null when not authenticated
     expect(data).toBeNull();
   });

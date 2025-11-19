@@ -13,7 +13,7 @@ import { createAuth } from "./lib/employee-auth";
  */
 export function createApp(db: DB) {
   const app = new Hono();
-  
+
   // Create auth instance with the injected database
   // This ensures tests and production use the correct database connection
   const auth = createAuth(db);
