@@ -30,11 +30,20 @@ export function AuthStatus() {
     );
   }
 
+  // Type-safe access to enum fields
+  const roleDisplay =
+    session.user.role === "ADMIN"
+      ? "Administrator"
+      : session.user.role === "MANAGER"
+        ? "Manager"
+        : "Staff";
+
   return (
     <div className="flex gap-4 items-center">
       <div className="text-sm">
         <div className="font-medium">{session.user.name}</div>
         <div className="text-gray-600">{session.user.email}</div>
+        <div className="text-xs text-gray-500">{roleDisplay}</div>
       </div>
       <button
         onClick={handleSignOut}

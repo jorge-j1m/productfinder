@@ -9,14 +9,11 @@ const ExtendedUserSchema = z.object({
   status: z.enum(["active", "suspended"]),
 });
 
-export const EmployeeSchema = z.object({
-  ...userSchema,
-  ...ExtendedUserSchema,
-});
+export const EmployeeSchema = userSchema.and(ExtendedUserSchema);
 
 export type Employee = z.infer<typeof EmployeeSchema>;
 
-export const EmployeeExtension: Record<string, DBFieldAttribute> = {
+export const EmployeeExtension = {
   firstName: {
     type: "string",
     required: true,
@@ -38,7 +35,7 @@ export const EmployeeExtension: Record<string, DBFieldAttribute> = {
     type: "string",
     required: true,
   },
-};
+} as const satisfies Record<string, DBFieldAttribute>;
 
 export const EmployeeSessionSchema = z.object({
   user: EmployeeSchema,

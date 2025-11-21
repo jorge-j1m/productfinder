@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { employeeSignIn } from "@repo/employee-auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,6 +10,8 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function LoginPage() {
         email,
         password,
       });
-      router.push("/");
+      router.push(callbackUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
