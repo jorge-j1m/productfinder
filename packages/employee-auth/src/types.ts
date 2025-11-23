@@ -1,45 +1,17 @@
-import { DBFieldAttribute, userSchema, sessionSchema } from "better-auth/db";
-import { z } from "zod";
+/**
+ * Re-export employee types from @repo/database
+ * This package now depends on the database package for type definitions
+ * to maintain a single source of truth.
+ */
 
-const ExtendedUserSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  role: z.enum(["STAFF", "MANAGER", "ADMIN"]),
-  storeId: z.string(),
-  status: z.enum(["active", "suspended"]),
-});
-
-export const EmployeeSchema = userSchema.and(ExtendedUserSchema);
-
-export type Employee = z.infer<typeof EmployeeSchema>;
-
-export const EmployeeExtension = {
-  firstName: {
-    type: "string",
-    required: true,
-  },
-  lastName: {
-    type: "string",
-    required: true,
-  },
-  role: {
-    type: "string",
-    required: true,
-  },
-  storeId: {
-    type: "string",
-    required: true,
-    references: { model: "stores", field: "id" },
-  },
-  status: {
-    type: "string",
-    required: true,
-  },
-} as const satisfies Record<string, DBFieldAttribute>;
-
-export const EmployeeSessionSchema = z.object({
-  user: EmployeeSchema,
-  session: sessionSchema,
-});
-
-export type EmployeeSession = z.infer<typeof EmployeeSessionSchema>;
+export {
+  type EmployeeAuthUser as Employee,
+  type EmployeeSession,
+  type EmployeeRole,
+  type EmployeeStatus,
+  EmployeeAuthUserSchema as EmployeeSchema,
+  EmployeeSessionSchema,
+  EmployeeExtension,
+  EmployeeRoleEnum,
+  EmployeeStatusEnum,
+} from "@repo/database";

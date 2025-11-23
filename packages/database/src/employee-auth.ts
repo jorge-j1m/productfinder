@@ -1,5 +1,5 @@
 import { typeid } from "typeid-js";
-import { EmployeeExtension } from "@repo/employee-auth/types";
+import { EmployeeExtension } from "./employee-types";
 
 export const employeeAuthConfig = {
   telemetry: { enabled: false },

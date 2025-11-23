@@ -1,6 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 import { inferAdditionalFields } from "better-auth/client/plugins";
-import { EmployeeExtension, type Employee } from "./types";
+import { EmployeeExtension } from "@repo/database";
+import type { EmployeeAuthUser } from "@repo/database";
 
 export const employeeAuthClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
@@ -29,7 +30,7 @@ export const { signIn: employeeSignIn, signOut: employeeSignOut } =
 type BaseSession = typeof employeeAuthClient.$Infer.Session;
 
 export type EmployeeAuthSession = Omit<BaseSession, "user"> & {
-  user: Employee;
+  user: EmployeeAuthUser;
   session: BaseSession["session"];
 };
 
