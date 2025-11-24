@@ -6,11 +6,12 @@ export const employeeAuthConfig = {
   advanced: {
     database: {
       generateId: ({ model }: { model: string }) => {
+        // This runs before the model name is modified, so we need to use the original name
         const prefixMap: Record<string, string> = {
-          employees: "emp",
-          employee_sessions: "esess",
-          employee_accounts: "eacc",
-          employee_verifications: "ever",
+          user: "emp",
+          session: "esess",
+          account: "eacc",
+          verification: "evfn",
         };
         const prefix = prefixMap[model] || "id";
         return typeid(prefix).toString();
