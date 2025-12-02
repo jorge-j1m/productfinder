@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { ListStoreBrands } from "#/components/list_store_brands";
-import { AuthStatus } from "#/components/auth-status";
+import { AuthStatus } from "#/components/auth/auth-status";
 
 export default function Home() {
   return (
@@ -17,8 +17,6 @@ export default function Home() {
 }
 
 function LoadingSkeleton() {
-  console.log("LoadingSkeleton");
-
   return (
     <div className="mb-8">
       <h2 className="text-2xl font-semibold mb-4">Store Brands</h2>
