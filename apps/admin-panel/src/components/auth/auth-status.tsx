@@ -1,16 +1,12 @@
 "use client";
 
-import { useEmployeeSession, employeeSignOut } from "@repo/employee-auth";
+import { useEmployeeSession } from "@repo/employee-auth";
 import { useRouter } from "next/navigation";
+import { LogoutButton } from "./logout-button";
 
 export function AuthStatus() {
   const { data: session, isPending } = useEmployeeSession();
   const router = useRouter();
-
-  const handleSignOut = async () => {
-    await employeeSignOut();
-    router.push("/login");
-  };
 
   if (isPending) {
     return <div className="text-gray-600">Loading...</div>;
@@ -45,12 +41,7 @@ export function AuthStatus() {
         <div className="text-gray-600">{session.user.email}</div>
         <div className="text-xs text-gray-500">{roleDisplay}</div>
       </div>
-      <button
-        onClick={handleSignOut}
-        className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
-      >
-        Sign Out
-      </button>
+      <LogoutButton />
     </div>
   );
 }

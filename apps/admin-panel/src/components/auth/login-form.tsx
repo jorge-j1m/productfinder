@@ -28,7 +28,7 @@ export function LoginForm() {
     {}
   );
   const searchParams = useSearchParams();
-  const callbackURL = searchParams.get("callbackUrl") || "/";
+  const callbackURL = searchParams.get("callbackUrl") || "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
