@@ -1,15 +1,16 @@
-"use client";
-
-// import { AppSidebar } from "@/components/navigation/appsidebar";
+import { cookies } from "next/headers";
+import { AppSidebar } from "#/components/navigation/appsidebar";
 import { Navbar } from "#/components/navigation/navbar";
 import { SidebarInset, SidebarProvider } from "#/components/ui/sidebar";
-// import { useAuth } from "@/hooks/use-auth";
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   return (
     <SidebarProvider
       style={
@@ -18,9 +19,10 @@ export default function MainLayout({
           "--sidebar-width-mobile": "12rem",
         } as React.CSSProperties
       }
+      defaultOpen={defaultOpen}
     >
       <div className="flex h-screen w-full">
-        {/* <AppSidebar user={user} /> */}
+        <AppSidebar />
         <SidebarInset className="flex flex-col w-full">
           <Navbar />
           <main className="flex-1 overflow-y-auto p-6">{children}</main>
