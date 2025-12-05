@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  Building2Icon,
   CreditCard,
   FileText,
   LayoutDashboard,
@@ -36,7 +37,7 @@ export interface NavigationItemType {
 // Check if user has permission for a specific role requirement
 export function hasPermission(
   userRole: EmployeeRole,
-  requiredRoles: EmployeeRole[],
+  requiredRoles: EmployeeRole[]
 ): boolean {
   return requiredRoles.includes(userRole);
 }
@@ -44,7 +45,7 @@ export function hasPermission(
 // Check if user has minimum role level
 export function hasMinimumRole(
   userRole: EmployeeRole,
-  minimumRole: EmployeeRole,
+  minimumRole: EmployeeRole
 ): boolean {
   const userLevel = ROLE_HIERARCHY[userRole] || 0;
   const minimumLevel = ROLE_HIERARCHY[minimumRole];
@@ -143,6 +144,15 @@ export const NAVIGATION_ITEMS: NavigationItemType[] = [
     description: "Multi-store management",
   },
 
+  {
+    id: "store_brands",
+    label: "Store Brands",
+    icon: Building2Icon,
+    roles: ["ADMIN"],
+    href: "/store_brands",
+    description: "Store brands management",
+  },
+
   // Financial - Admin and Manager
   {
     id: "financial",
@@ -194,7 +204,7 @@ export const NAVIGATION_GROUPS = [
   {
     id: "management",
     label: "Management",
-    items: ["employees", "stores"],
+    items: ["employees", "stores", "store_brands"],
   },
   {
     id: "insights",
@@ -210,7 +220,7 @@ export const NAVIGATION_GROUPS = [
 
 // Get filtered navigation items for a user role
 export function getNavigationForRole(
-  userRole: EmployeeRole,
+  userRole: EmployeeRole
 ): NavigationItemType[] {
   return NAVIGATION_ITEMS.filter((item) => hasPermission(userRole, item.roles));
 }

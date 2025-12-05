@@ -20,7 +20,7 @@ export default function DashboardPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive">
+          <h1 className="text-2xl font-bold">
             Not Authenticated
           </h1>
           <p className="text-muted-foreground mt-2">
