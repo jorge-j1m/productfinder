@@ -9,6 +9,7 @@ trigger: always_on
 - Always use npm as package manager to manage dependencies
 - Use (from the root) `npm run format` to format the code
 - Before committing, run `npm run check` to validate changes, no errors or warnings allowed
+- Never use depecreated APIs from a package (specially zod).
 
 ## Testing
 
