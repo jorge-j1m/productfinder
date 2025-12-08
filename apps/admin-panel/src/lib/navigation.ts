@@ -37,7 +37,7 @@ export interface NavigationItemType {
 // Check if user has permission for a specific role requirement
 export function hasPermission(
   userRole: EmployeeRole,
-  requiredRoles: EmployeeRole[]
+  requiredRoles: EmployeeRole[],
 ): boolean {
   return requiredRoles.includes(userRole);
 }
@@ -45,7 +45,7 @@ export function hasPermission(
 // Check if user has minimum role level
 export function hasMinimumRole(
   userRole: EmployeeRole,
-  minimumRole: EmployeeRole
+  minimumRole: EmployeeRole,
 ): boolean {
   const userLevel = ROLE_HIERARCHY[userRole] || 0;
   const minimumLevel = ROLE_HIERARCHY[minimumRole];
@@ -220,7 +220,7 @@ export const NAVIGATION_GROUPS = [
 
 // Get filtered navigation items for a user role
 export function getNavigationForRole(
-  userRole: EmployeeRole
+  userRole: EmployeeRole,
 ): NavigationItemType[] {
   return NAVIGATION_ITEMS.filter((item) => hasPermission(userRole, item.roles));
 }

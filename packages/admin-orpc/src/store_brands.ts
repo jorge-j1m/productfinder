@@ -58,14 +58,12 @@ export const storeBrandsProcedures = {
   getAll: osdb
     .route({ method: "GET", path: pathBase, summary: "Get All Store Brands" })
     .input(
-      paginationSchema
-        .and(searchSchema)
-        .and(
-          z.object({
-            sortBy: sortFieldSchema,
-            sortOrder: sortOrderSchema,
-          })
-        )
+      paginationSchema.and(searchSchema).and(
+        z.object({
+          sortBy: sortFieldSchema,
+          sortOrder: sortOrderSchema,
+        }),
+      ),
     )
     .output(paginatedStoreBrandsSchema)
     .handler(async ({ input, context }) => {
@@ -177,7 +175,7 @@ export const storeBrandsProcedures = {
       z.object({
         id: z.string(),
         data: newStoreBrandSchema.omit({ id: true }).partial(),
-      })
+      }),
     )
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
