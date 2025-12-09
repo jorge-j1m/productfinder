@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   storeBrandSchema,
   newStoreBrandSchema,
+  storeBrandIdSchema,
   DB,
   storeBrands,
   asStoreBrandId,
@@ -119,7 +120,7 @@ export const storeBrandsProcedures = {
       path: `${pathBase}/{id}`,
       summary: "Get Store Brand by ID",
     })
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: storeBrandIdSchema }))
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
       const id = asStoreBrandId(input.id);
@@ -173,7 +174,7 @@ export const storeBrandsProcedures = {
     })
     .input(
       z.object({
-        id: z.string(),
+        id: storeBrandIdSchema,
         data: newStoreBrandSchema.omit({ id: true }).partial(),
       }),
     )
@@ -220,8 +221,8 @@ export const storeBrandsProcedures = {
       path: `${pathBase}/{id}`,
       summary: "Delete Store Brand",
     })
-    .input(z.object({ id: z.string() }))
-    .output(z.object({ success: z.boolean(), id: z.string() }))
+    .input(z.object({ id: storeBrandIdSchema }))
+    .output(z.object({ success: z.boolean(), id: storeBrandIdSchema }))
     .handler(async ({ input, context, errors }) => {
       const id = asStoreBrandId(input.id);
 

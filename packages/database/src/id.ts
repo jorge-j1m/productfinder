@@ -1,4 +1,5 @@
 import { fromString } from "typeid-js";
+import { z } from "zod";
 
 // Entity ID branded types - these are strings with compile-time type branding
 export type StoreBrandId = Brand<string, "StoreBrandId">;
@@ -7,6 +8,21 @@ export type EmployeeId = Brand<string, "EmployeeId">;
 export type EmployeeSessionId = Brand<string, "EmployeeSessionId">;
 export type EmployeeAccountId = Brand<string, "EmployeeAccountId">;
 export type EmployeeVerificationId = Brand<string, "EmployeeVerificationId">;
+
+// Branded ID schemas with proper output types
+export const storeBrandIdSchema = z.custom<StoreBrandId>(
+  (val) => isStoreBrandId(val),
+  { message: "Invalid StoreBrandId format" },
+);
+
+export const storeIdSchema = z.custom<StoreId>((val) => isStoreId(val), {
+  message: "Invalid StoreId format",
+});
+
+export const employeeIdSchema = z.custom<EmployeeId>(
+  (val) => isEmployeeId(val),
+  { message: "Invalid EmployeeId format" },
+);
 
 // Branded type utilities for type-safe entity IDs
 export declare const __brand: unique symbol;

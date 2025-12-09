@@ -179,7 +179,7 @@ export default function StoreBrandsPage() {
 
       <DataTable<StoreBrand, unknown>
         columns={columns}
-        data={(data?.data || []) as StoreBrand[]}
+        data={data?.data ?? []}
         pagination={
           data?.pagination || {
             page: 1,
