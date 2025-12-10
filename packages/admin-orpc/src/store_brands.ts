@@ -6,7 +6,6 @@ import {
   storeBrandIdSchema,
   DB,
   storeBrands,
-  asStoreBrandId,
 } from "@repo/database";
 import { eq, asc, desc, ilike, count } from "drizzle-orm";
 
@@ -31,41 +30,34 @@ const osdb = os.$context<{ db: DB; requestId: string }>().errors({
 
 const pathBase = "/store-brands";
 
-// Pagination and sorting schemas
-const paginationSchema = z.object({
-  page: z.coerce.number().int().positive().default(1),
-  pageSize: z.coerce.number().int().positive().max(100).default(10),
-});
-
+// Sorting schemas
 const sortOrderSchema = z.enum(["asc", "desc"]).default("asc");
 const sortFieldSchema = z.enum(["name", "id"]).default("name");
-
-const searchSchema = z.object({
-  search: z.string().optional(),
-});
 
 // Paginated response schema
 const paginatedStoreBrandsSchema = z.object({
   data: z.array(storeBrandSchema),
   pagination: z.object({
-    page: z.number(),
-    pageSize: z.number(),
-    total: z.number(),
-    totalPages: z.number(),
+    page: z.number().positive(),
+    pageSize: z.number().positive(),
+    total: z.number().nonnegative(),
+    totalPages: z.number().nonnegative(),
   }),
+});
+
+// Combined input schema for getAll
+const getAllStoreBrandsInputSchema = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  pageSize: z.coerce.number().int().positive().max(100).default(10),
+  search: z.string().optional(),
+  sortBy: sortFieldSchema,
+  sortOrder: sortOrderSchema,
 });
 
 export const storeBrandsProcedures = {
   getAll: osdb
     .route({ method: "GET", path: pathBase, summary: "Get All Store Brands" })
-    .input(
-      paginationSchema.and(searchSchema).and(
-        z.object({
-          sortBy: sortFieldSchema,
-          sortOrder: sortOrderSchema,
-        }),
-      ),
-    )
+    .input(getAllStoreBrandsInputSchema)
     .output(paginatedStoreBrandsSchema)
     .handler(async ({ input, context }) => {
       const { page, pageSize, search, sortBy, sortOrder } = input;
@@ -123,9 +115,8 @@ export const storeBrandsProcedures = {
     .input(z.object({ id: storeBrandIdSchema }))
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
-      const id = asStoreBrandId(input.id);
       const brand = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, id),
+        where: (fields, { eq }) => eq(fields.id, input.id),
       });
 
       if (!brand) {
@@ -180,11 +171,9 @@ export const storeBrandsProcedures = {
     )
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
-      const id = asStoreBrandId(input.id);
-
       // Check if brand exists
       const existing = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, id),
+        where: (fields, { eq }) => eq(fields.id, input.id),
       });
 
       if (!existing) {
@@ -205,7 +194,7 @@ export const storeBrandsProcedures = {
       const [updated] = await context.db
         .update(storeBrands)
         .set(input.data)
-        .where(eq(storeBrands.id, id))
+        .where(eq(storeBrands.id, input.id))
         .returning();
 
       if (!updated) {
@@ -224,18 +213,16 @@ export const storeBrandsProcedures = {
     .input(z.object({ id: storeBrandIdSchema }))
     .output(z.object({ success: z.boolean(), id: storeBrandIdSchema }))
     .handler(async ({ input, context, errors }) => {
-      const id = asStoreBrandId(input.id);
-
       // Check if brand exists
       const existing = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, id),
+        where: (fields, { eq }) => eq(fields.id, input.id),
       });
 
       if (!existing) {
         throw errors.NOT_FOUND();
       }
 
-      await context.db.delete(storeBrands).where(eq(storeBrands.id, id));
+      await context.db.delete(storeBrands).where(eq(storeBrands.id, input.id));
 
       return { success: true, id: input.id };
     }),
