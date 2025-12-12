@@ -3,9 +3,10 @@ import { z } from "zod";
 import {
   storeBrandSchema,
   newStoreBrandSchema,
-  storeBrandIdSchema,
   DB,
   storeBrands,
+  isStoreBrandId,
+  asStoreBrandId,
 } from "@repo/database";
 import { eq, asc, desc, ilike, count } from "drizzle-orm";
 
@@ -112,11 +113,19 @@ export const storeBrandsProcedures = {
       path: `${pathBase}/{id}`,
       summary: "Get Store Brand by ID",
     })
-    .input(z.object({ id: storeBrandIdSchema }))
+    .input(
+      z.object({
+        id: z
+          .string()
+          .refine(isStoreBrandId, { message: "Invalid StoreBrandId format" }),
+      }),
+    )
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
+      const id = asStoreBrandId(input.id);
+
       const brand = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, input.id),
+        where: (fields, { eq }) => eq(fields.id, id),
       });
 
       if (!brand) {
@@ -165,15 +174,19 @@ export const storeBrandsProcedures = {
     })
     .input(
       z.object({
-        id: storeBrandIdSchema,
+        id: z
+          .string()
+          .refine(isStoreBrandId, { message: "Invalid StoreBrandId format" }),
         data: newStoreBrandSchema.omit({ id: true }).partial(),
       }),
     )
     .output(storeBrandSchema)
     .handler(async ({ input, context, errors }) => {
+      const id = asStoreBrandId(input.id);
+
       // Check if brand exists
       const existing = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, input.id),
+        where: (fields, { eq }) => eq(fields.id, id),
       });
 
       if (!existing) {
@@ -194,7 +207,7 @@ export const storeBrandsProcedures = {
       const [updated] = await context.db
         .update(storeBrands)
         .set(input.data)
-        .where(eq(storeBrands.id, input.id))
+        .where(eq(storeBrands.id, id))
         .returning();
 
       if (!updated) {
@@ -210,19 +223,34 @@ export const storeBrandsProcedures = {
       path: `${pathBase}/{id}`,
       summary: "Delete Store Brand",
     })
-    .input(z.object({ id: storeBrandIdSchema }))
-    .output(z.object({ success: z.boolean(), id: storeBrandIdSchema }))
+    .input(
+      z.object({
+        id: z
+          .string()
+          .refine(isStoreBrandId, { message: "Invalid StoreBrandId format" }),
+      }),
+    )
+    .output(
+      z.object({
+        success: z.boolean(),
+        id: z
+          .string()
+          .refine(isStoreBrandId, { message: "Invalid StoreBrandId format" }),
+      }),
+    )
     .handler(async ({ input, context, errors }) => {
+      const id = asStoreBrandId(input.id);
+
       // Check if brand exists
       const existing = await context.db.query.storeBrands.findFirst({
-        where: (fields, { eq }) => eq(fields.id, input.id),
+        where: (fields, { eq }) => eq(fields.id, id),
       });
 
       if (!existing) {
         throw errors.NOT_FOUND();
       }
 
-      await context.db.delete(storeBrands).where(eq(storeBrands.id, input.id));
+      await context.db.delete(storeBrands).where(eq(storeBrands.id, id));
 
       return { success: true, id: input.id };
     }),
