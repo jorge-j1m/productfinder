@@ -1,11 +1,25 @@
-// Type-only exports (safe for client)
-export * from "./schemas";
-export * from "./types";
-export * from "./id";
-export * from "./employee-types";
+/**
+ * Database Package - Entity-based organization
+ *
+ * All exports maintain backward compatibility
+ * Each entity is self-contained in its own folder under entities/
+ */
 
-// Server-only exports (import from @repo/database/db)
+// ===== Branded Type Utilities =====
+export * from "./brand";
+
+// ===== Store Brands Entity =====
+export * from "./entities/store-brands";
+
+// ===== Stores Entity =====
+export * from "./entities/stores";
+
+// ===== Employees Entity =====
+export * from "./entities/employees";
+
+// ===== Relations (All entities) =====
+export * from "./relations";
+
+// ===== Server-only exports =====
+// Import from @repo/database/db for server-side usage
 export type { DB } from "./db";
-
-// Auth config (server-only but doesn't create connection)
-export { employeeAuthConfig } from "./employee-auth";

@@ -14,16 +14,28 @@
       "default": "./src/index.ts"
     },
     "./schema": {
-      "types": "./src/schemas.ts",
-      "default": "./src/schemas.ts"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./types": {
-      "types": "./src/types.ts",
-      "default": "./src/types.ts"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./db": {
       "types": "./src/db.ts",
       "default": "./src/db.ts"
+    },
+    "./store-brands": {
+      "types": "./src/entities/store-brands/index.ts",
+      "default": "./src/entities/store-brands/index.ts"
+    },
+    "./stores": {
+      "types": "./src/entities/stores/index.ts",
+      "default": "./src/entities/stores/index.ts"
+    },
+    "./employees": {
+      "types": "./src/entities/employees/index.ts",
+      "default": "./src/entities/employees/index.ts"
     }
   },
   "dependencies": {

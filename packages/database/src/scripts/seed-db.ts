@@ -5,8 +5,14 @@
  */
 
 import { _localDb } from "../db";
-import { NewEmployee, NewStore, NewStoreBrand } from "../";
-import { employees, storeBrands, stores } from "../schemas";
+import {
+  NewEmployee,
+  NewStore,
+  NewStoreBrand,
+  employees,
+  storeBrands,
+  stores,
+} from "../";
 import { eq } from "drizzle-orm";
 
 const randomString = () => {
