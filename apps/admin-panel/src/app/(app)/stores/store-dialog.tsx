@@ -144,10 +144,10 @@ export function StoreDialog({
                 onValueChange={setBrandId}
                 disabled={isPending || isEditMode}
               >
-                <SelectTrigger>
+                <SelectTrigger id="brandId">
                   <SelectValue placeholder="Select a brand" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent position="popper" className="max-h-[300px]">
                   {brands.map((brand) => (
                     <SelectItem key={brand.id} value={brand.id}>
                       {brand.name}
