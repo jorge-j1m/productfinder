@@ -1,0 +1,2045 @@
+[
+  {
+    "name": "Publix # 1558",
+    "address": "2952 Aventura Blvd",
+    "city": "Aventura",
+    "zip": "33180",
+    "brand": "Publix",
+    "latitude": 25.961334982564,
+    "longitude": -80.141774949947
+  },
+  {
+    "name": "Target Store T-1074",
+    "address": "21265 Biscayne Blvd",
+    "city": "Aventura",
+    "zip": "33180",
+    "brand": "Target",
+    "latitude": 25.973066215105,
+    "longitude": -80.142637705768
+  },
+  {
+    "name": "Presidente Supermarket # 11",
+    "address": "4275 W. Flagler St",
+    "city": "Coral Gables",
+    "zip": "33134",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.771695025669,
+    "longitude": -80.265166670196
+  },
+  {
+    "name": "Publix  # 1770",
+    "address": "1542 S Dixie Hwy",
+    "city": "Coral Gables",
+    "zip": "33146",
+    "brand": "Publix",
+    "latitude": 25.708747415451,
+    "longitude": -80.283899010139
+  },
+  {
+    "name": "Publix # 0051",
+    "address": "1500 Douglas Rd",
+    "city": "Coral Gables",
+    "zip": "33134",
+    "brand": "Publix",
+    "latitude": 25.757987851522,
+    "longitude": -80.25495942178
+  },
+  {
+    "name": "Publix # 0084",
+    "address": "2551 S Lejeune Rd",
+    "city": "Coral Gables",
+    "zip": "33134",
+    "brand": "Publix",
+    "latitude": 25.748043705033,
+    "longitude": -80.262594826366
+  },
+  {
+    "name": "Publix # 0094",
+    "address": "1401 Monza Ave",
+    "city": "Coral Gables",
+    "zip": "33146",
+    "brand": "Publix",
+    "latitude": 25.707571081988,
+    "longitude": -80.281987485347
+  },
+  {
+    "name": "Publix # 1288",
+    "address": "106 Ponce De Leon Blvd",
+    "city": "Coral Gables",
+    "zip": "33135",
+    "brand": "Publix",
+    "latitude": 25.770408518152,
+    "longitude": -80.255341654629
+  },
+  {
+    "name": "Publix # 1465",
+    "address": "20951 Old Cutler Road",
+    "city": "Cutler Bay",
+    "zip": "33189",
+    "brand": "Publix",
+    "latitude": 25.571419080279,
+    "longitude": -80.346396822169
+  },
+  {
+    "name": "Publix # 1695",
+    "address": "18485 S. Dixie Hwy",
+    "city": "Cutler Bay",
+    "zip": "33157",
+    "brand": "Publix",
+    "latitude": 25.597495780636,
+    "longitude": -80.354617431518
+  },
+  {
+    "name": "Winn-Dixie # 0371",
+    "address": "19167 S. Dixie Hwy",
+    "city": "Cutler Bay",
+    "zip": "33157",
+    "brand": "Winn-Dixie",
+    "latitude": 25.590286111764,
+    "longitude": -80.358482581613
+  },
+  {
+    "name": "Publix # 0031",
+    "address": "9755 NW 41st St",
+    "city": "Doral",
+    "zip": "33178",
+    "brand": "Publix",
+    "latitude": 25.811716114717,
+    "longitude": -80.354634429824
+  },
+  {
+    "name": "Publix # 0655",
+    "address": "10755 NW 58th St",
+    "city": "Doral",
+    "zip": "33178",
+    "brand": "Publix",
+    "latitude": 25.826138849406,
+    "longitude": -80.367463173023
+  },
+  {
+    "name": "Publix # 1492",
+    "address": "7550 NW 104th Ave",
+    "city": "Doral",
+    "zip": "33178",
+    "brand": "Publix",
+    "latitude": 25.843539593366,
+    "longitude": -80.366449950778
+  },
+  {
+    "name": "Publix # 1571",
+    "address": "8455 NW 53rd Ter",
+    "city": "Doral",
+    "zip": "33166",
+    "brand": "Publix",
+    "latitude": 25.821583600259,
+    "longitude": -80.335190713243
+  },
+  {
+    "name": "Sedano's Supermarket # 33",
+    "address": "10780 NW 58th St",
+    "city": "Doral",
+    "zip": "33178",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.826246962876,
+    "longitude": -80.368066379512
+  },
+  {
+    "name": "Walmart Supercenter # 2091",
+    "address": "8651 NW 13th Ter",
+    "city": "Doral",
+    "zip": "33126",
+    "brand": "Walmart",
+    "latitude": 25.785197025316,
+    "longitude": -80.335915519357
+  },
+  {
+    "name": "Winn-Dixie # 0280",
+    "address": "10505 NW 41st St",
+    "city": "Doral",
+    "zip": "33178",
+    "brand": "Winn-Dixie",
+    "latitude": 25.811688768434,
+    "longitude": -80.367024175934
+  },
+  {
+    "name": "Bravo Supermarket # 59",
+    "address": "32955 S. Dixie Hwy",
+    "city": "Florida City",
+    "zip": "33034",
+    "brand": "Bravo Supermarket",
+    "latitude": 25.459126290588,
+    "longitude": -80.47512604931
+  },
+  {
+    "name": "Florida Baby Food Center # 13",
+    "address": "530 SW 1st St",
+    "city": "Florida City",
+    "zip": "33034",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.446772964403,
+    "longitude": -80.483963487089
+  },
+  {
+    "name": "Walmart Supercenter # 2727",
+    "address": "33501 S. Dixie Hwy",
+    "city": "Florida City",
+    "zip": "33034",
+    "brand": "Walmart",
+    "latitude": 25.457881640061,
+    "longitude": -80.475118884413
+  },
+  {
+    "name": "Aries Supermarket # 2",
+    "address": "5945 W 25th Court",
+    "city": "Hialeah",
+    "zip": "33014",
+    "brand": "Aries Supermarket",
+    "latitude": 25.876479207941,
+    "longitude": -80.334279283269
+  },
+  {
+    "name": "Florida Baby Food Center # 03",
+    "address": "468 W 51th Place",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.869034569874,
+    "longitude": -80.292332961813
+  },
+  {
+    "name": "Fresco Y Mas # 0201",
+    "address": "6500 W Fourth Ave",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.881262145699,
+    "longitude": -80.29164895461
+  },
+  {
+    "name": "Fresco Y Mas # 0231",
+    "address": "5850 NW 183rd St",
+    "city": "Hialeah",
+    "zip": "33015",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.939282912737,
+    "longitude": -80.296368116667
+  },
+  {
+    "name": "Fresco Y Mas # 0242",
+    "address": "1201 E 10th Ave",
+    "city": "Hialeah",
+    "zip": "33010",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.834117226286,
+    "longitude": -80.26156671616
+  },
+  {
+    "name": "Fresco y Mas # 0243",
+    "address": "541 W 49th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.866705983116,
+    "longitude": -80.293796384481
+  },
+  {
+    "name": "Fresco Y Mas # 0270",
+    "address": "2750 W 68th St",
+    "city": "Hialeah",
+    "zip": "33016",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.884122407153,
+    "longitude": -80.338504685514
+  },
+  {
+    "name": "Fresco Y Mas # 0292",
+    "address": "1630 W 49th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.866531997052,
+    "longitude": -80.315481094908
+  },
+  {
+    "name": "Presidente Supermarket # 02",
+    "address": "1550 W 84th St",
+    "city": "Hialeah",
+    "zip": "33014",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.898490819228,
+    "longitude": -80.315208784802
+  },
+  {
+    "name": "Presidente Supermarket # 14",
+    "address": "1060 W 29th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.847938001505,
+    "longitude": -80.303496503311
+  },
+  {
+    "name": "Presidente Supermarket # 27",
+    "address": "495 W 29th Street",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.848054576711,
+    "longitude": -80.292121038768
+  },
+  {
+    "name": "Price Choice Foodmarket # 06",
+    "address": "1900 W 60th Street",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.876953994536,
+    "longitude": -80.321216598562
+  },
+  {
+    "name": "Publix # 0262",
+    "address": "18496 NW 67th Ave",
+    "city": "Hialeah",
+    "zip": "33015",
+    "brand": "Publix",
+    "latitude": 25.941523840712,
+    "longitude": -80.306951509677
+  },
+  {
+    "name": "Publix # 0343",
+    "address": "2414 W 60th St",
+    "city": "Hialeah",
+    "zip": "33016",
+    "brand": "Publix",
+    "latitude": 25.876967446308,
+    "longitude": -80.331646381488
+  },
+  {
+    "name": "Publix # 0586",
+    "address": "3339 W 80th St",
+    "city": "Hialeah",
+    "zip": "33018",
+    "brand": "Publix",
+    "latitude": 25.895194581927,
+    "longitude": -80.349643190892
+  },
+  {
+    "name": "Publix # 0832",
+    "address": "1585 W 49th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Publix",
+    "latitude": 25.8666465884,
+    "longitude": -80.314534183782
+  },
+  {
+    "name": "Publix # 1072",
+    "address": "155 E 2nd Ave",
+    "city": "Hialeah",
+    "zip": "33010",
+    "brand": "Publix",
+    "latitude": 25.823462240635,
+    "longitude": -80.277275174987
+  },
+  {
+    "name": "Publix # 1264",
+    "address": "3251 E 2nd Ave",
+    "city": "Hialeah",
+    "zip": "33013",
+    "brand": "Publix",
+    "latitude": 25.851776660085,
+    "longitude": -80.278511986057
+  },
+  {
+    "name": "Publix # 1386",
+    "address": "1290 W 68th St",
+    "city": "Hialeah",
+    "zip": "33014",
+    "brand": "Publix",
+    "latitude": 25.88410092177,
+    "longitude": -80.309788564446
+  },
+  {
+    "name": "Sedano's Supermarket # 01",
+    "address": "840 E 41st St",
+    "city": "Hialeah",
+    "zip": "33013",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.859948690007,
+    "longitude": -80.265725191155
+  },
+  {
+    "name": "Sedano's Supermarket # 08",
+    "address": "3950 W 12th Ave",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.856689469379,
+    "longitude": -80.306628108114
+  },
+  {
+    "name": "Sedano's Supermarket # 09",
+    "address": "4040 E 4th Ave",
+    "city": "Hialeah",
+    "zip": "33013",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.859235390094,
+    "longitude": -80.274716126646
+  },
+  {
+    "name": "Sedano's Supermarket # 10",
+    "address": "1690 W 68th St",
+    "city": "Hialeah",
+    "zip": "33014",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.884080252256,
+    "longitude": -80.316998568098
+  },
+  {
+    "name": "Sedano's Supermarket # 11",
+    "address": "950 E 4th Avenue",
+    "city": "Hialeah",
+    "zip": "33010",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.830634843457,
+    "longitude": -80.273673620836
+  },
+  {
+    "name": "Sedano's Supermarket # 16",
+    "address": "3925 Palm Ave",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.858163573003,
+    "longitude": -80.282647378457
+  },
+  {
+    "name": "Sedano's Supermarket # 22",
+    "address": "5360 W 16th Ave",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.871534427314,
+    "longitude": -80.315087166505
+  },
+  {
+    "name": "Sedano's Supermarket # 26",
+    "address": "2301 W 52nd St",
+    "city": "Hialeah",
+    "zip": "33016",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.869886587896,
+    "longitude": -80.329272345295
+  },
+  {
+    "name": "Sedano's Supermarket # 28",
+    "address": "3140 W 76th St",
+    "city": "Hialeah",
+    "zip": "33018",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.89144399142,
+    "longitude": -80.346883010189
+  },
+  {
+    "name": "Sedano's Supermarket # 43",
+    "address": "1170 W 49th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.866555571708,
+    "longitude": -80.306313604454
+  },
+  {
+    "name": "Super Economico Supermarket",
+    "address": "5370 W 12th Ave",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Super Economico Supermarket",
+    "latitude": 25.871131951868,
+    "longitude": -80.307055084534
+  },
+  {
+    "name": "Target Store T-2109",
+    "address": "1750 W 37th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Target",
+    "latitude": 25.855218999963,
+    "longitude": -80.317564436309
+  },
+  {
+    "name": "Walmart Neighborhood # 5945",
+    "address": "400 W 49th St",
+    "city": "Hialeah",
+    "zip": "33012",
+    "brand": "Walmart",
+    "latitude": 25.866603699746,
+    "longitude": -80.291162132068
+  },
+  {
+    "name": "Walmart Supercenter # 1590",
+    "address": "5851 NW 177th St",
+    "city": "Hialeah",
+    "zip": "33015",
+    "brand": "Walmart",
+    "latitude": 25.934417536135,
+    "longitude": -80.296104107471
+  },
+  {
+    "name": "Walmart Supercenter # 2814",
+    "address": "9300 NW 77th Ave",
+    "city": "Hialeah Gardens",
+    "zip": "33016",
+    "brand": "Walmart",
+    "latitude": 25.855886206596,
+    "longitude": -80.324055898311
+  },
+  {
+    "name": "Florida Baby Food Center # 04",
+    "address": "110 SW 9th Ave",
+    "city": "Homestead",
+    "zip": "33030",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.469267058145,
+    "longitude": -80.488520960134
+  },
+  {
+    "name": "Fresco Y Mas # 0385",
+    "address": "27359 S. Dixie Hwy",
+    "city": "Homestead",
+    "zip": "33032",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.513103129457,
+    "longitude": -80.432734742033
+  },
+  {
+    "name": "Presidente Supermarket # 30",
+    "address": "3324 NE 7th St",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.476790795764,
+    "longitude": -80.427157087609
+  },
+  {
+    "name": "Presidente Supermarket # 44",
+    "address": "240 NE 8th ST",
+    "city": "Homestead",
+    "zip": "33030",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.477131823713,
+    "longitude": -80.472676367121
+  },
+  {
+    "name": "Publix # 0510",
+    "address": "891 N. Homestead Blvd",
+    "city": "Homestead",
+    "zip": "33030",
+    "brand": "Publix",
+    "latitude": 25.478283109596,
+    "longitude": -80.464539935548
+  },
+  {
+    "name": "Publix # 1029",
+    "address": "3060 NE 41st Ter",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Publix",
+    "latitude": 25.498827781657,
+    "longitude": -80.414244728156
+  },
+  {
+    "name": "Publix # 1136",
+    "address": "2950 NE 8th St",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Publix",
+    "latitude": 25.477327009615,
+    "longitude": -80.448733614361
+  },
+  {
+    "name": "Publix # 1247",
+    "address": "23300 SW 112th Ave",
+    "city": "Homestead",
+    "zip": "33032",
+    "brand": "Publix",
+    "latitude": 25.551568078196,
+    "longitude": -80.372135279746
+  },
+  {
+    "name": "Sabor Tropical Supermarket # 03",
+    "address": "28945 S. Dixie Hwy",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.498220252534,
+    "longitude": -80.447335873631
+  },
+  {
+    "name": "Sedano's Supermarket # 31",
+    "address": "831 NE 8th St",
+    "city": "Homestead",
+    "zip": "33030",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.477296913703,
+    "longitude": -80.466672063617
+  },
+  {
+    "name": "Walmart Neighborhood # 3183",
+    "address": "1499 S. Dixie Hwy",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Walmart",
+    "latitude": 25.461855968793,
+    "longitude": -80.475101484717
+  },
+  {
+    "name": "Walmart Supercenter # 5671",
+    "address": "13600 SW 288th Street",
+    "city": "Homestead",
+    "zip": "33033",
+    "brand": "Walmart",
+    "latitude": 25.499574796973,
+    "longitude": -80.410807006408
+  },
+  {
+    "name": "Winn-Dixie # 0319",
+    "address": "30346 Old Dixie Hwy",
+    "city": "Homestead",
+    "zip": "33030",
+    "brand": "Winn-Dixie",
+    "latitude": 25.48523127773,
+    "longitude": -80.461773919342
+  },
+  {
+    "name": "Winn-Dixie # 0318",
+    "address": "604 Crandon Blvd",
+    "city": "Key Biscayne",
+    "zip": "33149",
+    "brand": "Winn-Dixie",
+    "latitude": 25.689117645569,
+    "longitude": -80.163844751667
+  },
+  {
+    "name": "Bravo Sabal Supermarket",
+    "address": "5299 NE 2nd Ave",
+    "city": "Miami",
+    "zip": "33137",
+    "brand": "Bravo Supermarket",
+    "latitude": 25.824193062847,
+    "longitude": -80.191753735932
+  },
+  {
+    "name": "Bravo Supermarket # 62",
+    "address": "12630 SW 8th St",
+    "city": "Miami",
+    "zip": "33184",
+    "brand": "Bravo Supermarket",
+    "latitude": 25.760914394478,
+    "longitude": -80.400096505129
+  },
+  {
+    "name": "Bravo Supermarket # 65",
+    "address": "11247 SW 152nd Street",
+    "city": "Miami",
+    "zip": "33157",
+    "brand": "Bravo Supermarket",
+    "latitude": 25.627188734375,
+    "longitude": -80.37540923318
+  },
+  {
+    "name": "El Nuevo Siglo Supermarket",
+    "address": "1305 SW 8th St",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "El Nuevo Siglo Supermarket",
+    "latitude": 25.765868174069,
+    "longitude": -80.216397910151
+  },
+  {
+    "name": "Florida Baby Food Center # 02",
+    "address": "7700 NW 27th Ave",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.844236592518,
+    "longitude": -80.241743466527
+  },
+  {
+    "name": "Florida Baby Food Center # 05",
+    "address": "11865 SW 26th St",
+    "city": "Miami",
+    "zip": "33175",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.74630270332,
+    "longitude": -80.387905150204
+  },
+  {
+    "name": "Florida Baby Food Center # 06",
+    "address": "4733 NW 183rd St",
+    "city": "Miami",
+    "zip": "33055",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.939734279564,
+    "longitude": -80.27825654205
+  },
+  {
+    "name": "Florida Baby Food Center # 07",
+    "address": "14252 NW 7th Ave",
+    "city": "Miami",
+    "zip": "33168",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.905181388717,
+    "longitude": -80.211668749708
+  },
+  {
+    "name": "Florida Baby Food Center # 08",
+    "address": "1685 NW 27th Ave",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.790530636544,
+    "longitude": -80.239639580471
+  },
+  {
+    "name": "Florida Baby Food Center # 09",
+    "address": "10552 SW 8th St",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.761320778454,
+    "longitude": -80.36622440848
+  },
+  {
+    "name": "Florida Baby Food Center # 12",
+    "address": "5140 NW 22nd Ave",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Florida Baby Food Center",
+    "latitude": 25.821513668972,
+    "longitude": -80.232623999517
+  },
+  {
+    "name": "Food Giant Market",
+    "address": "11800 NW 10th Ave",
+    "city": "Miami",
+    "zip": "33168",
+    "brand": "Food Giant Supermarket",
+    "latitude": 25.882871107232,
+    "longitude": -80.214642631107
+  },
+  {
+    "name": "Food Giant Supermarket",
+    "address": "15006 NE 6th Ave",
+    "city": "Miami",
+    "zip": "33161",
+    "brand": "Food Giant Supermarket",
+    "latitude": 25.913140334792,
+    "longitude": -80.187587058905
+  },
+  {
+    "name": "Food Start Supermarket",
+    "address": "10751 W. Flagler St",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Food Start Supermarket",
+    "latitude": 25.768488942279,
+    "longitude": -80.370475334259
+  },
+  {
+    "name": "Fresco Y Mas # 0235",
+    "address": "3401 NW 18th Ave",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.807707310266,
+    "longitude": -80.225791622113
+  },
+  {
+    "name": "Fresco Y Mas # 0237",
+    "address": "12254 SW Eight St",
+    "city": "Miami",
+    "zip": "33184",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.76093111423,
+    "longitude": -80.393869137584
+  },
+  {
+    "name": "Fresco Y Mas # 0239",
+    "address": "14555 SW 42nd St",
+    "city": "Miami",
+    "zip": "33175",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.728663668469,
+    "longitude": -80.430270914062
+  },
+  {
+    "name": "Fresco Y Mas # 0283",
+    "address": "8855 SW 24th St",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.747625036997,
+    "longitude": -80.338852520177
+  },
+  {
+    "name": "Fresco Y Mas # 0286",
+    "address": "948 SW 67th Ave",
+    "city": "Miami",
+    "zip": "33144",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.761604957302,
+    "longitude": -80.303920814859
+  },
+  {
+    "name": "Fresco Y Mas # 0287",
+    "address": "14655 SW 104th St",
+    "city": "Miami",
+    "zip": "33186",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.670389001322,
+    "longitude": -80.43105475812
+  },
+  {
+    "name": "Fresco Y Mas # 0353",
+    "address": "9565 W. Flagler St",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.769124084796,
+    "longitude": -80.351827205233
+  },
+  {
+    "name": "Fresco Y Mas # 0359",
+    "address": "7480 SW 117th Ave",
+    "city": "Miami",
+    "zip": "33183",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.697881983874,
+    "longitude": -80.382131967527
+  },
+  {
+    "name": "Fresco Y Mas # 0361",
+    "address": "15050 SW 72nd St",
+    "city": "Miami",
+    "zip": "33193",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.699187093671,
+    "longitude": -80.436433250446
+  },
+  {
+    "name": "Fresco Y Mas # 0366",
+    "address": "3701 NW 7th St",
+    "city": "Miami",
+    "zip": "33126",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.778993899787,
+    "longitude": -80.255780772524
+  },
+  {
+    "name": "Fresco Y Mas # 0387",
+    "address": "18801 SW 117th Ave",
+    "city": "Miami",
+    "zip": "33177",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.593656261542,
+    "longitude": -80.380801815746
+  },
+  {
+    "name": "Fresco Y Mas # 0388",
+    "address": "18300 SW 137th Ave",
+    "city": "Miami",
+    "zip": "33177",
+    "brand": "Fresco Y Mas",
+    "latitude": 25.598160020083,
+    "longitude": -80.413601105851
+  },
+  {
+    "name": "Guines Market",
+    "address": "2300 NW 28th St",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Guines Market",
+    "latitude": 25.801793397006,
+    "longitude": -80.233866601622
+  },
+  {
+    "name": "Ideal Food Basket",
+    "address": "3299 NW 2nd Ave",
+    "city": "Miami",
+    "zip": "33127",
+    "brand": "Ideal Food Basket",
+    "latitude": 25.807257684059,
+    "longitude": -80.199222037586
+  },
+  {
+    "name": "Joe's Market",
+    "address": "2190 NW 46th St",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Joe's Market",
+    "latitude": 25.816741868057,
+    "longitude": -80.232151115123
+  },
+  {
+    "name": "Key Food",
+    "address": "10400 NW 7th Ave",
+    "city": "Miami",
+    "zip": "33150",
+    "brand": "Key Food",
+    "latitude": 25.870075970132,
+    "longitude": -80.210016157071
+  },
+  {
+    "name": "Key Food",
+    "address": "8890 NW 7th Ave",
+    "city": "Miami",
+    "zip": "33150",
+    "brand": "Key Food",
+    "latitude": 25.85608857247,
+    "longitude": -80.209541466791
+  },
+  {
+    "name": "Key Food",
+    "address": "1701 NW 119th Street",
+    "city": "Miami",
+    "zip": "33167",
+    "brand": "Key Food",
+    "latitude": 25.883149625157,
+    "longitude": -80.22680211618
+  },
+  {
+    "name": "Key Food Fresh",
+    "address": "10927 SW 40Th St",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Key Food",
+    "latitude": 25.732287043911,
+    "longitude": -80.372286812991
+  },
+  {
+    "name": "La Fama # 02",
+    "address": "2288 NW 28th St",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "La Fama",
+    "latitude": 25.801802085643,
+    "longitude": -80.233535067612
+  },
+  {
+    "name": "Presidente Supermarket # 03",
+    "address": "1895 SW 8th Street",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.765580341825,
+    "longitude": -80.226483262273
+  },
+  {
+    "name": "Presidente Supermarket # 05",
+    "address": "450 NE 125th Street",
+    "city": "Miami",
+    "zip": "33161",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.89006161356,
+    "longitude": -80.189436043779
+  },
+  {
+    "name": "Presidente Supermarket # 10",
+    "address": "2294 W. Flagler St",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.772467195497,
+    "longitude": -80.232826613919
+  },
+  {
+    "name": "Presidente Supermarket # 12",
+    "address": "9875 SW 40th Street",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.732688360155,
+    "longitude": -80.355140953231
+  },
+  {
+    "name": "Presidente Supermarket # 17",
+    "address": "8370 NW 27th Ave",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.850389499719,
+    "longitude": -80.2419473577
+  },
+  {
+    "name": "Presidente Supermarket # 22",
+    "address": "10855 SW 72nd St",
+    "city": "Miami",
+    "zip": "33173",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.701049053486,
+    "longitude": -80.369044188898
+  },
+  {
+    "name": "Presidente Supermarket # 23",
+    "address": "2199 NW 36th St",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.809391438366,
+    "longitude": -80.231998478847
+  },
+  {
+    "name": "Presidente Supermarket # 29",
+    "address": "14778 SW 56th Street",
+    "city": "Miami",
+    "zip": "33185",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.713772857186,
+    "longitude": -80.432723602823
+  },
+  {
+    "name": "Presidente Supermarket # 31",
+    "address": "3001 NW 17th Avenue",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.804465602214,
+    "longitude": -80.223611668049
+  },
+  {
+    "name": "Presidente Supermarket # 36",
+    "address": "8100 N. Miami Ave",
+    "city": "Miami",
+    "zip": "33150",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.849080938196,
+    "longitude": -80.19702760759
+  },
+  {
+    "name": "Price Choice Food Market # 11",
+    "address": "1490 NW 3rd Ave",
+    "city": "Miami",
+    "zip": "33136",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.789843713748,
+    "longitude": -80.200045744241
+  },
+  {
+    "name": "Price Choice Foodmarket # 05",
+    "address": "1851 NE 2nd Ave",
+    "city": "Miami",
+    "zip": "33132",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.794164801377,
+    "longitude": -80.190703355783
+  },
+  {
+    "name": "Price Choice Foodmarket # 07",
+    "address": "2712 NW 95th St",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.860161059033,
+    "longitude": -80.243252972224
+  },
+  {
+    "name": "Publix # 0010",
+    "address": "8341 W. Flagler St",
+    "city": "Miami",
+    "zip": "33144",
+    "brand": "Publix",
+    "latitude": 25.769771467797,
+    "longitude": -80.331080711197
+  },
+  {
+    "name": "Publix # 0024",
+    "address": "10201 Hammocks Blvd",
+    "city": "Miami",
+    "zip": "33196",
+    "brand": "Publix",
+    "latitude": 25.672930352359,
+    "longitude": -80.444092317197
+  },
+  {
+    "name": "Publix # 0054",
+    "address": "311 SW 7th St",
+    "city": "Miami",
+    "zip": "33130",
+    "brand": "Publix",
+    "latitude": 25.767254218998,
+    "longitude": -80.199322927962
+  },
+  {
+    "name": "Publix # 0069",
+    "address": "13820 SW 88th St",
+    "city": "Miami",
+    "zip": "33186",
+    "brand": "Publix",
+    "latitude": 25.685180250327,
+    "longitude": -80.419519936394
+  },
+  {
+    "name": "Publix # 0127",
+    "address": "2270 SW 27th Ave",
+    "city": "Miami",
+    "zip": "33145",
+    "brand": "Publix",
+    "latitude": 25.749019105707,
+    "longitude": -80.238246774049
+  },
+  {
+    "name": "Publix # 0188",
+    "address": "8601 NW 186th St",
+    "city": "Miami",
+    "zip": "33015",
+    "brand": "Publix",
+    "latitude": 25.942480569775,
+    "longitude": -80.340913946451
+  },
+  {
+    "name": "Publix # 0223",
+    "address": "14601 S. Dixie Hwy",
+    "city": "Miami",
+    "zip": "33176",
+    "brand": "Publix",
+    "latitude": 25.634433315878,
+    "longitude": -80.338415293685
+  },
+  {
+    "name": "Publix # 0238",
+    "address": "14630 SW 26th St",
+    "city": "Miami",
+    "zip": "33175",
+    "brand": "Publix",
+    "latitude": 25.742950521108,
+    "longitude": -80.431703959767
+  },
+  {
+    "name": "Publix # 0261",
+    "address": "8250 Mills Dr",
+    "city": "Miami",
+    "zip": "33183",
+    "brand": "Publix",
+    "latitude": 25.690415996191,
+    "longitude": -80.386476531438
+  },
+  {
+    "name": "Publix # 0327",
+    "address": "13850 SW 8th St",
+    "city": "Miami",
+    "zip": "33184",
+    "brand": "Publix",
+    "latitude": 25.760867789291,
+    "longitude": -80.419996839674
+  },
+  {
+    "name": "Publix # 0328",
+    "address": "20425 Old Cutler Rd",
+    "city": "Miami",
+    "zip": "33189",
+    "brand": "Publix",
+    "latitude": 25.577861423326,
+    "longitude": -80.337461044626
+  },
+  {
+    "name": "Publix # 0375",
+    "address": "1525 SW 107th Ave",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Publix",
+    "latitude": 25.754976556623,
+    "longitude": -80.36803579671
+  },
+  {
+    "name": "Publix # 0454",
+    "address": "18995 Biscayne Blvd",
+    "city": "Miami",
+    "zip": "33180",
+    "brand": "Publix",
+    "latitude": 25.950688006748,
+    "longitude": -80.146603107873
+  },
+  {
+    "name": "Publix # 0478",
+    "address": "20711 S. Dixie Hwy",
+    "city": "Miami",
+    "zip": "33189",
+    "brand": "Publix",
+    "latitude": 25.574713376517,
+    "longitude": -80.373281489295
+  },
+  {
+    "name": "Publix # 0529",
+    "address": "15750 SW 72nd St",
+    "city": "Miami",
+    "zip": "33193",
+    "brand": "Publix",
+    "latitude": 25.698780229028,
+    "longitude": -80.447704604344
+  },
+  {
+    "name": "Publix # 0550",
+    "address": "9041 SW 107th Ave",
+    "city": "Miami",
+    "zip": "33176",
+    "brand": "Publix",
+    "latitude": 25.684245231078,
+    "longitude": -80.366846903069
+  },
+  {
+    "name": "Publix # 0581",
+    "address": "134 SW 13th St",
+    "city": "Miami",
+    "zip": "33130",
+    "brand": "Publix",
+    "latitude": 25.761446683209,
+    "longitude": -80.196194239474
+  },
+  {
+    "name": "Publix # 0588",
+    "address": "4260 SW 152nd Ave",
+    "city": "Miami",
+    "zip": "33185",
+    "brand": "Publix",
+    "latitude": 25.727045153938,
+    "longitude": -80.4396206141
+  },
+  {
+    "name": "Publix # 0590",
+    "address": "9510 Colonial Dr",
+    "city": "Miami",
+    "zip": "33157",
+    "brand": "Publix",
+    "latitude": 25.619553648636,
+    "longitude": -80.34684855173
+  },
+  {
+    "name": "Publix # 0658",
+    "address": "9105 S. Dadeland Blvd",
+    "city": "Miami",
+    "zip": "33156",
+    "brand": "Publix",
+    "latitude": 25.685555053837,
+    "longitude": -80.314819664639
+  },
+  {
+    "name": "Publix # 0714",
+    "address": "4870 Biscayne Blvd",
+    "city": "Miami",
+    "zip": "33137",
+    "brand": "Publix",
+    "latitude": 25.82061923855,
+    "longitude": -80.187608558154
+  },
+  {
+    "name": "Publix # 0835",
+    "address": "12100 SW 127th Ave",
+    "city": "Miami",
+    "zip": "33186",
+    "brand": "Publix",
+    "latitude": 25.656001653522,
+    "longitude": -80.399613735318
+  },
+  {
+    "name": "Publix # 0889",
+    "address": "15755 SW 56th St",
+    "city": "Miami",
+    "zip": "33185",
+    "brand": "Publix",
+    "latitude": 25.713356755529,
+    "longitude": -80.450976187893
+  },
+  {
+    "name": "Publix # 1009",
+    "address": "911 SW 1st Ave",
+    "city": "Miami",
+    "zip": "33130",
+    "brand": "Publix",
+    "latitude": 25.765266352588,
+    "longitude": -80.195203059714
+  },
+  {
+    "name": "Publix # 1062",
+    "address": "15771 SW 152nd St",
+    "city": "Miami",
+    "zip": "33187",
+    "brand": "Publix",
+    "latitude": 25.620075530136,
+    "longitude": -80.440110526636
+  },
+  {
+    "name": "Publix # 1090",
+    "address": "5715 NW 7th St",
+    "city": "Miami",
+    "zip": "33126",
+    "brand": "Publix",
+    "latitude": 25.778029505077,
+    "longitude": -80.288923759462
+  },
+  {
+    "name": "Publix # 1108",
+    "address": "20201 SW 127th Ave",
+    "city": "Miami",
+    "zip": "33177",
+    "brand": "Publix",
+    "latitude": 25.578901920454,
+    "longitude": -80.3969170843
+  },
+  {
+    "name": "Publix # 1151",
+    "address": "8680 SW 24th St",
+    "city": "Miami",
+    "zip": "33155",
+    "brand": "Publix",
+    "latitude": 25.747588751216,
+    "longitude": -80.335360052127
+  },
+  {
+    "name": "Publix # 1230",
+    "address": "121 SW 22nd Avenue",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Publix",
+    "latitude": 25.771255938288,
+    "longitude": -80.230854249803
+  },
+  {
+    "name": "Publix # 1273",
+    "address": "18280 SW 147th Ave",
+    "city": "Miami",
+    "zip": "33187",
+    "brand": "Publix",
+    "latitude": 25.601868682297,
+    "longitude": -80.429885450082
+  },
+  {
+    "name": "Publix # 1382",
+    "address": "6876 Collins Ave.",
+    "city": "Miami",
+    "zip": "33141",
+    "brand": "Publix",
+    "latitude": 25.853831284044,
+    "longitude": -80.120474227424
+  },
+  {
+    "name": "Publix # 1389",
+    "address": "11750 SW 104th St",
+    "city": "Miami",
+    "zip": "33176",
+    "brand": "Publix",
+    "latitude": 25.671734831312,
+    "longitude": -80.386318417474
+  },
+  {
+    "name": "Publix # 1397",
+    "address": "1776 Biscayne Blvd",
+    "city": "Miami",
+    "zip": "33132",
+    "brand": "Publix",
+    "latitude": 25.793010861632,
+    "longitude": -80.189042881366
+  },
+  {
+    "name": "Publix # 1429",
+    "address": "9420 SW 56th Street",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Publix",
+    "latitude": 25.716178112826,
+    "longitude": -80.347375848343
+  },
+  {
+    "name": "Publix # 1467",
+    "address": "9951 W. Flagler Street",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Publix",
+    "latitude": 25.768932338986,
+    "longitude": -80.357502966753
+  },
+  {
+    "name": "Publix # 1561",
+    "address": "1420 NW North River Dr",
+    "city": "Miami",
+    "zip": "33125",
+    "brand": "Publix",
+    "latitude": 25.785668752692,
+    "longitude": -80.219388072116
+  },
+  {
+    "name": "Publix # 1657",
+    "address": "13005 SW 89th Place",
+    "city": "Miami",
+    "zip": "33176",
+    "brand": "Publix",
+    "latitude": 25.64873692155,
+    "longitude": -80.339945286793
+  },
+  {
+    "name": "Publix # 1803",
+    "address": "13001 SW 112th St",
+    "city": "Miami",
+    "zip": "33187",
+    "brand": "Publix",
+    "latitude": 25.663503771078,
+    "longitude": -80.405662168739
+  },
+  {
+    "name": "Sabor Tropical Supermarket",
+    "address": "10692 Fontainebleau Blvd",
+    "city": "Miami",
+    "zip": "33172",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.775521983126,
+    "longitude": -80.369393246009
+  },
+  {
+    "name": "Sabor Tropical Supermarket # 02",
+    "address": "8700 SW 137th Ct",
+    "city": "Miami",
+    "zip": "33183",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.686112823454,
+    "longitude": -80.416631153094
+  },
+  {
+    "name": "Sabor Tropical Supermarket # 04",
+    "address": "8000 NE 5th Avenue",
+    "city": "Miami",
+    "zip": "33138",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.848326799598,
+    "longitude": -80.186494881915
+  },
+  {
+    "name": "Sabor Tropical Supermarket # 05",
+    "address": "6190 SW 8th St",
+    "city": "Miami",
+    "zip": "33144",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.763265159268,
+    "longitude": -80.295609567282
+  },
+  {
+    "name": "Saveland Supermarket",
+    "address": "8704 NW 32nd Ave",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Saveland Supermarket",
+    "latitude": 25.85327672545,
+    "longitude": -80.250252020424
+  },
+  {
+    "name": "Sedano's Supermarket # 04",
+    "address": "6709 W. Flagler St",
+    "city": "Miami",
+    "zip": "33144",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.770544005231,
+    "longitude": -80.304400768598
+  },
+  {
+    "name": "Sedano's Supermarket # 05",
+    "address": "9688 SW 24th St",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.747159601277,
+    "longitude": -80.35144000849
+  },
+  {
+    "name": "Sedano's Supermarket # 07",
+    "address": "4803 SW 8th St",
+    "city": "Miami",
+    "zip": "33134",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.764130652475,
+    "longitude": -80.27400173971
+  },
+  {
+    "name": "Sedano's Supermarket # 14",
+    "address": "1263 W. Flagler St",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.773542155544,
+    "longitude": -80.21571279758
+  },
+  {
+    "name": "Sedano's Supermarket # 17",
+    "address": "10720 W. Flagler St",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.768388905932,
+    "longitude": -80.369438024735
+  },
+  {
+    "name": "Sedano's Supermarket # 18",
+    "address": "12175 SW 26th St",
+    "city": "Miami",
+    "zip": "33175",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.744438938918,
+    "longitude": -80.391803066215
+  },
+  {
+    "name": "Sedano's Supermarket # 21",
+    "address": "13794 SW 152nd St",
+    "city": "Miami",
+    "zip": "33177",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.625665060313,
+    "longitude": -80.417392148999
+  },
+  {
+    "name": "Sedano's Supermarket # 23",
+    "address": "2425 SW 8th St",
+    "city": "Miami",
+    "zip": "33135",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.765332372028,
+    "longitude": -80.235352595645
+  },
+  {
+    "name": "Sedano's Supermarket # 29",
+    "address": "16255 SW 88th St",
+    "city": "Miami",
+    "zip": "33196",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.684146057376,
+    "longitude": -80.455927316098
+  },
+  {
+    "name": "Sedano's Supermarket # 32",
+    "address": "14655 SW 56th St",
+    "city": "Miami",
+    "zip": "33175",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.713942242553,
+    "longitude": -80.430225519436
+  },
+  {
+    "name": "Sedano's Supermarket # 36",
+    "address": "18600 NW 87th Ave",
+    "city": "Miami",
+    "zip": "33015",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.942478182039,
+    "longitude": -80.342384036567
+  },
+  {
+    "name": "Sedano's Supermarket # 37",
+    "address": "14524 SW 8th St",
+    "city": "Miami",
+    "zip": "33184",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.76083318657,
+    "longitude": -80.430265565356
+  },
+  {
+    "name": "Sedano's Supermarket # 42",
+    "address": "3801 W. Flagler Street",
+    "city": "Miami",
+    "zip": "33134",
+    "brand": "Sedano’s Supermarket",
+    "latitude": 25.771857158546,
+    "longitude": -80.257094498239
+  },
+  {
+    "name": "Target Store T-0746",
+    "address": "15005 SW 88th St",
+    "city": "Miami",
+    "zip": "33196",
+    "brand": "Target",
+    "latitude": 25.684754506166,
+    "longitude": -80.437183541095
+  },
+  {
+    "name": "Target Store T-1039",
+    "address": "8350 S. Dixie Hwy",
+    "city": "Miami",
+    "zip": "33143",
+    "brand": "Target",
+    "latitude": 25.693166853063,
+    "longitude": -80.303033760517
+  },
+  {
+    "name": "Target Store T-1075",
+    "address": "20500 SW 112th Ave",
+    "city": "Miami",
+    "zip": "33189",
+    "brand": "Target",
+    "latitude": 25.57563246805,
+    "longitude": -80.372488961098
+  },
+  {
+    "name": "Target Store T-2188",
+    "address": "3401 N. Miami Ave",
+    "city": "Miami",
+    "zip": "33127",
+    "brand": "Target",
+    "latitude": 25.80903111891,
+    "longitude": -80.195215100046
+  },
+  {
+    "name": "Target Store T-2848",
+    "address": "10101 West Flagler St",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Target",
+    "latitude": 25.768867879877,
+    "longitude": -80.359556291314
+  },
+  {
+    "name": "The Corner Food Mart",
+    "address": "1200 NW 29th St",
+    "city": "Miami",
+    "zip": "33142",
+    "brand": "The Corner Food Mart",
+    "latitude": 25.803331735176,
+    "longitude": -80.215505820855
+  },
+  {
+    "name": "Total Food",
+    "address": "7777 NW 17th Ave",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Total Food",
+    "latitude": 25.845067450198,
+    "longitude": -80.225288987561
+  },
+  {
+    "name": "Total Supermarket",
+    "address": "5700 NW 2nd Ave",
+    "city": "Miami",
+    "zip": "33127",
+    "brand": "Total Supermarket",
+    "latitude": 25.827996697583,
+    "longitude": -80.200203524701
+  },
+  {
+    "name": "Walmart # 6397",
+    "address": "15601 SW 127th Ave",
+    "city": "Miami",
+    "zip": "33177",
+    "brand": "Walmart",
+    "latitude": 25.623093335418,
+    "longitude": -80.397836799119
+  },
+  {
+    "name": "Walmart Supercenter # 4140",
+    "address": "6991 SW 8 Street",
+    "city": "Miami",
+    "zip": "33134",
+    "brand": "Walmart",
+    "latitude": 25.762988708464,
+    "longitude": -80.308975201987
+  },
+  {
+    "name": "Walmart Supercenter # 4161",
+    "address": "9191 W. Flagler Street",
+    "city": "Miami",
+    "zip": "33174",
+    "brand": "Walmart",
+    "latitude": 25.769396729255,
+    "longitude": -80.34426619316
+  },
+  {
+    "name": "Walmart Supercenter # 4303",
+    "address": "3200 NW 79th Street",
+    "city": "Miami",
+    "zip": "33147",
+    "brand": "Walmart",
+    "latitude": 25.84571313305,
+    "longitude": -80.249967319459
+  },
+  {
+    "name": "WalMart Supercenter # 5912",
+    "address": "21151 S. Dixie Hwy",
+    "city": "Miami",
+    "zip": "33189",
+    "brand": "Walmart",
+    "latitude": 25.570778522576,
+    "longitude": -80.377158905399
+  },
+  {
+    "name": "Winn-Dixie # 0214",
+    "address": "1150 NW 54th St",
+    "city": "Miami",
+    "zip": "33127",
+    "brand": "Winn-Dixie",
+    "latitude": 25.824654214116,
+    "longitude": -80.215251841291
+  },
+  {
+    "name": "Winn-Dixie # 0233",
+    "address": "11030 NW 7th Ave",
+    "city": "Miami",
+    "zip": "33168",
+    "brand": "Winn-Dixie",
+    "latitude": 25.875840972308,
+    "longitude": -80.210274110116
+  },
+  {
+    "name": "Winn-Dixie # 0247",
+    "address": "1155 NW 11th St",
+    "city": "Miami",
+    "zip": "33136",
+    "brand": "Winn-Dixie",
+    "latitude": 25.784035607174,
+    "longitude": -80.213131381652
+  },
+  {
+    "name": "Winn-Dixie # 0249",
+    "address": "6770 SW 40th St",
+    "city": "Miami",
+    "zip": "33155",
+    "brand": "Winn-Dixie",
+    "latitude": 25.733305215396,
+    "longitude": -80.304484681421
+  },
+  {
+    "name": "Winn-Dixie # 0254",
+    "address": "11241 SW 40th St",
+    "city": "Miami",
+    "zip": "33165",
+    "brand": "Winn-Dixie",
+    "latitude": 25.73222045283,
+    "longitude": -80.376593967864
+  },
+  {
+    "name": "Winn-Dixie # 0343",
+    "address": "14900 NW 7th Ave",
+    "city": "Miami",
+    "zip": "33168",
+    "brand": "Winn-Dixie",
+    "latitude": 25.911064121709,
+    "longitude": -80.211775639003
+  },
+  {
+    "name": "Winn-Dixie # 0370",
+    "address": "8710 SW 72nd St",
+    "city": "Miami",
+    "zip": "33173",
+    "brand": "Winn-Dixie",
+    "latitude": 25.702229337791,
+    "longitude": -80.33496278355
+  },
+  {
+    "name": "Bay Supermarket",
+    "address": "905 Normandy Dr",
+    "city": "Miami Beach",
+    "zip": "33141",
+    "brand": "Bay Supermarket",
+    "latitude": 25.855929074055,
+    "longitude": -80.128145555264
+  },
+  {
+    "name": "Meridian Food Market",
+    "address": "812 6th St",
+    "city": "Miami Beach",
+    "zip": "33139",
+    "brand": "Meridian Food Market",
+    "latitude": 25.77577619087,
+    "longitude": -80.136279245755
+  },
+  {
+    "name": "Publix # 0091",
+    "address": "1045 Dade Blvd",
+    "city": "Miami Beach",
+    "zip": "33139",
+    "brand": "Publix",
+    "latitude": 25.794279607938,
+    "longitude": -80.139788320973
+  },
+  {
+    "name": "Publix # 0621",
+    "address": "1920 West Ave",
+    "city": "Miami Beach",
+    "zip": "33139",
+    "brand": "Publix",
+    "latitude": 25.794777231831,
+    "longitude": -80.142649685384
+  },
+  {
+    "name": "Publix # 1209",
+    "address": "1100 6th St",
+    "city": "Miami Beach",
+    "zip": "33139",
+    "brand": "Publix",
+    "latitude": 25.775658127323,
+    "longitude": -80.140172958409
+  },
+  {
+    "name": "Presidente Supermarket # 21",
+    "address": "18350 NW 7th Ave",
+    "city": "Miami Gardens",
+    "zip": "33169",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.942756114834,
+    "longitude": -80.213279108443
+  },
+  {
+    "name": "Price Choice Foodmarket # 08",
+    "address": "4500 NW 183rd St",
+    "city": "Miami Gardens",
+    "zip": "33055",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.939770808451,
+    "longitude": -80.274306275165
+  },
+  {
+    "name": "Target Store T-2196",
+    "address": "5601 NW 183rd Street",
+    "city": "Miami Gardens",
+    "zip": "33055",
+    "brand": "Target",
+    "latitude": 25.939448130477,
+    "longitude": -80.290404540962
+  },
+  {
+    "name": "Walmart Neighborhood # 2907",
+    "address": "3791 NW 167th Street",
+    "city": "Miami Gardens",
+    "zip": "33055",
+    "brand": "Walmart",
+    "latitude": 25.926081795174,
+    "longitude": -80.262868998497
+  },
+  {
+    "name": "Walmart Supercenter # 3311",
+    "address": "19501 NW 27th Ave",
+    "city": "Miami Gardens",
+    "zip": "33056",
+    "brand": "Walmart",
+    "latitude": 25.951835793237,
+    "longitude": -80.245813131531
+  },
+  {
+    "name": "Walmart Supercenter # 3397",
+    "address": "17650 NW 2nd Ave",
+    "city": "Miami Gardens",
+    "zip": "33169",
+    "brand": "Walmart",
+    "latitude": 25.936007419073,
+    "longitude": -80.204902107125
+  },
+  {
+    "name": "Winn-Dixie # 0246",
+    "address": "17221 NW 27th Ave",
+    "city": "Miami Gardens",
+    "zip": "33056",
+    "brand": "Winn-Dixie",
+    "latitude": 25.931342731713,
+    "longitude": -80.244783560597
+  },
+  {
+    "name": "Winn-Dixie # 0262",
+    "address": "15450 NW 77th Ct",
+    "city": "Miami Lakes",
+    "zip": "33016",
+    "brand": "Winn-Dixie",
+    "latitude": 25.914021566931,
+    "longitude": -80.326869023856
+  },
+  {
+    "name": "Publix # 0794",
+    "address": "9050 Biscayne Blvd",
+    "city": "Miami Shores",
+    "zip": "33138",
+    "brand": "Publix",
+    "latitude": 25.858386730842,
+    "longitude": -80.183831229455
+  },
+  {
+    "name": "Sabor Tropical",
+    "address": "969 Normandy Dr",
+    "city": "N. Bay Village",
+    "zip": "33141",
+    "brand": "Sabor Tropical Supermarket",
+    "latitude": 25.855852396829,
+    "longitude": -80.129310073044
+  },
+  {
+    "name": "Caribbean Best Market # 02",
+    "address": "233 NE 167th St",
+    "city": "N.M.Beach",
+    "zip": "33162",
+    "brand": "Caribbean Best Market",
+    "latitude": 25.928367155888,
+    "longitude": -80.194790589198
+  },
+  {
+    "name": "Publix # 0629",
+    "address": "19955 NW 2nd Ave",
+    "city": "N.M.Beach",
+    "zip": "33169",
+    "brand": "Publix",
+    "latitude": 25.957550963335,
+    "longitude": -80.205637452903
+  },
+  {
+    "name": "Publix # 1715",
+    "address": "930 N. Miami Beach Blvd",
+    "city": "N.M.Beach",
+    "zip": "33162",
+    "brand": "Publix",
+    "latitude": 25.927644648838,
+    "longitude": -80.180894400896
+  },
+  {
+    "name": "Target Store T-1038",
+    "address": "14075 Biscayne Blvd",
+    "city": "N.M.Beach",
+    "zip": "33181",
+    "brand": "Target",
+    "latitude": 25.906877258895,
+    "longitude": -80.158390188396
+  },
+  {
+    "name": "Walmart Supercenter # 3235",
+    "address": "1425 NE 163rd St",
+    "city": "N.M.Beach",
+    "zip": "33162",
+    "brand": "Walmart",
+    "latitude": 25.925628605669,
+    "longitude": -80.17189265507
+  },
+  {
+    "name": "Winn-Dixie # 0378",
+    "address": "3805 NE 163rd St",
+    "city": "N.M.Beach",
+    "zip": "33160",
+    "brand": "Winn-Dixie",
+    "latitude": 25.929418607605,
+    "longitude": -80.133847996182
+  },
+  {
+    "name": "Ideal Food Basket",
+    "address": "12010 N Miami Ave",
+    "city": "North Miami",
+    "zip": "33168",
+    "brand": "Ideal Food Basket",
+    "latitude": 25.885419045996,
+    "longitude": -80.19852529125
+  },
+  {
+    "name": "Publix # 0669",
+    "address": "1700 NE Miami Gardens Dr",
+    "city": "North Miami",
+    "zip": "33179",
+    "brand": "Publix",
+    "latitude": 25.945878196802,
+    "longitude": -80.166949724796
+  },
+  {
+    "name": "Publix # 1003",
+    "address": "12855 NE 6th Ave",
+    "city": "North Miami",
+    "zip": "33161",
+    "brand": "Publix",
+    "latitude": 25.893492484731,
+    "longitude": -80.186521400146
+  },
+  {
+    "name": "Publix # 1017",
+    "address": "14641 Biscayne Blvd",
+    "city": "North Miami",
+    "zip": "33181",
+    "brand": "Publix",
+    "latitude": 25.911373712453,
+    "longitude": -80.157175032787
+  },
+  {
+    "name": "Publix # 1236",
+    "address": "12850 Biscayne Blvd",
+    "city": "North Miami",
+    "zip": "33181",
+    "brand": "Publix",
+    "latitude": 25.894561068244,
+    "longitude": -80.162256886493
+  },
+  {
+    "name": "Total Supermarket",
+    "address": "12955 NW 7 Ave",
+    "city": "North Miami",
+    "zip": "33168",
+    "brand": "Total Supermarket",
+    "latitude": 25.893313738459,
+    "longitude": -80.210986694851
+  },
+  {
+    "name": "Value Mini Mart",
+    "address": "11866 W. Dixie Hwy",
+    "city": "North Miami",
+    "zip": "33161",
+    "brand": "Value Mini Mart",
+    "latitude": 25.884664840262,
+    "longitude": -80.192827865858
+  },
+  {
+    "name": "Price Choice Foodmarket # 09",
+    "address": "13931 NW 27th Ave",
+    "city": "Opa Locka",
+    "zip": "33054",
+    "brand": "Price Choice Foodmarket",
+    "latitude": 25.90064637682,
+    "longitude": -80.243731107955
+  },
+  {
+    "name": "Presidente Supermarket # 06",
+    "address": "11336 Quail Roost Dr",
+    "city": "Perrine",
+    "zip": "33157",
+    "brand": "Presidente Supermarket",
+    "latitude": 25.593624760015,
+    "longitude": -80.377287573734
+  },
+  {
+    "name": "Publix # 1423",
+    "address": "13401 S. Dixie Hwy",
+    "city": "Pinecrest",
+    "zip": "33156",
+    "brand": "Publix",
+    "latitude": 25.647581873348,
+    "longitude": -80.332348387446
+  },
+  {
+    "name": "Target Store T-2843",
+    "address": "7800 SW 104th Street",
+    "city": "Pinecrest",
+    "zip": "33156",
+    "brand": "Target",
+    "latitude": 25.673804891699,
+    "longitude": -80.320555049534
+  },
+  {
+    "name": "Publix # 1536",
+    "address": "18320 Collins Ave",
+    "city": "Sunny Isles",
+    "zip": "33160",
+    "brand": "Publix",
+    "latitude": 25.946014685967,
+    "longitude": -80.121055620948
+  },
+  {
+    "name": "Publix # 0073",
+    "address": "9400 Harding Ave",
+    "city": "Surfside",
+    "zip": "33154",
+    "brand": "Publix",
+    "latitude": 25.88347113301,
+    "longitude": -80.12343954801
+  },
+  {
+    "name": "Publix # 1494",
+    "address": "1500 SW 57th Avenue",
+    "city": "West Miami",
+    "zip": "33144",
+    "brand": "Publix",
+    "latitude": 25.757108264753,
+    "longitude": -80.288797892832
+  }
+]
