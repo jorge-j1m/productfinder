@@ -11,7 +11,7 @@ for (const brand of brands) {
     const created = await call(
       adminRouter.storeBrands.create,
       { name: brand.name, logo: brand.logo },
-      { context: { db, requestId: "seed-brand-stores" } }
+      { context: { db, requestId: "seed-brand-stores" } },
     );
 
     console.log(`Created brand ${brand.name}, using id ${created.id}`);
@@ -23,11 +23,11 @@ for (const brand of brands) {
       });
       if (!existing) {
         throw new Error(
-          `Brand ${brand.name} already exists, but not in the database`
+          `Brand ${brand.name} already exists, but not in the database`,
         );
       }
       console.log(
-        `Brand ${brand.name} already exists, using id ${existing.id}`
+        `Brand ${brand.name} already exists, using id ${existing.id}`,
       );
       dbBrands[brand.name] = existing.id;
       continue; // Skip if brand already exists
@@ -58,7 +58,7 @@ for (const store of stores) {
         latitude: store.latitude,
         longitude: store.longitude,
       },
-      { context: { db, requestId: "seed-brand-stores" } }
+      { context: { db, requestId: "seed-brand-stores" } },
     );
     console.log(`Created store ${store.name}, using id ${created.id}`);
   } catch (error) {
@@ -68,11 +68,11 @@ for (const store of stores) {
       });
       if (!existing) {
         throw new Error(
-          `Store ${store.name} already exists, but not in the database`
+          `Store ${store.name} already exists, but not in the database`,
         );
       }
       console.log(
-        `Store ${store.name} already exists, using id ${existing.id}`
+        `Store ${store.name} already exists, using id ${existing.id}`,
       );
       continue; // Skip if store already exists
     } else {

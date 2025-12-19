@@ -5,7 +5,7 @@ import storesRouter from "./routes/stores";
 import { type DB } from "@repo/database";
 import { typeid } from "typeid-js";
 import { rpcHandler } from "./orpc";
-import { createAuth } from "./lib/employee-auth";
+import { createAuth } from "./lib/employee_auth";
 
 /**
  * Creates the Hono app with database injection.

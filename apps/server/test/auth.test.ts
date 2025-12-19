@@ -1,5 +1,5 @@
 import { describe, test, expect } from "bun:test";
-import { auth } from "../src/lib/employee-auth";
+import { auth } from "../src/lib/employee_auth";
 
 describe("Auth Instance", () => {
   test("should instantiate without errors", () => {

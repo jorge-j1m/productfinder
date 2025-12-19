@@ -1,5 +1,5 @@
 import { typeid } from "typeid-js";
-import { EmployeeExtension } from "./auth-types";
+import { EmployeeExtension } from "./auth_types";
 
 /**
  * Better-auth configuration for employee authentication
