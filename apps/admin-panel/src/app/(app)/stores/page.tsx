@@ -126,23 +126,28 @@ export default function StoresPage() {
     }),
   );
 
+  // Destructure mutation functions for stable references
+  const { mutate: createStore } = createMutation;
+  const { mutate: updateStore } = updateMutation;
+  const { mutate: deleteStore } = deleteMutation;
+
   // Handlers
-  const handleCreateNew = () => {
+  const handleCreateNew = React.useCallback(() => {
     setSelectedStore(null);
     setStoreDialogOpen(true);
-  };
+  }, []);
 
-  const handleEdit = (store: StoreWithBrand) => {
+  const handleEdit = React.useCallback((store: StoreWithBrand) => {
     setSelectedStore(store);
     setStoreDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (store: StoreWithBrand) => {
+  const handleDelete = React.useCallback((store: StoreWithBrand) => {
     setSelectedStore(store);
     setDeleteDialogOpen(true);
-  };
+  }, []);
 
-  const handleStoreSubmit = (formData: {
+  const handleStoreSubmit = React.useCallback((formData: {
     brandId: string;
     name: string;
     address: string;
@@ -156,31 +161,31 @@ export default function StoresPage() {
     if (selectedStore) {
       // Update existing store (exclude brandId)
       const { brandId: _brandId, ...updateData } = formData;
-      updateMutation.mutate({
+      updateStore({
         id: selectedStore.id,
         data: updateData,
       });
     } else {
       // Create new store
-      createMutation.mutate({
+      createStore({
         ...formData,
         brandId: asStoreBrandId(formData.brandId),
       });
     }
-  };
+  }, [selectedStore, updateStore, createStore]);
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = React.useCallback(() => {
     if (selectedStore) {
-      deleteMutation.mutate({ id: selectedStore.id });
+      deleteStore({ id: selectedStore.id });
     }
-  };
+  }, [selectedStore, deleteStore]);
 
-  const handleSortChange = (field: string, order: "asc" | "desc") => {
+  const handleSortChange = React.useCallback((field: string, order: "asc" | "desc") => {
     setSortBy(field as "name" | "id" | "city");
     setSortOrder(order);
-  };
+  }, []);
 
-  const handleFilterChange = (newFilters: {
+  const handleFilterChange = React.useCallback((newFilters: {
     name?: string;
     city?: string;
     state?: string;
@@ -188,12 +193,12 @@ export default function StoresPage() {
   }) => {
     setFilters(newFilters);
     setPage(1); // Reset to first page when filtering
-  };
+  }, []);
 
-  const columns = createColumns({
+  const columns = React.useMemo(() => createColumns({
     onEdit: handleEdit,
     onDelete: handleDelete,
-  });
+  }), [handleEdit, handleDelete]);
 
   // Error state
   if (isError) {

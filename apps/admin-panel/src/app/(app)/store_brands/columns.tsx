@@ -2,15 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "#/components/ui/button";
-import { ArrowUpDown, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "#/components/ui/dropdown-menu";
+import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
 import type { StoreBrand } from "@repo/database/types";
 
 type ColumnActionsProps = {
@@ -65,29 +57,26 @@ export const createColumns = ({
       const brand = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onEdit(brand)}>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => onDelete(brand)}
-              className="text-destructive focus:text-destructive"
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onEdit(brand)}
+            className="h-8 px-2"
+          >
+            <Pencil className="mr-1 h-4 w-4" />
+            Edit
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete(brand)}
+            className="h-8 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+          >
+            <Trash2 className="mr-1 h-4 w-4" />
+            Delete
+          </Button>
+        </div>
       );
     },
   },

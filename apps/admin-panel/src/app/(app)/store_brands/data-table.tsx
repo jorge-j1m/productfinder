@@ -62,6 +62,18 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [searchValue, setSearchValue] = React.useState("");
 
+  // Use refs to store latest callbacks to avoid effect re-runs
+  const onSearchChangeRef = React.useRef(onSearchChange);
+  const onSortChangeRef = React.useRef(onSortChange);
+
+  React.useEffect(() => {
+    onSearchChangeRef.current = onSearchChange;
+  }, [onSearchChange]);
+
+  React.useEffect(() => {
+    onSortChangeRef.current = onSortChange;
+  }, [onSortChange]);
+
   const table = useReactTable({
     data,
     columns,
@@ -79,19 +91,19 @@ export function DataTable<TData, TValue>({
   // Debounce search
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      onSearchChange(searchValue);
+      onSearchChangeRef.current(searchValue);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchValue, onSearchChange]);
+  }, [searchValue]);
 
   // Handle sorting changes
   React.useEffect(() => {
     if (sorting.length > 0 && sorting[0]) {
       const { id, desc } = sorting[0];
-      onSortChange(id, desc ? "desc" : "asc");
+      onSortChangeRef.current(id, desc ? "desc" : "asc");
     }
-  }, [sorting, onSortChange]);
+  }, [sorting]);
 
   return (
     <div className="space-y-4">

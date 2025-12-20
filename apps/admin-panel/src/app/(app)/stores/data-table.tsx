@@ -70,6 +70,18 @@ export function DataTable<TData, TValue>({
   const [stateFilter, setStateFilter] = React.useState("");
   const [zipFilter, setZipFilter] = React.useState("");
 
+  // Use refs to store latest callbacks to avoid effect re-runs
+  const onFilterChangeRef = React.useRef(onFilterChange);
+  const onSortChangeRef = React.useRef(onSortChange);
+
+  React.useEffect(() => {
+    onFilterChangeRef.current = onFilterChange;
+  }, [onFilterChange]);
+
+  React.useEffect(() => {
+    onSortChangeRef.current = onSortChange;
+  }, [onSortChange]);
+
   const table = useReactTable({
     data,
     columns,
@@ -87,7 +99,7 @@ export function DataTable<TData, TValue>({
   // Debounce filters
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      onFilterChange({
+      onFilterChangeRef.current({
         name: nameFilter || undefined,
         city: cityFilter || undefined,
         state: stateFilter || undefined,
@@ -96,15 +108,15 @@ export function DataTable<TData, TValue>({
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [nameFilter, cityFilter, stateFilter, zipFilter, onFilterChange]);
+  }, [nameFilter, cityFilter, stateFilter, zipFilter]);
 
   // Handle sorting changes
   React.useEffect(() => {
     if (sorting.length > 0 && sorting[0]) {
       const { id, desc } = sorting[0];
-      onSortChange(id, desc ? "desc" : "asc");
+      onSortChangeRef.current(id, desc ? "desc" : "asc");
     }
-  }, [sorting, onSortChange]);
+  }, [sorting]);
 
   return (
     <div className="space-y-4">

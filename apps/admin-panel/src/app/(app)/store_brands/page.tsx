@@ -104,50 +104,60 @@ export default function StoreBrandsPage() {
     }),
   );
 
+  // Destructure mutation functions for stable references
+  const { mutate: createBrand } = createMutation;
+  const { mutate: updateBrand } = updateMutation;
+  const { mutate: deleteBrand } = deleteMutation;
+
   // Handlers
-  const handleCreateNew = () => {
+  const handleCreateNew = React.useCallback(() => {
     setSelectedBrand(null);
     setBrandDialogOpen(true);
-  };
+  }, []);
 
-  const handleEdit = (brand: StoreBrand) => {
+  const handleEdit = React.useCallback((brand: StoreBrand) => {
     setSelectedBrand(brand);
     setBrandDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (brand: StoreBrand) => {
+  const handleDelete = React.useCallback((brand: StoreBrand) => {
     setSelectedBrand(brand);
     setDeleteDialogOpen(true);
-  };
+  }, []);
 
-  const handleBrandSubmit = (formData: { name: string; logo: string }) => {
+  const handleBrandSubmit = React.useCallback((formData: { name: string; logo: string }) => {
     if (selectedBrand) {
       // Update existing brand
-      updateMutation.mutate({
+      updateBrand({
         id: selectedBrand.id,
         data: formData,
       });
     } else {
       // Create new brand
-      createMutation.mutate(formData);
+      createBrand(formData);
     }
-  };
+  }, [selectedBrand, updateBrand, createBrand]);
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = React.useCallback(() => {
     if (selectedBrand) {
-      deleteMutation.mutate({ id: selectedBrand.id });
+      deleteBrand({ id: selectedBrand.id });
     }
-  };
+  }, [selectedBrand, deleteBrand]);
 
-  const handleSortChange = (field: string, order: "asc" | "desc") => {
+  const handleSortChange = React.useCallback((field: string, order: "asc" | "desc") => {
     setSortBy(field as "name" | "id");
     setSortOrder(order);
-  };
+  }, []);
 
-  const columns = createColumns({
+  const handleSearchChange = React.useCallback((search: string) => {
+    setSearch(search);
+    setPage(1); // Reset to first page when searching
+  }, []);
+
+  const columns = React.useMemo(() => createColumns({
     onEdit: handleEdit,
     onDelete: handleDelete,
-  });
+  }), [handleEdit, handleDelete]);
 
   // Error state
   if (isError) {
@@ -193,7 +203,7 @@ export default function StoreBrandsPage() {
           setPageSize(newPageSize);
           setPage(1); // Reset to first page when changing page size
         }}
-        onSearchChange={setSearch}
+        onSearchChange={handleSearchChange}
         onSortChange={handleSortChange}
         onCreateNew={handleCreateNew}
         isLoading={isLoading}
