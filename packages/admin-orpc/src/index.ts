@@ -1,6 +1,7 @@
 import { RouterClient } from "@orpc/server";
 import { storeBrandsProcedures } from "./store_brands";
 import { storesProcedures } from "./stores";
+import { employeesProcedures } from "./employees";
 
 export const adminRouter = {
   storeBrands: {
@@ -8,6 +9,9 @@ export const adminRouter = {
   },
   stores: {
     ...storesProcedures,
+  },
+  employees: {
+    ...employeesProcedures,
   },
 };
 

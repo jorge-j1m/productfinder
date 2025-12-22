@@ -192,6 +192,11 @@ export const NAVIGATION_GROUPS = [
     items: ["dashboard"],
   },
   {
+    id: "management",
+    label: "Management",
+    items: ["employees", "stores", "store_brands"],
+  },
+  {
     id: "inventory",
     label: "Inventory",
     items: ["products", "inventory", "pricing"],
@@ -200,11 +205,6 @@ export const NAVIGATION_GROUPS = [
     id: "operations",
     label: "Operations",
     items: ["orders", "sales"],
-  },
-  {
-    id: "management",
-    label: "Management",
-    items: ["employees", "stores", "store_brands"],
   },
   {
     id: "insights",
