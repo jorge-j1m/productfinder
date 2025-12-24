@@ -7,12 +7,15 @@ import { asStoreId } from "@repo/database";
 import { orpc } from "#/lib/query/orpc";
 import { DataTable } from "./data-table";
 import { createColumns } from "./columns";
-import { EmployeeDialog } from "./employee-dialog";
+import { CreateEmployeeDialog, type CreateEmployeeData } from "./create-employee-dialog";
+import { EditEmployeeDialog, type UpdateEmployeeData } from "./edit-employee-dialog";
 import { DeleteDialog } from "./delete-dialog";
 import { toast } from "sonner";
 import { isDefinedError } from "@orpc/client";
 
 type EmployeeWithStore = Employee & { store: Store };
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080";
 
 export default function EmployeesPage() {
   const queryClient = useQueryClient();
@@ -32,7 +35,8 @@ export default function EmployeesPage() {
   const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("asc");
 
   // Dialog states
-  const [employeeDialogOpen, setEmployeeDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
+  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [selectedEmployee, setSelectedEmployee] =
     React.useState<EmployeeWithStore | null>(null);
@@ -65,28 +69,43 @@ export default function EmployeesPage() {
     }),
   );
 
-  // Create mutation
-  const createMutation = useMutation(
-    orpc.employees.create.mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: orpc.employees.getAll.key(),
-        });
-        toast.success("Employee created successfully");
-        setEmployeeDialogOpen(false);
-        setSelectedEmployee(null);
-      },
-      onError: (error) => {
-        if (isDefinedError(error)) {
-          toast.error(error.message);
-        } else {
-          toast.error("Failed to create employee");
-        }
-      },
-    }),
-  );
+  // Create mutation using better-auth sign-up endpoint
+  const createMutation = useMutation({
+    mutationFn: async (data: CreateEmployeeData) => {
+      const response = await fetch(`${API_URL}/api/employee-auth/sign-up/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-  // Update mutation
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        const errorMessage =
+          errorData?.message ||
+          errorData?.error ||
+          "Failed to create employee";
+        throw new Error(errorMessage);
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: orpc.employees.getAll.key(),
+      });
+      toast.success("Employee created successfully", {
+        description: "Login credentials are now active",
+      });
+      setCreateDialogOpen(false);
+    },
+    onError: (error) => {
+      toast.error("Failed to create employee", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
+    },
+  });
+
+  // Update mutation using oRPC
   const updateMutation = useMutation(
     orpc.employees.update.mutationOptions({
       onSuccess: () => {
@@ -94,12 +113,14 @@ export default function EmployeesPage() {
           queryKey: orpc.employees.getAll.key(),
         });
         toast.success("Employee updated successfully");
-        setEmployeeDialogOpen(false);
+        setEditDialogOpen(false);
         setSelectedEmployee(null);
       },
       onError: (error) => {
         if (isDefinedError(error)) {
-          toast.error(error.message);
+          toast.error("Failed to update employee", {
+            description: error.message,
+          });
         } else {
           toast.error("Failed to update employee");
         }
@@ -107,7 +128,7 @@ export default function EmployeesPage() {
     }),
   );
 
-  // Delete mutation
+  // Delete mutation using oRPC
   const deleteMutation = useMutation(
     orpc.employees.delete.mutationOptions({
       onSuccess: () => {
@@ -120,7 +141,9 @@ export default function EmployeesPage() {
       },
       onError: (error) => {
         if (isDefinedError(error)) {
-          toast.error(error.message);
+          toast.error("Failed to delete employee", {
+            description: error.message,
+          });
         } else {
           toast.error("Failed to delete employee");
         }
@@ -128,20 +151,55 @@ export default function EmployeesPage() {
     }),
   );
 
+  // Password reset mutation using better-auth
+  const passwordResetMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await fetch(`${API_URL}/api/employee-auth/forget-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          redirectTo: `${window.location.origin}/reset-password`,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        const errorMessage =
+          errorData?.message ||
+          errorData?.error ||
+          "Failed to send password reset email";
+        throw new Error(errorMessage);
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast.success("Password reset email sent", {
+        description: "The employee will receive instructions to reset their password",
+      });
+    },
+    onError: (error) => {
+      toast.error("Failed to send password reset email", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
+    },
+  });
+
   // Destructure mutation functions for stable references
   const { mutate: createEmployee } = createMutation;
   const { mutate: updateEmployee } = updateMutation;
   const { mutate: deleteEmployee } = deleteMutation;
+  const { mutate: sendPasswordReset } = passwordResetMutation;
 
   // Handlers
   const handleCreateNew = React.useCallback(() => {
-    setSelectedEmployee(null);
-    setEmployeeDialogOpen(true);
+    setCreateDialogOpen(true);
   }, []);
 
   const handleEdit = React.useCallback((employee: EmployeeWithStore) => {
     setSelectedEmployee(employee);
-    setEmployeeDialogOpen(true);
+    setEditDialogOpen(true);
   }, []);
 
   const handleDelete = React.useCallback((employee: EmployeeWithStore) => {
@@ -149,33 +207,33 @@ export default function EmployeesPage() {
     setDeleteDialogOpen(true);
   }, []);
 
-  const handleEmployeeSubmit = React.useCallback(
-    (formData: {
-      storeId: string;
-      name: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-      role: "STAFF" | "MANAGER" | "ADMIN";
-      status: "ACTIVE" | "SUSPENDED";
-    }) => {
-      if (selectedEmployee) {
-        // Update existing employee (exclude storeId and email)
-        const { storeId: _storeId, email: _email, ...updateData } = formData;
-        updateEmployee({
-          id: selectedEmployee.id,
-          data: updateData,
-        });
-      } else {
-        // Create new employee
-        createEmployee({
-          ...formData,
-          storeId: asStoreId(formData.storeId),
-          emailVerified: false,
-        });
-      }
+  const handleCreateSubmit = React.useCallback(
+    (formData: CreateEmployeeData) => {
+      createEmployee({
+        ...formData,
+        storeId: asStoreId(formData.storeId),
+      });
     },
-    [selectedEmployee, updateEmployee, createEmployee],
+    [createEmployee],
+  );
+
+  const handleEditSubmit = React.useCallback(
+    (formData: UpdateEmployeeData) => {
+      if (!selectedEmployee) return;
+
+      updateEmployee({
+        id: selectedEmployee.id,
+        data: formData,
+      });
+    },
+    [selectedEmployee, updateEmployee],
+  );
+
+  const handlePasswordReset = React.useCallback(
+    (email: string) => {
+      sendPasswordReset(email);
+    },
+    [sendPasswordReset],
   );
 
   const handleDeleteConfirm = React.useCallback(() => {
@@ -266,14 +324,25 @@ export default function EmployeesPage() {
         isLoading={isLoading}
       />
 
-      <EmployeeDialog
-        open={employeeDialogOpen}
-        onOpenChange={setEmployeeDialogOpen}
-        employee={selectedEmployee}
+      <CreateEmployeeDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
         stores={storesData?.data ?? []}
-        onSubmit={handleEmployeeSubmit}
-        isPending={createMutation.isPending || updateMutation.isPending}
+        onSubmit={handleCreateSubmit}
+        isPending={createMutation.isPending}
       />
+
+      {selectedEmployee && (
+        <EditEmployeeDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          employee={selectedEmployee}
+          onSubmit={handleEditSubmit}
+          onSendPasswordReset={handlePasswordReset}
+          isPending={updateMutation.isPending}
+          isResettingPassword={passwordResetMutation.isPending}
+        />
+      )}
 
       <DeleteDialog
         open={deleteDialogOpen}

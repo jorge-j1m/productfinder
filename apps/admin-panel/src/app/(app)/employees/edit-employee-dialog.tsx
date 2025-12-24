@@ -21,69 +21,61 @@ import {
   SelectValue,
 } from "#/components/ui/select";
 import { Badge } from "#/components/ui/badge";
+import { Mail } from "lucide-react";
 
 type EmployeeWithStore = Employee & { store: Store };
 
-interface EmployeeDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  employee?: EmployeeWithStore | null;
-  stores: Store[];
-  onSubmit: (data: {
-    storeId: string;
-    name: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: "STAFF" | "MANAGER" | "ADMIN";
-    status: "ACTIVE" | "SUSPENDED";
-  }) => void;
-  isPending?: boolean;
+export interface UpdateEmployeeData {
+  name: string;
+  firstName: string;
+  lastName: string;
+  role: "STAFF" | "MANAGER" | "ADMIN";
+  status: "ACTIVE" | "SUSPENDED";
 }
 
-export function EmployeeDialog({
+interface EditEmployeeDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  employee: EmployeeWithStore;
+  onSubmit: (data: UpdateEmployeeData) => void;
+  onSendPasswordReset: (email: string) => void;
+  isPending?: boolean;
+  isResettingPassword?: boolean;
+}
+
+export function EditEmployeeDialog({
   open,
   onOpenChange,
   employee,
-  stores,
   onSubmit,
+  onSendPasswordReset,
   isPending = false,
-}: EmployeeDialogProps) {
-  const [storeId, setStoreId] = React.useState("");
+  isResettingPassword = false,
+}: EditEmployeeDialogProps) {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [role, setRole] = React.useState<"STAFF" | "MANAGER" | "ADMIN">("STAFF");
   const [status, setStatus] = React.useState<"ACTIVE" | "SUSPENDED">("ACTIVE");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
-  // Reset form when dialog opens/closes or employee changes
+  // Initialize form with employee data when dialog opens
   React.useEffect(() => {
-    if (open) {
-      setStoreId(employee?.storeId || "");
-      setFirstName(employee?.firstName || "");
-      setLastName(employee?.lastName || "");
-      setEmail(employee?.email || "");
-      setRole(employee?.role || "STAFF");
-      setStatus(employee?.status || "ACTIVE");
+    if (open && employee) {
+      setFirstName(employee.firstName);
+      setLastName(employee.lastName);
+      setRole(employee.role);
+      setStatus(employee.status);
       setErrors({});
     }
   }, [open, employee]);
 
-  // Auto-generate full name
   const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
 
-  const validate = () => {
+  const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (!storeId) newErrors.storeId = "Store is required";
     if (!firstName.trim()) newErrors.firstName = "First name is required";
     if (!lastName.trim()) newErrors.lastName = "Last name is required";
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Invalid email format";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -92,70 +84,55 @@ export function EmployeeDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validate()) {
-      onSubmit({
-        storeId,
-        name: fullName,
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        email: email.trim().toLowerCase(),
-        role,
-        status,
-      });
-    }
+    if (!validate()) return;
+
+    onSubmit({
+      name: fullName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      role,
+      status,
+    });
   };
 
-  const isEditMode = !!employee;
+  const handlePasswordReset = () => {
+    onSendPasswordReset(employee.email);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {isEditMode ? "Edit Employee" : "Create Employee"}
-          </DialogTitle>
+          <DialogTitle>Edit Employee</DialogTitle>
           <DialogDescription>
-            {isEditMode
-              ? "Update the employee details below."
-              : "Add a new employee to your team. They will be associated with a specific store."}
+            Update employee information. Email and store assignment cannot be changed for security and data integrity reasons.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
-            {/* Store Selection */}
+            {/* Store (Read-only) */}
             <div className="grid gap-2">
-              <Label htmlFor="storeId">
-                Store <span className="text-destructive">*</span>
-              </Label>
-              <Select
-                value={storeId}
-                onValueChange={setStoreId}
-                disabled={isPending || isEditMode}
-              >
-                <SelectTrigger id="storeId">
-                  <SelectValue placeholder="Select a store" />
-                </SelectTrigger>
-                <SelectContent position="popper" className="max-h-[300px]">
-                  {stores.map((store) => (
-                    <SelectItem key={store.id} value={store.id}>
-                      <div className="flex flex-col">
-                        <span>{store.name}</span>
-                        <span className="text-xs text-muted-foreground">
-                          {store.city}, {store.state}
-                        </span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.storeId && (
-                <p className="text-sm text-destructive">{errors.storeId}</p>
-              )}
-              {isEditMode && (
-                <p className="text-xs text-muted-foreground">
-                  Store cannot be changed after creation
+              <Label>Store</Label>
+              <div className="rounded-md border bg-muted px-3 py-2">
+                <p className="font-medium">{employee.store.name}</p>
+                <p className="text-sm text-muted-foreground">
+                  {employee.store.city}, {employee.store.state}
                 </p>
-              )}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Store assignment cannot be changed after creation
+              </p>
+            </div>
+
+            {/* Email (Read-only) */}
+            <div className="grid gap-2">
+              <Label>Email</Label>
+              <div className="rounded-md border bg-muted px-3 py-2">
+                <p className="font-medium">{employee.email}</p>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Email cannot be changed after creation
+              </p>
             </div>
 
             {/* First Name */}
@@ -169,6 +146,7 @@ export function EmployeeDialog({
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="e.g., John"
                 disabled={isPending}
+                autoComplete="given-name"
               />
               {errors.firstName && (
                 <p className="text-sm text-destructive">{errors.firstName}</p>
@@ -186,6 +164,7 @@ export function EmployeeDialog({
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="e.g., Doe"
                 disabled={isPending}
+                autoComplete="family-name"
               />
               {errors.lastName && (
                 <p className="text-sm text-destructive">{errors.lastName}</p>
@@ -199,29 +178,6 @@ export function EmployeeDialog({
                 <p className="font-medium">{fullName}</p>
               </div>
             )}
-
-            {/* Email */}
-            <div className="grid gap-2">
-              <Label htmlFor="email">
-                Email <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g., john.doe@example.com"
-                disabled={isPending || isEditMode}
-              />
-              {errors.email && (
-                <p className="text-sm text-destructive">{errors.email}</p>
-              )}
-              {isEditMode && (
-                <p className="text-xs text-muted-foreground">
-                  Email cannot be changed after creation
-                </p>
-              )}
-            </div>
 
             {/* Role */}
             <div className="grid gap-2">
@@ -298,6 +254,33 @@ export function EmployeeDialog({
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Password Reset Section */}
+            <div className="rounded-md border border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950 p-4">
+              <div className="flex items-start gap-3">
+                <Mail className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5" />
+                <div className="flex-1 space-y-2">
+                  <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
+                    Password Management
+                  </p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300">
+                    Send a password reset email to allow the employee to set a new password securely.
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handlePasswordReset}
+                    disabled={isPending || isResettingPassword}
+                    className="mt-2"
+                  >
+                    {isResettingPassword
+                      ? "Sending..."
+                      : "Send Password Reset Email"}
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
           <DialogFooter>
             <Button
@@ -309,13 +292,7 @@ export function EmployeeDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending
-                ? isEditMode
-                  ? "Updating..."
-                  : "Creating..."
-                : isEditMode
-                  ? "Update"
-                  : "Create"}
+              {isPending ? "Updating..." : "Update Employee"}
             </Button>
           </DialogFooter>
         </form>
