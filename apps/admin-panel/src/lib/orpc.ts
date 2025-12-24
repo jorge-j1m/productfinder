@@ -18,7 +18,10 @@ const link = new OpenAPILink(adminRouter, {
     onError((error: unknown) => {
       // Ignore AbortErrors - they're expected when navigating away from a page
       // React Query cancels in-flight requests automatically
-      if (error instanceof Error && (error.name === 'AbortError' || error.message?.includes('aborted'))) {
+      if (
+        error instanceof Error &&
+        (error.name === "AbortError" || error.message?.includes("aborted"))
+      ) {
         return;
       }
       console.error(error);

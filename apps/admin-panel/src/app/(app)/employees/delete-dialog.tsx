@@ -42,8 +42,8 @@ export function DeleteDialog({
             <DialogTitle>Delete Employee</DialogTitle>
           </div>
           <DialogDescription className="pt-2">
-            Are you sure you want to delete <strong>{employee.name}</strong>{" "}
-            ({employee.email})? This action cannot be undone and will remove all
+            Are you sure you want to delete <strong>{employee.name}</strong> (
+            {employee.email})? This action cannot be undone and will remove all
             associated data including:
             <ul className="mt-2 list-disc list-inside space-y-1 text-sm">
               <li>Employee profile and credentials</li>

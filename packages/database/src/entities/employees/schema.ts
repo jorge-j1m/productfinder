@@ -31,11 +31,12 @@ export const employees = pgTable("employees", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull().$type<string>(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
-    .notNull(),
+    .notNull()
+    .$type<string>(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   role: employeeRoles().notNull(),

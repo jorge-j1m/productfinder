@@ -76,7 +76,17 @@ export const employeesProcedures = {
     .input(getAllEmployeesInputSchema)
     .output(paginatedEmployeesSchema)
     .handler(async ({ input, context }) => {
-      const { page, pageSize, name, email, role, status, storeId, sortBy, sortOrder } = input;
+      const {
+        page,
+        pageSize,
+        name,
+        email,
+        role,
+        status,
+        storeId,
+        sortBy,
+        sortOrder,
+      } = input;
       const offset = (page - 1) * pageSize;
 
       // Build where clause for field-based filtering
@@ -179,7 +189,9 @@ export const employeesProcedures = {
     })
     .input(
       z.object({
-        id: z.string().refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
+        id: z
+          .string()
+          .refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
       }),
     )
     .output(employeeWithStoreSchema)
@@ -260,7 +272,9 @@ export const employeesProcedures = {
     })
     .input(
       z.object({
-        id: z.string().refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
+        id: z
+          .string()
+          .refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
         data: newEmployeeSchema
           .omit({ id: true, email: true, storeId: true })
           .partial(),
@@ -312,13 +326,17 @@ export const employeesProcedures = {
     })
     .input(
       z.object({
-        id: z.string().refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
+        id: z
+          .string()
+          .refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
       }),
     )
     .output(
       z.object({
         success: z.boolean(),
-        id: z.string().refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
+        id: z
+          .string()
+          .refine(isEmployeeId, { message: "Invalid EmployeeId format" }),
       }),
     )
     .handler(async ({ input, context, errors }) => {

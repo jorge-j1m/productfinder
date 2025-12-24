@@ -7,12 +7,19 @@ import { asStoreId } from "@repo/database";
 import { orpc } from "#/lib/query/orpc";
 import { DataTable } from "./data-table";
 import { createColumns } from "./columns";
-import { CreateEmployeeDialog, type CreateEmployeeData } from "./create-employee-dialog";
-import { EditEmployeeDialog, type UpdateEmployeeData } from "./edit-employee-dialog";
+import {
+  CreateEmployeeDialog,
+  type CreateEmployeeData,
+} from "./create-employee-dialog";
+import {
+  EditEmployeeDialog,
+  type UpdateEmployeeData,
+} from "./edit-employee-dialog";
 import { DeleteDialog } from "./delete-dialog";
 import { toast } from "sonner";
 import { isDefinedError } from "@orpc/client";
 
+// Employee with store relation - follows same pattern as StoreWithBrand
 type EmployeeWithStore = Employee & { store: Store };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080";
@@ -72,18 +79,19 @@ export default function EmployeesPage() {
   // Create mutation using better-auth sign-up endpoint
   const createMutation = useMutation({
     mutationFn: async (data: CreateEmployeeData) => {
-      const response = await fetch(`${API_URL}/api/employee-auth/sign-up/email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${API_URL}/api/employee-auth/sign-up/email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         const errorMessage =
-          errorData?.message ||
-          errorData?.error ||
-          "Failed to create employee";
+          errorData?.message || errorData?.error || "Failed to create employee";
         throw new Error(errorMessage);
       }
 
@@ -154,14 +162,17 @@ export default function EmployeesPage() {
   // Password reset mutation using better-auth
   const passwordResetMutation = useMutation({
     mutationFn: async (email: string) => {
-      const response = await fetch(`${API_URL}/api/employee-auth/forget-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          redirectTo: `${window.location.origin}/reset-password`,
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/api/employee-auth/forget-password`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            redirectTo: `${window.location.origin}/reset-password`,
+          }),
+        },
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
@@ -176,7 +187,8 @@ export default function EmployeesPage() {
     },
     onSuccess: () => {
       toast.success("Password reset email sent", {
-        description: "The employee will receive instructions to reset their password",
+        description:
+          "The employee will receive instructions to reset their password",
       });
     },
     onError: (error) => {
@@ -278,9 +290,7 @@ export default function EmployeesPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Employees</h1>
-          <p className="text-muted-foreground mt-2">
-            Manage your team members
-          </p>
+          <p className="text-muted-foreground mt-2">Manage your team members</p>
         </div>
         <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
           <p className="text-destructive">

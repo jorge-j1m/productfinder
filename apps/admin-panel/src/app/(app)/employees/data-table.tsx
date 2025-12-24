@@ -194,10 +194,7 @@ export function DataTable<TData, TValue>({
                   {/* Role filter */}
                   <div className="space-y-1">
                     <label className="text-sm font-medium">Role</label>
-                    <Select
-                      value={roleFilter}
-                      onValueChange={setRoleFilter}
-                    >
+                    <Select value={roleFilter} onValueChange={setRoleFilter}>
                       <SelectTrigger>
                         <SelectValue placeholder="All roles" />
                       </SelectTrigger>

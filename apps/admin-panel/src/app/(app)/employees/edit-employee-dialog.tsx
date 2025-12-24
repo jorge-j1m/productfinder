@@ -54,7 +54,9 @@ export function EditEmployeeDialog({
 }: EditEmployeeDialogProps) {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
-  const [role, setRole] = React.useState<"STAFF" | "MANAGER" | "ADMIN">("STAFF");
+  const [role, setRole] = React.useState<"STAFF" | "MANAGER" | "ADMIN">(
+    "STAFF",
+  );
   const [status, setStatus] = React.useState<"ACTIVE" | "SUSPENDED">("ACTIVE");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
@@ -105,7 +107,8 @@ export function EditEmployeeDialog({
         <DialogHeader>
           <DialogTitle>Edit Employee</DialogTitle>
           <DialogDescription>
-            Update employee information. Email and store assignment cannot be changed for security and data integrity reasons.
+            Update employee information. Email and store assignment cannot be
+            changed for security and data integrity reasons.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -264,7 +267,8 @@ export function EditEmployeeDialog({
                     Password Management
                   </p>
                   <p className="text-sm text-amber-700 dark:text-amber-300">
-                    Send a password reset email to allow the employee to set a new password securely.
+                    Send a password reset email to allow the employee to set a
+                    new password securely.
                   </p>
                   <Button
                     type="button"

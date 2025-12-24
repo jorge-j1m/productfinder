@@ -125,18 +125,21 @@ export default function StoreBrandsPage() {
     setDeleteDialogOpen(true);
   }, []);
 
-  const handleBrandSubmit = React.useCallback((formData: { name: string; logo: string }) => {
-    if (selectedBrand) {
-      // Update existing brand
-      updateBrand({
-        id: selectedBrand.id,
-        data: formData,
-      });
-    } else {
-      // Create new brand
-      createBrand(formData);
-    }
-  }, [selectedBrand, updateBrand, createBrand]);
+  const handleBrandSubmit = React.useCallback(
+    (formData: { name: string; logo: string }) => {
+      if (selectedBrand) {
+        // Update existing brand
+        updateBrand({
+          id: selectedBrand.id,
+          data: formData,
+        });
+      } else {
+        // Create new brand
+        createBrand(formData);
+      }
+    },
+    [selectedBrand, updateBrand, createBrand],
+  );
 
   const handleDeleteConfirm = React.useCallback(() => {
     if (selectedBrand) {
@@ -144,20 +147,27 @@ export default function StoreBrandsPage() {
     }
   }, [selectedBrand, deleteBrand]);
 
-  const handleSortChange = React.useCallback((field: string, order: "asc" | "desc") => {
-    setSortBy(field as "name" | "id");
-    setSortOrder(order);
-  }, []);
+  const handleSortChange = React.useCallback(
+    (field: string, order: "asc" | "desc") => {
+      setSortBy(field as "name" | "id");
+      setSortOrder(order);
+    },
+    [],
+  );
 
   const handleSearchChange = React.useCallback((search: string) => {
     setSearch(search);
     setPage(1); // Reset to first page when searching
   }, []);
 
-  const columns = React.useMemo(() => createColumns({
-    onEdit: handleEdit,
-    onDelete: handleDelete,
-  }), [handleEdit, handleDelete]);
+  const columns = React.useMemo(
+    () =>
+      createColumns({
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+      }),
+    [handleEdit, handleDelete],
+  );
 
   // Error state
   if (isError) {

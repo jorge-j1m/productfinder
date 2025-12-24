@@ -57,7 +57,9 @@ export function CreateEmployeeDialog({
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [role, setRole] = React.useState<"STAFF" | "MANAGER" | "ADMIN">("STAFF");
+  const [role, setRole] = React.useState<"STAFF" | "MANAGER" | "ADMIN">(
+    "STAFF",
+  );
   const [status, setStatus] = React.useState<"ACTIVE" | "SUSPENDED">("ACTIVE");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
@@ -132,7 +134,8 @@ export function CreateEmployeeDialog({
         <DialogHeader>
           <DialogTitle>Create New Employee</DialogTitle>
           <DialogDescription>
-            Add a new employee to your team. They will receive login credentials and be able to access the system immediately.
+            Add a new employee to your team. They will receive login credentials
+            and be able to access the system immediately.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>

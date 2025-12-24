@@ -147,32 +147,35 @@ export default function StoresPage() {
     setDeleteDialogOpen(true);
   }, []);
 
-  const handleStoreSubmit = React.useCallback((formData: {
-    brandId: string;
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-    countryCode: string;
-    latitude: number;
-    longitude: number;
-  }) => {
-    if (selectedStore) {
-      // Update existing store (exclude brandId)
-      const { brandId: _brandId, ...updateData } = formData;
-      updateStore({
-        id: selectedStore.id,
-        data: updateData,
-      });
-    } else {
-      // Create new store
-      createStore({
-        ...formData,
-        brandId: asStoreBrandId(formData.brandId),
-      });
-    }
-  }, [selectedStore, updateStore, createStore]);
+  const handleStoreSubmit = React.useCallback(
+    (formData: {
+      brandId: string;
+      name: string;
+      address: string;
+      city: string;
+      state: string;
+      zip: string;
+      countryCode: string;
+      latitude: number;
+      longitude: number;
+    }) => {
+      if (selectedStore) {
+        // Update existing store (exclude brandId)
+        const { brandId: _brandId, ...updateData } = formData;
+        updateStore({
+          id: selectedStore.id,
+          data: updateData,
+        });
+      } else {
+        // Create new store
+        createStore({
+          ...formData,
+          brandId: asStoreBrandId(formData.brandId),
+        });
+      }
+    },
+    [selectedStore, updateStore, createStore],
+  );
 
   const handleDeleteConfirm = React.useCallback(() => {
     if (selectedStore) {
@@ -180,25 +183,35 @@ export default function StoresPage() {
     }
   }, [selectedStore, deleteStore]);
 
-  const handleSortChange = React.useCallback((field: string, order: "asc" | "desc") => {
-    setSortBy(field as "name" | "id" | "city");
-    setSortOrder(order);
-  }, []);
+  const handleSortChange = React.useCallback(
+    (field: string, order: "asc" | "desc") => {
+      setSortBy(field as "name" | "id" | "city");
+      setSortOrder(order);
+    },
+    [],
+  );
 
-  const handleFilterChange = React.useCallback((newFilters: {
-    name?: string;
-    city?: string;
-    state?: string;
-    zip?: string;
-  }) => {
-    setFilters(newFilters);
-    setPage(1); // Reset to first page when filtering
-  }, []);
+  const handleFilterChange = React.useCallback(
+    (newFilters: {
+      name?: string;
+      city?: string;
+      state?: string;
+      zip?: string;
+    }) => {
+      setFilters(newFilters);
+      setPage(1); // Reset to first page when filtering
+    },
+    [],
+  );
 
-  const columns = React.useMemo(() => createColumns({
-    onEdit: handleEdit,
-    onDelete: handleDelete,
-  }), [handleEdit, handleDelete]);
+  const columns = React.useMemo(
+    () =>
+      createColumns({
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+      }),
+    [handleEdit, handleDelete],
+  );
 
   // Error state
   if (isError) {
