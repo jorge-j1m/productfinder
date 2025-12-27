@@ -1,135 +1,212 @@
-# Turborepo starter
+# ProductFinder
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern monorepo for product finding and store management, built with TypeScript and turborepo.
 
-## Using this example
+## Repository Structure
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+This is a **Turborepo monorepo** with npm workspaces, containing multiple applications and shared packages:
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+productfinder/
+├── apps/
+│   ├── admin-panel/    # Admin dashboard (Next.js)
+│   ├── server/         # API server (Bun + Hono)
+│   └── web/            # Customer-facing app (Next.js)
+├── packages/
+│   ├── database/       # Drizzle schemas & types
+│   ├── admin-orpc/     # oRPC contracts
+│   ├── employee-auth/  # Better-auth setup
+│   ├── logger/         # Pino logger
+│   └── [config packages]
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Tech Stack
+
+### Backend (`apps/server`)
+- **Runtime**: Bun (fast JavaScript runtime)
+- **Framework**: Hono (lightweight web framework)
+- **RPC**: oRPC (type-safe RPC with OpenAPI generation)
+- **Database**: PostgreSQL + Drizzle ORM
+- **Auth**: Better-auth (employee authentication)
+- **Testing**: Bun test with transaction isolation
+- **IDs**: TypeID (branded, sortable unique identifiers)
+
+### Admin Panel (`apps/admin-panel`)
+- **Framework**: Next.js 15 + Turbopack
+- **Styling**: Tailwind CSS v4
+- **Components**: Radix UI primitives
+- **Data Fetching**: TanStack Query + oRPC client
+- **Auth**: Better-auth React client
+- **Rendering**: Client-side data fetching (no SSR complexity)
+
+### Web App (`apps/web`)
+- **Framework**: Next.js 15 + Turbopack
+- **Styling**: Tailwind CSS v4
+- Status: Placeholder/minimal implementation
+
+### Shared Packages
+
+#### `@repo/database`
+- Drizzle ORM schemas organized by entity
+- Branded TypeID validators for type safety
+- Zod schemas for runtime validation
+- Relational query utilities
+- Entity-based structure: `entities/stores/`, `entities/employees/`, etc.
+
+#### `@repo/admin-orpc`
+- Shared oRPC contract between server and admin-panel
+- Type-safe API procedures with Zod validation
+- Automatic OpenAPI/Scalar documentation
+- Standardized pagination, filtering, and sorting
+
+#### `@repo/employee-auth`
+- Better-auth client/server configuration
+- Custom employee fields (role, storeId, status)
+- Type-safe session hooks
+
+#### `@repo/logger`
+- Pino-based logging utilities
+- Shared logger instance
+- Child logger creation for context
+
+## How It All Connects
+
+### Type-Safe Communication Flow
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+Admin Panel (Next.js)
+    ↓ HTTP requests
+    ↓ via oRPC client
+    ↓
+Server (Hono)
+    ↓ /rpc/* endpoints
+    ↓ oRPC handler
+    ↓
+@repo/admin-orpc (shared contract)
+    ↓ procedures
+    ↓
+Database (PostgreSQL)
+    ↓ via Drizzle ORM
+    ↓
+@repo/database (schemas)
 ```
 
-### Develop
+### Key Architectural Patterns
 
-To develop all apps and packages, run the following command:
+1. **Entity-Based Organization**: Each database entity (stores, employees, brands) lives in its own folder with schema, types, IDs, and validators.
 
-```
-cd my-turborepo
+2. **Branded TypeIDs**: All IDs use TypeID with branded types for compile-time safety (e.g., `StoreId`, `EmployeeId`).
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+3. **oRPC Contract Sharing**: The `admin-orpc` package defines type-safe procedures used by both server and client, ensuring end-to-end type safety.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+4. **Client-Side Data Fetching**: Admin panel uses TanStack Query for data fetching, keeping the UI fresh and avoiding SSR complexity.
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+5. **Test Isolation**: Server tests use transaction-based isolation (BEGIN → test → ROLLBACK) for fast, independent test runs.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+6. **Role-Based Access**: Employee authentication with three roles (STAFF, MANAGER, ADMIN) controlling UI navigation and API access.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## Getting Started
 
-### Remote Caching
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database
+- npm 11+
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Installation
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+npm install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Database Setup
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+```bash
+# Set up your database connection in .env
+DATABASE_URL=postgresql://user:password@localhost:5432/productfinder
+TEST_DATABASE_URL=postgresql://user:password@localhost:5432/productfinder_test
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+# Run migrations
+cd apps/server
+bunx drizzle-kit push
 ```
 
-## Useful Links
+### Development
 
-Learn more about the power of Turborepo:
+Run all apps in development mode:
+```bash
+npm run dev
+```
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+Run specific apps:
+```bash
+# Server only
+npm run dev --filter=server
+
+# Admin panel only
+npm run dev --filter=admin-panel
+```
+
+### Testing
+
+```bash
+# Run all tests
+npm run test
+
+# Server tests only
+npm run test --filter=server
+```
+
+### Code Quality
+
+```bash
+# Format code
+npm run format
+
+# Lint
+npm run lint
+
+# Type check
+npm run check-types
+
+# Build
+npm run build
+
+# Run all checks (format + lint + type-check + build + test)
+npm run check
+```
+
+## Environment Variables
+
+### Server (`apps/server`)
+- `DATABASE_URL`: PostgreSQL connection string
+- `TEST_DATABASE_URL`: Test database connection string
+- `BETTER_AUTH_SECRET`: Secret for auth token signing
+- `BETTER_AUTH_URL`: Base URL for auth callbacks
+- `LOG_LEVEL`: Logging level (info, debug, error)
+- `NODE_ENV`: Environment (development, production, test)
+
+### Admin Panel (`apps/admin-panel`)
+- `NEXT_PUBLIC_API_URL`: Server API URL (default: http://127.0.0.1:8080)
+
+## Key Features
+
+- ✅ **Multi-store Management**: Manage multiple store brands and locations
+- ✅ **Employee Management**: CRUD operations with role-based access
+- ✅ **Type-Safe APIs**: End-to-end TypeScript with runtime validation
+- ✅ **Authentication**: Better-auth with employee-specific fields
+- ✅ **Comprehensive Testing**: Transaction-isolated tests with Bun
+- ✅ **Auto-Generated Docs**: OpenAPI/Scalar docs from oRPC contracts
+
+## Project Commands
+
+- `npm run dev` - Start all apps in development
+- `npm run build` - Build all apps
+- `npm run test` - Run all tests
+- `npm run lint` - Lint all code
+- `npm run format` - Format all code with Prettier
+- `npm run check-types` - Type check all packages
+- `npm run check` - Run all validation (format, lint, type-check, build, test)
+
+## Documentation
+
+For detailed coding guidelines and conventions, see `.windsurf/rules/repo-rules.md`.

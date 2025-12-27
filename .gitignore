@@ -36,4 +36,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
-docs/
+
+# Docs (but keep LLM documentation)
+docs/*
+!docs/llms/
