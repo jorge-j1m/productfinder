@@ -236,13 +236,15 @@ export default function StoresPage() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Stores</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Stores</h1>
         <p className="text-muted-foreground mt-2">
           Manage your store locations across South Florida
         </p>
       </div>
 
+      {/* Data Table */}
       <DataTable<StoreWithBrand, unknown>
         columns={columns}
         data={data?.data ?? []}

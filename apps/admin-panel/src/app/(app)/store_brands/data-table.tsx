@@ -110,6 +110,7 @@ export function DataTable<TData, TValue>({
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-2">
+          <h1 className="text-4xl font-bold tracking-tight ml-2 mr-20">Store Brands</h1>
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -127,11 +128,11 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border bg-card shadow-sm">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="border-b bg-muted/50">
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -147,19 +148,22 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              // Loading skeleton
+              // Loading skeleton with shimmer animation
               Array.from({ length: pagination.pageSize }).map((_, index) => (
                 <TableRow key={index}>
                   {columns.map((_, cellIndex) => (
                     <TableCell key={cellIndex}>
-                      <Skeleton className="h-6 w-full" />
+                      <Skeleton className="h-6 w-full animate-pulse" />
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  className="transition-colors hover:bg-muted/50"
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
@@ -174,9 +178,28 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-48 text-center"
                 >
-                  No results found.
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <div className="rounded-full bg-muted p-4">
+                      <Search className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">No brands found</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Try adjusting your search or create a new brand
+                      </p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={onCreateNew}
+                      className="mt-2"
+                    >
+                      <Plus className="mr-2 h-4 w-4" />
+                      Create Brand
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             )}

@@ -14,6 +14,7 @@ trigger: always_on
 - Implementing features with Better-auth, Drizzle, Hono, Next.js, oRPC, or Turborepo
 
 Available documentation:
+
 - `docs/llms/better-auth-llms-full.txt` - Authentication patterns and API reference
 - `docs/llms/drizzle-llms-full.txt` - Database ORM usage and schema patterns
 - `docs/llms/hono-llms-full.txt` - Web framework and middleware patterns
@@ -26,11 +27,13 @@ Available documentation:
 ## When Documentation Conflicts
 
 If you find conflicts between:
+
 1. These rules files (`.windsurf/rules/*.md`)
 2. Official tech docs (`/docs/llms/*.txt`)
 3. Existing codebase patterns
 
 **STOP and ask for clarification** before proceeding. Explain:
+
 - What the conflict is
 - What each source suggests
 - Your recommendation based on the context

@@ -33,6 +33,7 @@ Client & Server Code
 ```
 
 **Rules:**
+
 - ✅ ALL types derive from Drizzle schemas using `createSelectSchema`/`createInsertSchema`
 - ✅ ONLY exception: Branded IDs get custom Zod refinements for type safety
 - ❌ NEVER define custom types client-side or server-side that duplicate entity shapes
@@ -79,6 +80,7 @@ export const storeIdSchema = z.custom<StoreId>((val) => isStoreId(val), {
 ```
 
 Then in `types.ts`:
+
 ```typescript
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { stores } from "./schema";
@@ -128,7 +130,7 @@ export const storesProcedures = {
       z.object({
         // Use string for OpenAPI compatibility, refine for validation
         id: z.string().refine(isStoreId, { message: "Invalid StoreId format" }),
-      })
+      }),
     )
     .output(storeSchema)
     .handler(async ({ input, context, errors }) => {
@@ -146,6 +148,7 @@ export const storesProcedures = {
 ```
 
 **Important**:
+
 - Route IDs are `z.string().refine(isXxxId, ...)` for OpenAPI generation
 - Always use `asXxxId(input.id)` in the handler to get the branded type
 - This pattern applies to ALL custom entities

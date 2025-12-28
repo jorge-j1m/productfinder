@@ -190,13 +190,7 @@ export default function StoreBrandsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Store Brands</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage your store brands for South Florida locations
-        </p>
-      </div>
-
+      {/* Data Table */}
       <DataTable<StoreBrand, unknown>
         columns={columns}
         data={data?.data ?? []}
@@ -211,7 +205,7 @@ export default function StoreBrandsPage() {
         onPageChange={setPage}
         onPageSizeChange={(newPageSize) => {
           setPageSize(newPageSize);
-          setPage(1); // Reset to first page when changing page size
+          setPage(1);
         }}
         onSearchChange={handleSearchChange}
         onSortChange={handleSortChange}

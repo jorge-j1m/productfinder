@@ -23,6 +23,7 @@ productfinder/
 ## Tech Stack
 
 ### Backend (`apps/server`)
+
 - **Runtime**: Bun (fast JavaScript runtime)
 - **Framework**: Hono (lightweight web framework)
 - **RPC**: oRPC (type-safe RPC with OpenAPI generation)
@@ -32,6 +33,7 @@ productfinder/
 - **IDs**: TypeID (branded, sortable unique identifiers)
 
 ### Admin Panel (`apps/admin-panel`)
+
 - **Framework**: Next.js 15 + Turbopack
 - **Styling**: Tailwind CSS v4
 - **Components**: Radix UI primitives
@@ -40,6 +42,7 @@ productfinder/
 - **Rendering**: Client-side data fetching (no SSR complexity)
 
 ### Web App (`apps/web`)
+
 - **Framework**: Next.js 15 + Turbopack
 - **Styling**: Tailwind CSS v4
 - Status: Placeholder/minimal implementation
@@ -47,6 +50,7 @@ productfinder/
 ### Shared Packages
 
 #### `@repo/database`
+
 - Drizzle ORM schemas organized by entity
 - Branded TypeID validators for type safety
 - Zod schemas for runtime validation
@@ -54,17 +58,20 @@ productfinder/
 - Entity-based structure: `entities/stores/`, `entities/employees/`, etc.
 
 #### `@repo/admin-orpc`
+
 - Shared oRPC contract between server and admin-panel
 - Type-safe API procedures with Zod validation
 - Automatic OpenAPI/Scalar documentation
 - Standardized pagination, filtering, and sorting
 
 #### `@repo/employee-auth`
+
 - Better-auth client/server configuration
 - Custom employee fields (role, storeId, status)
 - Type-safe session hooks
 
 #### `@repo/logger`
+
 - Pino-based logging utilities
 - Shared logger instance
 - Child logger creation for context
@@ -108,6 +115,7 @@ Database (PostgreSQL)
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL database
 - npm 11+
@@ -133,11 +141,13 @@ bunx drizzle-kit push
 ### Development
 
 Run all apps in development mode:
+
 ```bash
 npm run dev
 ```
 
 Run specific apps:
+
 ```bash
 # Server only
 npm run dev --filter=server
@@ -178,6 +188,7 @@ npm run check
 ## Environment Variables
 
 ### Server (`apps/server`)
+
 - `DATABASE_URL`: PostgreSQL connection string
 - `TEST_DATABASE_URL`: Test database connection string
 - `BETTER_AUTH_SECRET`: Secret for auth token signing
@@ -186,6 +197,7 @@ npm run check
 - `NODE_ENV`: Environment (development, production, test)
 
 ### Admin Panel (`apps/admin-panel`)
+
 - `NEXT_PUBLIC_API_URL`: Server API URL (default: http://127.0.0.1:8080)
 
 ## Key Features
