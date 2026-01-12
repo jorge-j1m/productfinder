@@ -110,7 +110,9 @@ export function DataTable<TData, TValue>({
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-2">
-          <h1 className="text-4xl font-bold tracking-tight ml-2 mr-20">Store Brands</h1>
+          <h1 className="text-4xl font-bold tracking-tight ml-2 mr-20">
+            Store Brands
+          </h1>
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
