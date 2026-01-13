@@ -14,14 +14,14 @@
     }
   },
   "dependencies": {
-    "@orpc/server": "^1.9.3",
-    "zod": "^4.1.12"
+    "@orpc/server": "^1.13.4",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@repo/database": "*",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "eslint": "^9",
-    "typescript": "latest"
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3"
   }
 }
