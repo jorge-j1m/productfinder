@@ -44,7 +44,7 @@ export const EmployeeExtension = {
   storeId: {
     type: "string",
     required: true,
-    references: { model: "stores", field: "id" },
+    // Note: Relation to stores table is managed by Drizzle, not better-auth
   },
   status: {
     type: "string",
