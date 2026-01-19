@@ -23,21 +23,6 @@ This document defines the core business logic rules for the Product Finder appli
 - Users can optionally provide a phone number (max 20 characters)
 - Only active users can create shopping lists or perform any application functions
 
-## Brands
-
-### Core Brand Rules
-
-- Brand names must be unique across the system
-- Brand names cannot exceed 100 characters and cannot be blank
-- Only active brands appear in product assignment and searches
-
-## Categories
-
-### Core Category Rules
-
-- Category names must be unique across the system
-- Only active categories appear in product assignment and searches
-
 ## Products
 
 ### Core Product Rules
@@ -45,10 +30,7 @@ This document defines the core business logic rules for the Product Finder appli
 - A product must have a unique name within the system
 - A product can have a unique barcode if one is provided (barcodes are optional, but unique)
 - A product must have a unique SKU (Stock Keeping Unit) up to 100 characters (required field)
-- A product must belong to exactly one active brand (required relationship)
-- A product must belong to exactly one active category (required relationship)
-- Product availability is determined per store by inventory levels, not at product level
-- Only active products appear in customer searches and listings
+- Product availability and price is determined per store by inventory levels, not at product level
 - A product has a "stock_type" field with enum values "WEIGHT" or "UNITS"
   - WEIGHT: Product is sold by weight (inventory/prices interpreted as grams/cents per gram)
   - UNITS: Product is sold by discrete units (inventory/prices interpreted as units/cents per unit)
