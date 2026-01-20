@@ -6,6 +6,7 @@ import {
   employee_sessions,
   employee_accounts,
 } from "./entities/employees/schema";
+import { products } from "./entities/products/schema";
 
 /**
  * Central relations file for all database entities
@@ -57,3 +58,6 @@ export const employeeAccountsRelations = relations(
     }),
   }),
 );
+
+// Products relations (standalone entity, relations will be added with inventory)
+export const productsRelations = relations(products, ({}) => ({}));

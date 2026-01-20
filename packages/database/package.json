@@ -36,6 +36,10 @@
     "./employees": {
       "types": "./src/entities/employees/index.ts",
       "default": "./src/entities/employees/index.ts"
+    },
+    "./products": {
+      "types": "./src/entities/products/index.ts",
+      "default": "./src/entities/products/index.ts"
     }
   },
   "dependencies": {
