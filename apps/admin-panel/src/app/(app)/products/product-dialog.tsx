@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "#/components/ui/select";
+import { BarcodeScanner } from "#/components/barcode-scanner";
+import { ScanBarcode } from "lucide-react";
 
 interface ProductDialogProps {
   open: boolean;
@@ -50,6 +52,7 @@ export function ProductDialog({
   const [stockType, setStockType] = React.useState<"WEIGHT" | "UNITS">("UNITS");
   const [image, setImage] = React.useState("");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
+  const [scannerOpen, setScannerOpen] = React.useState(false);
 
   // Reset form when dialog opens/closes or product changes
   React.useEffect(() => {
@@ -193,14 +196,26 @@ export function ProductDialog({
 
             <div className="grid gap-2">
               <Label htmlFor="barcode">Barcode</Label>
-              <Input
-                id="barcode"
-                value={barcode}
-                onChange={(e) => setBarcode(e.target.value)}
-                placeholder="e.g., 0123456789012"
-                disabled={isPending}
-                className="font-mono"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="barcode"
+                  value={barcode}
+                  onChange={(e) => setBarcode(e.target.value)}
+                  placeholder="e.g., 0123456789012"
+                  disabled={isPending}
+                  className="font-mono flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setScannerOpen(true)}
+                  disabled={isPending}
+                  title="Scan barcode"
+                >
+                  <ScanBarcode className="h-4 w-4" />
+                </Button>
+              </div>
               <p className="text-xs text-muted-foreground">
                 Optional. Must be unique if provided.
               </p>
@@ -258,6 +273,12 @@ export function ProductDialog({
           </DialogFooter>
         </form>
       </DialogContent>
+
+      <BarcodeScanner
+        open={scannerOpen}
+        onOpenChange={setScannerOpen}
+        onScan={(scannedBarcode) => setBarcode(scannedBarcode)}
+      />
     </Dialog>
   );
 }
