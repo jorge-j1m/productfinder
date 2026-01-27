@@ -21,7 +21,55 @@ import {
   SelectValue,
 } from "#/components/ui/select";
 import { BarcodeScanner } from "#/components/barcode-scanner";
-import { ScanBarcode } from "lucide-react";
+import { ScanBarcode, Loader2, Search } from "lucide-react";
+import { toast } from "sonner";
+
+interface OpenFoodFactsProduct {
+  product_name?: string;
+  generic_name?: string;
+  brands?: string;
+  image_url?: string;
+  selected_images?: {
+    front?: {
+      display?: { url?: string };
+    };
+  };
+}
+
+interface OpenFoodFactsResponse {
+  status: number;
+  status_verbose: string;
+  product?: OpenFoodFactsProduct;
+}
+
+async function fetchProductByBarcode(
+  barcode: string,
+): Promise<OpenFoodFactsProduct | null> {
+  try {
+    const response = await fetch(
+      `https://world.openfoodfacts.net/api/v2/product/${barcode}`,
+      {
+        headers: {
+          "User-Agent": "ProductFinder Admin Panel - Development",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data: OpenFoodFactsResponse = await response.json();
+
+    if (data.status !== 1 || !data.product) {
+      return null;
+    }
+
+    return data.product;
+  } catch {
+    return null;
+  }
+}
 
 interface ProductDialogProps {
   open: boolean;
@@ -53,6 +101,7 @@ export function ProductDialog({
   const [image, setImage] = React.useState("");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [scannerOpen, setScannerOpen] = React.useState(false);
+  const [isLookingUp, setIsLookingUp] = React.useState(false);
 
   // Reset form when dialog opens/closes or product changes
   React.useEffect(() => {
@@ -108,6 +157,57 @@ export function ProductDialog({
       });
     }
   };
+
+  const handleBarcodeScan = React.useCallback(
+    async (scannedBarcode: string) => {
+      setBarcode(scannedBarcode);
+      setIsLookingUp(true);
+
+      try {
+        const productData = await fetchProductByBarcode(scannedBarcode);
+
+        if (productData) {
+          // Auto-fill name if empty or if we're creating a new product
+          if (!name.trim() && productData.product_name) {
+            setName(productData.product_name);
+          }
+
+          // Auto-fill image if empty
+          if (!image.trim()) {
+            const imageUrl =
+              productData.image_url ||
+              productData.selected_images?.front?.display?.url;
+            if (imageUrl) {
+              setImage(imageUrl);
+            }
+          }
+
+          // Auto-fill description if empty - combine generic_name and brands
+          if (!description.trim()) {
+            const parts: string[] = [];
+            if (productData.generic_name) {
+              parts.push(productData.generic_name);
+            }
+            if (productData.brands) {
+              parts.push(`Brand: ${productData.brands}`);
+            }
+            if (parts.length > 0) {
+              setDescription(parts.join(". "));
+            }
+          }
+
+          toast.success("Product details loaded from Open Food Facts");
+        } else {
+          toast.info("Product not found in Open Food Facts database");
+        }
+      } catch {
+        toast.error("Failed to look up product details");
+      } finally {
+        setIsLookingUp(false);
+      }
+    },
+    [name, image, description],
+  );
 
   const isEditMode = !!product;
 
@@ -202,15 +302,31 @@ export function ProductDialog({
                   value={barcode}
                   onChange={(e) => setBarcode(e.target.value)}
                   placeholder="e.g., 0123456789012"
-                  disabled={isPending}
+                  disabled={isPending || isLookingUp}
                   className="font-mono flex-1"
                 />
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
+                  onClick={() =>
+                    barcode.trim() && handleBarcodeScan(barcode.trim())
+                  }
+                  disabled={isPending || isLookingUp || !barcode.trim()}
+                  title="Look up product details"
+                >
+                  {isLookingUp ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Search className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
                   onClick={() => setScannerOpen(true)}
-                  disabled={isPending}
+                  disabled={isPending || isLookingUp}
                   title="Scan barcode"
                 >
                   <ScanBarcode className="h-4 w-4" />
@@ -218,6 +334,7 @@ export function ProductDialog({
               </div>
               <p className="text-xs text-muted-foreground">
                 Optional. Must be unique if provided.
+                {isLookingUp && " Looking up product details..."}
               </p>
             </div>
 
@@ -277,7 +394,7 @@ export function ProductDialog({
       <BarcodeScanner
         open={scannerOpen}
         onOpenChange={setScannerOpen}
-        onScan={(scannedBarcode) => setBarcode(scannedBarcode)}
+        onScan={handleBarcodeScan}
       />
     </Dialog>
   );

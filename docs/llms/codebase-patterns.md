@@ -122,13 +122,22 @@ Location: `packages/admin-orpc/src/{entity}.ts`
 ```typescript
 import { os } from "@orpc/server";
 import { z } from "zod";
-import { DB, products, productSchema, isProductId, asProductId } from "@repo/database";
+import {
+  DB,
+  products,
+  productSchema,
+  isProductId,
+  asProductId,
+} from "@repo/database";
 import { eq, asc, desc, ilike, count, and } from "drizzle-orm";
 
 const osdb = os.$context<{ db: DB; requestId: string }>().errors({
   INTERNAL_SERVER_ERROR: { status: 500, message: "Internal server error" },
   NOT_FOUND: { status: 404, message: "Product not found" },
-  CONFLICT_NAME: { status: 409, message: "Product with this name already exists" },
+  CONFLICT_NAME: {
+    status: 409,
+    message: "Product with this name already exists",
+  },
   // Separate conflict errors for each unique field
 });
 
@@ -137,13 +146,13 @@ const pathBase = "/products";
 
 ### CRUD Operations
 
-| Operation | Method | Path | Key Points |
-|-----------|--------|------|------------|
-| getAll | GET | `/products` | Pagination, filtering, sorting |
-| get | GET | `/products/{id}` | Validate ID format, return 404 if not found |
-| create | POST | `/products` | Check all unique constraints, return 201 |
-| update | PUT | `/products/{id}` | Check exists, check unique only if field changed |
-| delete | DELETE | `/products/{id}` | Check exists first |
+| Operation | Method | Path             | Key Points                                       |
+| --------- | ------ | ---------------- | ------------------------------------------------ |
+| getAll    | GET    | `/products`      | Pagination, filtering, sorting                   |
+| get       | GET    | `/products/{id}` | Validate ID format, return 404 if not found      |
+| create    | POST   | `/products`      | Check all unique constraints, return 201         |
+| update    | PUT    | `/products/{id}` | Check exists, check unique only if field changed |
+| delete    | DELETE | `/products/{id}` | Check exists first                               |
 
 ### ID Validation Pattern
 
@@ -289,18 +298,21 @@ const table = useReactTable({
 ## What NOT To Do
 
 ### Database
+
 - ❌ Define types outside of Drizzle schemas
 - ❌ Use `any` or type casting
 - ❌ Forget to push schema to both dev AND test databases
 - ❌ Forget to add relations (even empty ones)
 
 ### oRPC
+
 - ❌ Skip ID validation with `isXxxId` refinement
 - ❌ Forget to convert to branded type with `asXxxId()` in handler
 - ❌ Use single CONFLICT error for multiple unique fields
 - ❌ Check uniqueness on update without comparing to existing value
 
 ### Admin Panel
+
 - ❌ Forget `"use client"` directive
 - ❌ Skip `React.useCallback` for handlers
 - ❌ Skip `React.useMemo` for columns
@@ -333,14 +345,14 @@ cd apps/server && DATABASE_URL="..." bunx drizzle-kit push
 
 ## File Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Database tables | snake_case | `store_brands`, `employees` |
-| Entity folders | kebab-case or snake_case | `store-brands/`, `products/` |
-| React components | kebab-case | `data-table.tsx`, `brand-dialog.tsx` |
-| Variables/functions | camelCase | `handleSubmit`, `isLoading` |
-| Types | PascalCase | `Product`, `StoreBrand` |
-| TypeID prefixes | short lowercase | `prod`, `store`, `sb`, `emp` |
+| Type                | Convention               | Example                              |
+| ------------------- | ------------------------ | ------------------------------------ |
+| Database tables     | snake_case               | `store_brands`, `employees`          |
+| Entity folders      | kebab-case or snake_case | `store-brands/`, `products/`         |
+| React components    | kebab-case               | `data-table.tsx`, `brand-dialog.tsx` |
+| Variables/functions | camelCase                | `handleSubmit`, `isLoading`          |
+| Types               | PascalCase               | `Product`, `StoreBrand`              |
+| TypeID prefixes     | short lowercase          | `prod`, `store`, `sb`, `emp`         |
 
 ---
 
