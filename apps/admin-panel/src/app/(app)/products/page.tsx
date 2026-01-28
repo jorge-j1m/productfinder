@@ -35,6 +35,7 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(
     null,
   );
+  const [dialogError, setDialogError] = React.useState<string | null>(null);
 
   // Fetch products with oRPC
   const { data, isLoading, isError, error } = useQuery(
@@ -61,10 +62,16 @@ export default function ProductsPage() {
         toast.success("Product created successfully");
         setProductDialogOpen(false);
         setSelectedProduct(null);
+        setDialogError(null);
       },
       onError: (error) => {
         if (isDefinedError(error)) {
-          toast.error(error.message);
+          // Show inline error for conflict errors, keep dialog open
+          if (error.message.toLowerCase().includes("already exists")) {
+            setDialogError(error.message);
+          } else {
+            toast.error(error.message);
+          }
         } else {
           toast.error("Failed to create product");
         }
@@ -82,10 +89,16 @@ export default function ProductsPage() {
         toast.success("Product updated successfully");
         setProductDialogOpen(false);
         setSelectedProduct(null);
+        setDialogError(null);
       },
       onError: (error) => {
         if (isDefinedError(error)) {
-          toast.error(error.message);
+          // Show inline error for conflict errors, keep dialog open
+          if (error.message.toLowerCase().includes("already exists")) {
+            setDialogError(error.message);
+          } else {
+            toast.error(error.message);
+          }
         } else {
           toast.error("Failed to update product");
         }
@@ -122,11 +135,13 @@ export default function ProductsPage() {
   // Handlers
   const handleCreateNew = React.useCallback(() => {
     setSelectedProduct(null);
+    setDialogError(null);
     setProductDialogOpen(true);
   }, []);
 
   const handleEdit = React.useCallback((product: Product) => {
     setSelectedProduct(product);
+    setDialogError(null);
     setProductDialogOpen(true);
   }, []);
 
@@ -243,10 +258,14 @@ export default function ProductsPage() {
 
       <ProductDialog
         open={productDialogOpen}
-        onOpenChange={setProductDialogOpen}
+        onOpenChange={(open) => {
+          setProductDialogOpen(open);
+          if (!open) setDialogError(null);
+        }}
         product={selectedProduct}
         onSubmit={handleProductSubmit}
         isPending={createMutation.isPending || updateMutation.isPending}
+        serverError={dialogError}
       />
 
       <DeleteDialog

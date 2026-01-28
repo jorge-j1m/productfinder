@@ -21,8 +21,14 @@ import {
   SelectValue,
 } from "#/components/ui/select";
 import { BarcodeScanner } from "#/components/barcode-scanner";
-import { ScanBarcode, Loader2, Search } from "lucide-react";
+import { ScanBarcode, Loader2, Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+
+function generateSku(): string {
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `SKU-${timestamp}-${random}`;
+}
 
 interface OpenFoodFactsProduct {
   product_name?: string;
@@ -84,6 +90,7 @@ interface ProductDialogProps {
     image: string | null;
   }) => void;
   isPending?: boolean;
+  serverError?: string | null;
 }
 
 export function ProductDialog({
@@ -92,6 +99,7 @@ export function ProductDialog({
   product,
   onSubmit,
   isPending = false,
+  serverError = null,
 }: ProductDialogProps) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -108,7 +116,8 @@ export function ProductDialog({
     if (open) {
       setName(product?.name || "");
       setDescription(product?.description || "");
-      setSku(product?.sku || "");
+      // Auto-generate SKU for new products, use existing SKU for edits
+      setSku(product?.sku || generateSku());
       setBarcode(product?.barcode || "");
       setStockType(product?.stockType || "UNITS");
       setImage(product?.image || "");
@@ -240,23 +249,53 @@ export function ProductDialog({
               {errors.name && (
                 <p className="text-sm text-destructive">{errors.name}</p>
               )}
+              {serverError?.toLowerCase().includes("name") && (
+                <p className="text-sm text-destructive">{serverError}</p>
+              )}
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="sku">
                 SKU <span className="text-destructive">*</span>
               </Label>
-              <Input
-                id="sku"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-                placeholder="e.g., PROD-001"
-                disabled={isPending}
-                className="font-mono"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="sku"
+                  value={sku}
+                  onChange={(e) => setSku(e.target.value)}
+                  placeholder="e.g., PROD-001"
+                  disabled={isPending}
+                  className="font-mono flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSku(generateSku())}
+                  disabled={isPending}
+                  title="Generate new SKU"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
               {errors.sku && (
                 <p className="text-sm text-destructive">{errors.sku}</p>
               )}
+              {serverError?.toLowerCase().includes("sku") && (
+                <p className="text-sm text-destructive">
+                  {serverError}{" "}
+                  <button
+                    type="button"
+                    className="underline hover:no-underline"
+                    onClick={() => setSku(generateSku())}
+                  >
+                    Generate a new one
+                  </button>
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Auto-generated. Must be unique.
+              </p>
             </div>
 
             <div className="grid gap-2">
@@ -332,6 +371,9 @@ export function ProductDialog({
                   <ScanBarcode className="h-4 w-4" />
                 </Button>
               </div>
+              {serverError?.toLowerCase().includes("barcode") && (
+                <p className="text-sm text-destructive">{serverError}</p>
+              )}
               <p className="text-xs text-muted-foreground">
                 Optional. Must be unique if provided.
                 {isLookingUp && " Looking up product details..."}
