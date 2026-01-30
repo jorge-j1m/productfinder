@@ -13,6 +13,7 @@ import {
   employeeStatus,
 } from "./entities/employees/schema";
 import { products, stockType } from "./entities/products/schema";
+import { inventory } from "./entities/inventory/schema";
 
 // Import all relations
 import {
@@ -22,6 +23,7 @@ import {
   employeeSessionsRelations,
   employeeAccountsRelations,
   productsRelations,
+  inventoryRelations,
 } from "./relations";
 
 // Combine all schemas and relations for Drizzle
@@ -34,6 +36,7 @@ const schema = {
   employee_accounts,
   employee_verifications,
   products,
+  inventory,
   // Enums
   employeeRoles,
   employeeStatus,
@@ -45,6 +48,7 @@ const schema = {
   employeeSessionsRelations,
   employeeAccountsRelations,
   productsRelations,
+  inventoryRelations,
 };
 
 const pool = new Pool({

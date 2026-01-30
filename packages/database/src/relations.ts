@@ -7,6 +7,7 @@ import {
   employee_accounts,
 } from "./entities/employees/schema";
 import { products } from "./entities/products/schema";
+import { inventory } from "./entities/inventory/schema";
 
 /**
  * Central relations file for all database entities
@@ -25,6 +26,7 @@ export const storesRelations = relations(stores, ({ one, many }) => ({
     references: [storeBrands.id],
   }),
   employees: many(employees),
+  inventory: many(inventory),
 }));
 
 // Employees relations
@@ -59,5 +61,19 @@ export const employeeAccountsRelations = relations(
   }),
 );
 
-// Products relations (standalone entity, relations will be added with inventory)
-export const productsRelations = relations(products, ({}) => ({}));
+// Products relations
+export const productsRelations = relations(products, ({ many }) => ({
+  inventory: many(inventory),
+}));
+
+// Inventory relations
+export const inventoryRelations = relations(inventory, ({ one }) => ({
+  store: one(stores, {
+    fields: [inventory.storeId],
+    references: [stores.id],
+  }),
+  product: one(products, {
+    fields: [inventory.productId],
+    references: [products.id],
+  }),
+}));

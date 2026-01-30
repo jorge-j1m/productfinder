@@ -37,6 +37,36 @@ This document defines the core business logic rules for the Product Finder appli
 - Product descriptions can be up to 1000 characters
 - Image URLs can be up to 500 characters
 
+## Prices
+
+### Core Pricing Rules
+
+- A price links an active product to an active store
+- Price interpretation depends on product stock_type:
+  - WEIGHT products: price represents cents per gram
+  - UNITS products: price represents cents per unit
+- Each product-store combination has exactly one price record
+- All prices must be positive integers (greater than 0)
+- Prices are stored as integers representing cents (USD only, no currency field needed)
+
+### Price Storage Structure
+
+- Each price record contains:
+  - `regular_price`: integer (cents) - always present
+  - `sale_price`: integer (cents) - optional, only when on sale
+  - `sale_start_date`: datetime - optional, when sale begins
+  - `sale_end_date`: datetime - optional, when sale ends
+
+### Sale Price Logic
+
+- Use `sale_price` for calculations if:
+  - Current date >= `sale_start_date` (if start date exists)
+  - Current date <= `sale_end_date` (if end date exists)
+  - If no start/end dates, sale is permanent until manually ended
+- When sale conditions aren't met, use `regular_price`
+- Sale price must be less than regular price
+- Price changes overwrite existing values (no historical data)
+
 ## Stores
 
 ### Core Store Rules
@@ -60,37 +90,19 @@ This document defines the core business logic rules for the Product Finder appli
 - Stores can have multiple employees assigned (stored at the employee entity)
 - Each store maintains its own inventory (stored at the inventory entity) for products, and has a price for each product (stored at the price entity)
 
-## Prices
+## Inventory
 
-### Core Pricing Rules
+### Core Inventory Rules
 
-- A price links an active product to an active store
-- Price interpretation depends on product stock_type:
-  - WEIGHT products: price represents cents per gram
-  - UNITS products: price represents cents per unit
-- Each product-store combination has exactly one price record
-- All prices must be positive integers (greater than 0)
-- Prices are stored as integers representing cents (USD only, no currency field needed)
-
-### Price Storage Structure
-
-- Each price record contains:
-  - `regular_price`: integer (cents) - always present
-  - `sale_price`: integer (cents) - optional, only when on sale
-  - `is_sale`: boolean - indicates if sale pricing is active
-  - `sale_start_date`: datetime - optional, when sale begins
-  - `sale_end_date`: datetime - optional, when sale ends
-
-### Sale Price Logic
-
-- When `is_sale` is true, use `sale_price` for calculations if:
-  - Current date >= `sale_start_date` (if start date exists)
-  - Current date <= `sale_end_date` (if end date exists)
-  - If no start/end dates, sale is permanent until manually ended
-- When sale conditions aren't met, use `regular_price`
-- Sale price must be less than regular price
-- Discount percentage = ((regular_price - sale_price) / regular_price) \* 100
-- Price changes overwrite existing values (no historical data)
+- Each active product-active store combination can have exactly one inventory record
+- Inventory quantity interpretation depends on product stock_type:
+  - WEIGHT products: quantity represents grams available
+  - UNITS products: quantity represents units available
+- Inventory quantities are stored as integers and cannot be negative
+- Stock removals cannot result in negative inventory (enforce at application level)
+- Product availability per store: quantity > 0 = available, quantity = 0 = out of stock
+- Stock updates should be atomic operations
+- Only inventory for active products and active stores is considered valid
 
 ## Employees
 
@@ -113,20 +125,6 @@ This document defines the core business logic rules for the Product Finder appli
 - Only active employees can log into the system
 - Employee permissions are role-based, not individual
 - Only ADMIN can create/modify MANAGER accounts
-
-## Inventory
-
-### Core Inventory Rules
-
-- Each active product-active store combination can have exactly one inventory record
-- Inventory quantity interpretation depends on product stock_type:
-  - WEIGHT products: quantity represents grams available
-  - UNITS products: quantity represents units available
-- Inventory quantities are stored as integers and cannot be negative
-- Stock removals cannot result in negative inventory (enforce at application level)
-- Product availability per store: quantity > 0 = available, quantity = 0 = out of stock
-- Stock updates should be atomic operations
-- Only inventory for active products and active stores is considered valid
 
 ## Shopping Lists
 

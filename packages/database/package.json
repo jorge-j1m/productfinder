@@ -40,6 +40,10 @@
     "./products": {
       "types": "./src/entities/products/index.ts",
       "default": "./src/entities/products/index.ts"
+    },
+    "./inventory": {
+      "types": "./src/entities/inventory/index.ts",
+      "default": "./src/entities/inventory/index.ts"
     }
   },
   "dependencies": {

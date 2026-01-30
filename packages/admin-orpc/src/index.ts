@@ -3,6 +3,7 @@ import { storeBrandsProcedures } from "./store_brands";
 import { storesProcedures } from "./stores";
 import { employeesProcedures } from "./employees";
 import { productsProcedures } from "./products";
+import { inventoryProcedures } from "./inventory";
 
 export const adminRouter = {
   storeBrands: {
@@ -16,6 +17,9 @@ export const adminRouter = {
   },
   products: {
     ...productsProcedures,
+  },
+  inventory: {
+    ...inventoryProcedures,
   },
 };
 

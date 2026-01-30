@@ -20,6 +20,9 @@ export * from "./entities/employees";
 // ===== Products Entity =====
 export * from "./entities/products";
 
+// ===== Inventory Entity =====
+export * from "./entities/inventory";
+
 // ===== Relations (All entities) =====
 export * from "./relations";
 
