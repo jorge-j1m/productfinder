@@ -2,13 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "#/components/ui/button";
-import {
-  ArrowUpDown,
-  Pencil,
-  Trash2,
-  PackagePlus,
-  Tag,
-} from "lucide-react";
+import { ArrowUpDown, Pencil, Trash2, PackagePlus, Tag } from "lucide-react";
 import { Badge } from "#/components/ui/badge";
 import {
   Tooltip,

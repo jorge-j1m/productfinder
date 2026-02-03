@@ -57,17 +57,6 @@ const sortFieldSchema = z
   .enum(["quantity", "regularPrice", "salePrice", "id"])
   .default("id");
 
-// Paginated response schema
-const paginatedInventorySchema = z.object({
-  data: z.array(inventorySchema),
-  pagination: z.object({
-    page: z.number().positive(),
-    pageSize: z.number().positive(),
-    total: z.number().nonnegative(),
-    totalPages: z.number().nonnegative(),
-  }),
-});
-
 // Schema for inventory with relations
 const inventoryWithRelationsSchema = inventorySchema.extend({
   store: z
@@ -83,6 +72,17 @@ const inventoryWithRelationsSchema = inventorySchema.extend({
       stockType: z.enum(["WEIGHT", "UNITS"]),
     })
     .optional(),
+});
+
+// Paginated response schema (with relations for display)
+const paginatedInventorySchema = z.object({
+  data: z.array(inventoryWithRelationsSchema),
+  pagination: z.object({
+    page: z.number().positive(),
+    pageSize: z.number().positive(),
+    total: z.number().nonnegative(),
+    totalPages: z.number().nonnegative(),
+  }),
 });
 
 // Combined input schema for getAll
@@ -146,7 +146,7 @@ export const inventoryProcedures = {
       const { page, pageSize, storeId, productId, sortBy, sortOrder } = input;
       const offset = (page - 1) * pageSize;
 
-      // Build where clause
+      // Build where clause for count query
       const whereConditions = [];
 
       if (storeId) {
@@ -180,14 +180,21 @@ export const inventoryProcedures = {
       const orderByClause =
         sortOrder === "asc" ? asc(sortColumn) : desc(sortColumn);
 
-      // Get paginated data
-      const inventoryData = await context.db
-        .select()
-        .from(inventory)
-        .where(whereClause)
-        .orderBy(orderByClause)
-        .limit(pageSize)
-        .offset(offset);
+      // Get paginated data with relations
+      const inventoryData = await context.db.query.inventory.findMany({
+        where: whereClause,
+        orderBy: orderByClause,
+        limit: pageSize,
+        offset: offset,
+        with: {
+          store: {
+            columns: { id: true, name: true },
+          },
+          product: {
+            columns: { id: true, name: true, stockType: true },
+          },
+        },
+      });
 
       return {
         data: inventoryData,
