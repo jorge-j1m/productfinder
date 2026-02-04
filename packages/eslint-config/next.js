@@ -26,15 +26,7 @@ export const nextJsConfig = [
       },
     },
   },
-  {
-    plugins: {
-      "@next/next": pluginNext,
-    },
-    rules: {
-      ...pluginNext.configs.recommended.rules,
-      ...pluginNext.configs["core-web-vitals"].rules,
-    },
-  },
+  pluginNext.configs["core-web-vitals"],
   {
     plugins: {
       "react-hooks": pluginReactHooks,
@@ -48,6 +40,6 @@ export const nextJsConfig = [
     },
   },
   {
-    ignores: [".next/**", "out/**", "dist/**"],
+    ignores: [".next/**", ".next/dev/**", "out/**", "dist/**"],
   },
 ];
