@@ -368,3 +368,24 @@ import { orpc } from "#/lib/query/orpc";
 
 // Never mix styles in same file
 ```
+
+---
+
+## Public App (apps/web)
+
+See [ADR-006: Public App Architecture](../adr/006-public-app-architecture.md) for full specification.
+
+### Key Differences from Admin Panel
+
+| Concern       | Admin Panel            | Public App                        |
+| ------------- | ---------------------- | --------------------------------- |
+| Auth          | Employee (better-auth) | None for core; future user auth   |
+| oRPC package  | `@repo/admin-orpc`     | `@repo/public-orpc`               |
+| API prefix    | `/rpc/admin/*`         | `/rpc/public/*`                   |
+| Data access   | Full CRUD              | Read-only                         |
+| Data fetching | Client-side            | Client-side (simplicity over SSR) |
+| Design        | Functional admin UI    | User-facing, polished             |
+
+### Server: Single Service
+
+Both admin and public APIs run on the same Hono server (`apps/server`). Do NOT create a separate service.

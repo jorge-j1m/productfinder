@@ -40,3 +40,4 @@ yarn-error.log*
 # Docs (but keep LLM documentation)
 docs/*
 !docs/llms/
+!docs/adr/
