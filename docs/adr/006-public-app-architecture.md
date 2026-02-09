@@ -60,7 +60,7 @@ Existing tables cover the core feature set:
 | `stores`       | name, address, city, state, zip, latitude, longitude, brandId           |
 | `store_brands` | name, logo                                                              |
 | `products`     | name, description, sku, barcode, stockType (WEIGHT/UNITS), image        |
-| `inventory`    | storeId, productId, quantity, regularPrice, salePrice, sale date fields  |
+| `inventory`    | storeId, productId, quantity, regularPrice, salePrice, sale date fields |
 
 ### Pricing Display Logic
 

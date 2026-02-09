@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@repo/admin-orpc": "*",
+    "@repo/public-orpc": "*",
     "@repo/database": "*",
     "@repo/employee-auth": "*",
     "@repo/eslint-config": "*",

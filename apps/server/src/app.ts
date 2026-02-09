@@ -5,6 +5,7 @@ import storesRouter from "./routes/stores";
 import { type DB } from "@repo/database";
 import { typeid } from "typeid-js";
 import { rpcHandler } from "./orpc";
+import { publicRpcHandler } from "./public-orpc";
 import { createAuth } from "./lib/employee_auth";
 
 /**
@@ -29,7 +30,7 @@ export function createApp(db: DB) {
   app.use(
     "*",
     cors({
-      origin: ["http://localhost:3000"],
+      origin: ["http://localhost:3000", "http://localhost:3001"],
       credentials: true, // Allow cookies for authentication
     }),
   );
@@ -46,6 +47,25 @@ export function createApp(db: DB) {
     return auth.handler(c.req.raw);
   });
 
+  // Public API - no authentication required, read-only
+  // Must be mounted before /rpc/* to match the more specific path first
+  app.use("/rpc/public/*", async (c, next) => {
+    const { matched, response } = await publicRpcHandler.handle(c.req.raw, {
+      prefix: "/rpc/public",
+      context: {
+        db: c.get("db"),
+        requestId: c.get("requestId"),
+      },
+    });
+
+    if (matched) {
+      return c.newResponse(response.body, response);
+    }
+
+    return next();
+  });
+
+  // Admin API - employee authentication required
   app.use("/rpc/*", async (c, next) => {
     const { matched, response } = await rpcHandler.handle(c.req.raw, {
       prefix: "/rpc",

@@ -10,21 +10,27 @@ Each ADR follows this structure:
 # ADR-XXX: Title
 
 ## Status
+
 [Proposed | Accepted | Deprecated | Superseded]
 
 ## Context
+
 What is the issue we're seeing that is motivating this decision?
 
 ## Decision
+
 What is the change we're proposing/doing?
 
 ## Rationale
+
 Why are we making this decision? What are the key factors?
 
 ## Consequences
+
 What becomes easier or harder as a result of this change?
 
 ## Alternatives Considered
+
 What other options did we evaluate?
 ```
 
