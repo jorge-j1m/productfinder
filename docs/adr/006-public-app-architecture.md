@@ -43,9 +43,11 @@ Key questions:
 Both APIs run on the same Hono server (`apps/server`):
 
 ```
-/rpc/admin/*    -> @repo/admin-orpc (employee auth required)
+/rpc/*          -> @repo/admin-orpc (employee auth required)
 /rpc/public/*   -> @repo/public-orpc (no auth, read-only)
 ```
+
+Note: Admin kept at `/rpc/*` (not `/rpc/admin/*`) to avoid breaking existing tests and the admin panel client. Public uses the more specific `/rpc/public/*` path, mounted first in Hono for correct route precedence.
 
 ### Client-Side Data Fetching
 
