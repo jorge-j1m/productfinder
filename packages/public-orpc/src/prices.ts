@@ -83,7 +83,7 @@ const compareInputSchema = z.object({
   longitude: z.coerce.number().min(-180).max(180).optional(),
   radiusKm: z.coerce.number().positive().max(100).default(25),
   // Only show in-stock stores
-  inStockOnly: z.coerce.boolean().default(false),
+  inStockOnly: z.stringbool().default(true),
   // Filter to specific store brand
   brandId: z
     .string()

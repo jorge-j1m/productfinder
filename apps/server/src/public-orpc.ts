@@ -22,6 +22,7 @@ export const publicRpcHandler = new OpenAPIHandler(publicRouter, {
       console.log(
         ctx.request.method,
         ctx.request.url.pathname,
+        ctx.request.url.search,
         ctx.context.requestId,
       );
     }),
