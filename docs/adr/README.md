@@ -42,3 +42,5 @@ What other options did we evaluate?
 - [ADR-004: Transaction-Based Test Isolation](./004-transaction-test-isolation.md)
 - [ADR-005: Barcode Scanner and Database](./005-barcode-scanner-and-db.md)
 - [ADR-006: Public App Architecture](./006-public-app-architecture.md)
+- [ADR-007: Raw Data API with Client-Side Processing](./007-raw-api-client-side-processing.md)
+- [ADR-008: Public Frontend Design Decisions](./008-public-frontend-design-decisions.md)
