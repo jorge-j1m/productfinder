@@ -21,6 +21,7 @@ import { StockTypeBadge } from "#/components/stock-type-badge";
 import { PriceDisplay } from "#/components/price-display";
 import { orpc } from "#/lib/query/orpc";
 import { useLocation } from "#/hooks/use-location";
+import { processCompareData } from "#/lib/prices";
 import { formatPrice, formatDistance } from "#/lib/format";
 import { cn } from "#/lib/utils";
 import {
@@ -39,7 +40,7 @@ export default function ProductPriceComparisonPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const { latitude, longitude } = useLocation();
+  const { latitude, longitude, resolved: locationResolved } = useLocation();
 
   const [inStockOnly, setInStockOnly] = useState(false);
   const [brandFilter, setBrandFilter] = useState("all");
@@ -47,43 +48,41 @@ export default function ProductPriceComparisonPage({
 
   const hasLocation = latitude !== null && longitude !== null;
 
-  const { data, isLoading } = useQuery(
-    orpc.prices.compare.queryOptions({
-      input: {
-        productId: id,
-        latitude: latitude ?? undefined,
-        longitude: longitude ?? undefined,
-        inStockOnly,
-        sortBy: sortBy === "distance" && hasLocation ? "distance" : "price",
-      },
+  // Single fetch: raw product + inventory data. No filtering/sorting params.
+  // Wait for geolocation to resolve so we don't show a flash of no-distance data.
+  const { data: raw, isLoading } = useQuery({
+    ...orpc.prices.compare.queryOptions({
+      input: { productId: id },
     }),
-  );
+    enabled: locationResolved,
+  });
 
-  // Extract unique brands from response for client-side filtering
-  const brands = useMemo(() => {
-    if (!data) return [];
-    const seen = new Map<string, string>();
-    for (const store of data.stores) {
-      if (!seen.has(store.store.brand.id)) {
-        seen.set(store.store.brand.id, store.store.brand.name);
+  // All processing happens client-side via pure function
+  const { stores, bestPrice, priceRange, inStockCount, brands } =
+    useMemo(() => {
+      if (!raw) {
+        return {
+          stores: [],
+          bestPrice: null,
+          priceRange: null,
+          inStockCount: 0,
+          brands: [],
+        };
       }
-    }
-    return Array.from(seen, ([id, name]) => ({ id, name }));
-  }, [data]);
-
-  // Client-side brand filter
-  const filteredStores = useMemo(() => {
-    if (!data) return [];
-    if (brandFilter === "all") return data.stores;
-    return data.stores.filter((s) => s.store.brand.id === brandFilter);
-  }, [data, brandFilter]);
+      return processCompareData(raw.inventory, {
+        latitude,
+        longitude,
+        sortBy,
+        inStockOnly,
+        brandId: brandFilter !== "all" ? brandFilter : undefined,
+      });
+    }, [raw, latitude, longitude, sortBy, inStockOnly, brandFilter]);
 
   return (
     <div className="min-h-svh">
       <Header />
 
       <main className="mx-auto max-w-5xl px-4 py-6">
-        {/* Back link */}
         <Button
           variant="ghost"
           size="sm"
@@ -94,22 +93,22 @@ export default function ProductPriceComparisonPage({
           Back to results
         </Button>
 
-        {isLoading ? (
+        {isLoading || !locationResolved ? (
           <div className="space-y-4">
             <Skeleton className="h-32 w-full rounded-xl" />
             <Skeleton className="h-10 w-full rounded-lg" />
             <Skeleton className="h-24 w-full rounded-xl" />
             <Skeleton className="h-24 w-full rounded-xl" />
           </div>
-        ) : data ? (
+        ) : raw ? (
           <>
             {/* Product header */}
             <Card className="mb-6 py-0">
               <CardContent className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center">
-                {data.product.image ? (
+                {raw.product.image ? (
                   <Image
-                    src={data.product.image}
-                    alt={data.product.name}
+                    src={raw.product.image}
+                    alt={raw.product.name}
                     width={80}
                     height={80}
                     className="bg-muted size-20 shrink-0 rounded-lg object-cover"
@@ -122,17 +121,17 @@ export default function ProductPriceComparisonPage({
 
                 <div className="min-w-0 flex-1 space-y-2">
                   <h1 className="text-2xl font-bold tracking-tight">
-                    {data.product.name}
+                    {raw.product.name}
                   </h1>
-                  <StockTypeBadge stockType={data.product.stockType} />
+                  <StockTypeBadge stockType={raw.product.stockType} />
                 </div>
 
-                {/* Summary stats */}
+                {/* Summary stats — in-stock stores only */}
                 <div className="flex items-center gap-6 text-sm">
-                  {data.lowestPrice !== null && (
+                  {bestPrice !== null && (
                     <div className="text-center">
                       <div className="text-lg font-bold text-green-600 dark:text-green-400">
-                        {formatPrice(data.lowestPrice, data.product.stockType)}
+                        {formatPrice(bestPrice, raw.product.stockType)}
                       </div>
                       <div className="text-muted-foreground text-xs">
                         Best price
@@ -140,23 +139,23 @@ export default function ProductPriceComparisonPage({
                     </div>
                   )}
                   <div className="text-center">
-                    <div className="text-lg font-bold">{data.storeCount}</div>
+                    <div className="text-lg font-bold">{inStockCount}</div>
                     <div className="text-muted-foreground text-xs">
-                      {data.storeCount === 1 ? "Store" : "Stores"}
+                      {inStockCount === 1 ? "Store" : "Stores"} in stock
                     </div>
                   </div>
-                  {data.lowestPrice !== null && data.highestPrice !== null && (
-                    <div className="text-center">
-                      <div className="text-muted-foreground text-sm">
-                        {formatPrice(data.lowestPrice, data.product.stockType)}{" "}
-                        -{" "}
-                        {formatPrice(data.highestPrice, data.product.stockType)}
+                  {priceRange !== null &&
+                    priceRange.low !== priceRange.high && (
+                      <div className="text-center">
+                        <div className="text-muted-foreground text-sm">
+                          {formatPrice(priceRange.low, raw.product.stockType)} -{" "}
+                          {formatPrice(priceRange.high, raw.product.stockType)}
+                        </div>
+                        <div className="text-muted-foreground text-xs">
+                          Price range
+                        </div>
                       </div>
-                      <div className="text-muted-foreground text-xs">
-                        Price range
-                      </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </CardContent>
             </Card>
@@ -204,10 +203,13 @@ export default function ProductPriceComparisonPage({
             </div>
 
             {/* Store price cards */}
-            {filteredStores.length > 0 ? (
+            {stores.length > 0 ? (
               <div className="space-y-3">
-                {filteredStores.map((store, index) => {
-                  const isBest = index === 0 && sortBy === "price";
+                {stores.map((store, index) => {
+                  const isBest =
+                    store.inStock &&
+                    sortBy === "price" &&
+                    store.effectivePrice === bestPrice;
                   const isOos = !store.inStock;
 
                   return (
@@ -217,7 +219,6 @@ export default function ProductPriceComparisonPage({
                     >
                       <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3">
-                          {/* Rank */}
                           <span className="text-muted-foreground mt-0.5 w-6 text-center text-sm font-medium tabular-nums">
                             #{index + 1}
                           </span>
@@ -243,7 +244,7 @@ export default function ProductPriceComparisonPage({
                             <p className="text-muted-foreground text-sm">
                               {store.store.address}, {store.store.city}
                             </p>
-                            {store.distanceKm !== undefined && (
+                            {store.distanceKm !== null && (
                               <p className="text-muted-foreground flex items-center gap-1 text-xs">
                                 <MapPin className="size-3" />
                                 {formatDistance(store.distanceKm)}
@@ -266,7 +267,7 @@ export default function ProductPriceComparisonPage({
                             effectivePrice={store.effectivePrice}
                             regularPrice={store.regularPrice}
                             isOnSale={store.isOnSale}
-                            stockType={data.product.stockType}
+                            stockType={raw.product.stockType}
                           />
                           <div className="text-sm">
                             {store.inStock ? (
