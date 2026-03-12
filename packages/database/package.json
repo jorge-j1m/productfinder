@@ -6,7 +6,8 @@
     "build": "tsc",
     "lint": "eslint",
     "check-types": "tsc --noEmit",
-    "employee-auth": "npx @better-auth/cli generate --config ./src/employee-auth.ts --output ./src/employee-auth-schema.ts"
+    "employee-auth": "npx @better-auth/cli generate --config ./src/employee-auth.ts --output ./src/employee-auth-schema.ts",
+    "seed-products": "bun src/scripts/seed_products.ts"
   },
   "exports": {
     ".": {
