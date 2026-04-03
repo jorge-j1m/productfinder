@@ -10,11 +10,11 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "default": "./dist/index.js"
+      "default": "./src/index.ts"
     },
     "./types": {
       "types": "./src/types.ts",
-      "default": "./dist/types.js"
+      "default": "./src/types.ts"
     }
   },
   "dependencies": {
