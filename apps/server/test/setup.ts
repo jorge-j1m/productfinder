@@ -1,20 +1,24 @@
 import { beforeAll, afterAll, beforeEach, afterEach } from "bun:test";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { PGlite } from "@electric-sql/pglite";
+import { drizzle } from "drizzle-orm/pglite";
 import { sql } from "drizzle-orm";
 import type { DB } from "@repo/database";
 import * as schema from "@repo/database/schema";
 
-const TEST_DB_URL =
-  process.env.TEST_DATABASE_URL ||
-  "postgres://postgres:postgres@127.0.0.1:5432/productfinder_test";
-
-let pool: Pool;
+let client: PGlite;
 export let testDb: DB;
 
 beforeAll(async () => {
-  pool = new Pool({ connectionString: TEST_DB_URL });
-  testDb = drizzle(pool, { schema });
+  client = new PGlite();
+  const db = drizzle(client, { schema });
+
+  // Apply schema using pushSchema from drizzle-kit
+  const { pushSchema } = await import("drizzle-kit/api");
+  const { apply } = await pushSchema(schema, db);
+  await apply();
+
+  // Both drivers share the same query API, only the underlying client differs
+  testDb = db as unknown as DB;
 });
 
 beforeEach(async () => {
@@ -26,5 +30,5 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await pool.end();
+  await client.close();
 });

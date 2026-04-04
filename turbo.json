@@ -6,7 +6,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
-      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "TEST_DATABASE_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL", "LOG_LEVEL", "NODE_ENV"]
+      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL", "LOG_LEVEL", "NODE_ENV"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -17,23 +17,17 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "TEST_DATABASE_URL", "LOG_LEVEL", "NODE_ENV"]
-    },
-    "test:setup": {
-      "cache": false,
-      "env": ["TEST_DATABASE_URL", "LOG_LEVEL", "NODE_ENV"]
+      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "LOG_LEVEL", "NODE_ENV"]
     },
     "test": {
-      "dependsOn": ["^build", "test:setup"],
+      "dependsOn": ["^build"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "test/**",
         "**/*.test.ts",
-        "**/*.test.tsx",
-        ".env.test",
-        ".env.test.example"
+        "**/*.test.tsx"
       ],
-      "env": ["TEST_DATABASE_URL", "LOG_LEVEL", "NODE_ENV"],
+      "env": ["LOG_LEVEL", "NODE_ENV"],
       "cache": true
     }
   }
