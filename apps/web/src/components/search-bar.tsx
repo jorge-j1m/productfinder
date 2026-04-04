@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "#/components/ui/input";
 
-export function SearchBar() {
+function SearchBarContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
@@ -34,5 +35,25 @@ export function SearchBar() {
         className="pl-9"
       />
     </form>
+  );
+}
+
+export function SearchBar() {
+  return (
+    <Suspense
+      fallback={
+        <div className="relative w-full">
+          <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+          <Input
+            type="search"
+            placeholder="Search products..."
+            disabled
+            className="pl-9"
+          />
+        </div>
+      }
+    >
+      <SearchBarContent />
+    </Suspense>
   );
 }
