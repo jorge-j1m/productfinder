@@ -30,7 +30,11 @@ export function createApp(db: DB) {
   app.use(
     "*",
     cors({
-      origin: ["http://localhost:3000", "http://localhost:3001"],
+      origin: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        process.env.ADMIN_CLIENT_URL!,
+      ],
       credentials: true, // Allow cookies for authentication
     }),
   );

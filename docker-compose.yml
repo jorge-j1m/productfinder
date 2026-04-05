@@ -37,7 +37,8 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/productfinder
       BETTER_AUTH_SECRET: docker-dev-secret-change-in-production
-      BETTER_AUTH_URL: ${SERVER_API_URL}
+      SERVER_URL: ${SERVER_URL}
+      ADMIN_CLIENT_URL: ${ADMIN_CLIENT_URL}
     depends_on:
       migrate:
         condition: service_completed_successfully
