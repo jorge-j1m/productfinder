@@ -11,8 +11,8 @@ export const rpcHandler = new OpenAPIHandler(adminRouter, {
       schemaConverters: [new ZodToJsonSchemaConverter()],
       specGenerateOptions: {
         servers: [
-          { url: "http://localhost:8080" },
-          { url: "https://pf-server.jorgejim.com" },
+          { url: "http://localhost:8080/rpc" },
+          { url: "https://pf-server.jorgejim.com/rpc" },
         ],
         info: {
           title: "Admin API",
