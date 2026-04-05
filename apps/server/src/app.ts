@@ -48,6 +48,8 @@ export function createApp(db: DB) {
   // Handles all authentication-related requests: sign-in, sign-up, sign-out, sessions, etc.
   // Mounted at /api/employee-auth/* to match the client configuration
   app.all("/api/employee-auth/*", (c) => {
+    console.log(c.req.method, c.req.url, c.get("requestId"));
+
     return auth.handler(c.req.raw);
   });
 

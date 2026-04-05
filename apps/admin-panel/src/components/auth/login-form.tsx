@@ -62,8 +62,9 @@ export function LoginForm() {
         password,
         callbackURL,
       });
+      console.log("Login done!");
     } catch (error) {
-      console.error(error);
+      console.error("Login failed:", error);
     } finally {
       setIsLoading(false);
     }
