@@ -10,6 +10,10 @@ export const rpcHandler = new OpenAPIHandler(adminRouter, {
       docsProvider: "scalar",
       schemaConverters: [new ZodToJsonSchemaConverter()],
       specGenerateOptions: {
+        servers: [
+          { url: "http://localhost:8080" },
+          { url: "https://pf-server.jorgejim.com" },
+        ],
         info: {
           title: "Admin API",
           version: "1.0.0",
