@@ -51,8 +51,6 @@ services:
         ADMIN_PANEL_API_URL: ${ADMIN_PANEL_API_URL}
     ports:
       - "3000:3000"
-    env_file:
-      - .env.admin-panel
     depends_on:
       server:
         condition: service_started
@@ -65,8 +63,6 @@ services:
         WEB_API_URL: ${WEB_API_URL}
     ports:
       - "3001:3001"
-    env_file:
-      - .env.web
     depends_on:
       server:
         condition: service_started
