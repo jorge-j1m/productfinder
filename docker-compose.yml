@@ -37,7 +37,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/productfinder
       BETTER_AUTH_SECRET: docker-dev-secret-change-in-production
-      BETTER_AUTH_URL: https://pf-server.jorgejim.com
+      BETTER_AUTH_URL: ${SERVER_API_URL}
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -46,6 +46,8 @@ services:
     build:
       context: .
       dockerfile: apps/admin-panel/Dockerfile
+      args:
+        ADMIN_PANEL_API_URL: ${ADMIN_PANEL_API_URL}
     ports:
       - "3000:3000"
     env_file:
@@ -58,6 +60,8 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        WEB_API_URL: ${WEB_API_URL}
     ports:
       - "3001:3001"
     env_file:

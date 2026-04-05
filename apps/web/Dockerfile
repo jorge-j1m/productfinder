@@ -19,6 +19,8 @@ WORKDIR /app
 COPY --from=deps /app/ .
 COPY --from=prune /app/out/full/ .
 
+ARG WEB_API_URL
+ENV NEXT_PUBLIC_API_URL=${WEB_API_URL}
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build --workspace=web
 

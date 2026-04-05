@@ -4,7 +4,7 @@ import { OpenAPILink } from "@orpc/openapi-client/fetch";
 import { type AdminRouter, adminRouter } from "@repo/admin-orpc";
 
 const link = new OpenAPILink(adminRouter, {
-  url: "http://127.0.0.1:8080/rpc",
+  url: (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080") + "/rpc",
   // headers: () => ({
   //   'x-api-key': 'my-api-key',
   // }),
