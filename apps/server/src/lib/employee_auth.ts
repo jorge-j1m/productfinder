@@ -19,9 +19,9 @@ export function createAuth(database: DB): Auth {
       ...employeeAuthConfig.advanced,
       crossSubDomainCookies: {
         enabled: process.env.NODE_ENV === "production",
-        domain: ".jorgejim.com"
+        domain: ".jorgejim.com",
       },
-      cookiePrefix: 'better-auth'
+      cookiePrefix: "better-auth",
     },
 
     // Database adapter using Drizzle ORM with PostgreSQL
@@ -29,14 +29,11 @@ export function createAuth(database: DB): Auth {
       provider: "pg",
     }),
 
-    trustedOrigins: [
-      "http://localhost:3000",
-      process.env.ADMIN_CLIENT_URL || "http://localhost:3000",
-    ],
+    trustedOrigins: ["http://localhost:3000", process.env.ADMIN_CLIENT_URL!],
 
     // Base URL for the auth server
     // Used for generating callback URLs and handling redirects
-    baseURL: process.env.SERVER_URL || "http://localhost:8080",
+    baseURL: process.env.ADMIN_CLIENT_URL!,
 
     // Base path for auth endpoints
     // All auth routes will be prefixed with this path
