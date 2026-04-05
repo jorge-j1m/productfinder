@@ -60,7 +60,8 @@ export function LoginForm() {
       await employeeSignIn.email({
         email,
         password,
-        callbackURL,
+        // Set the callback URL to be "host" + callbackURL
+        callbackURL: window.location.origin + callbackURL,
       });
       console.log("Login done!");
     } catch (error) {

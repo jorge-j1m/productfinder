@@ -14,6 +14,15 @@ export function createAuth(database: DB): Auth {
     // This includes: custom table names, employee fields, and ID generation
     ...employeeAuthConfig,
 
+    // Solving prod problems
+    advanced: {
+      crossSubDomainCookies: {
+        enabled: process.env.NODE_ENV === "production",
+        domain: ".jorgejim.com"
+      },
+      cookiePrefix: 'better-auth'
+    },
+
     // Database adapter using Drizzle ORM with PostgreSQL
     database: drizzleAdapter(database, {
       provider: "pg",

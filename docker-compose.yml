@@ -39,6 +39,7 @@ services:
       BETTER_AUTH_SECRET: docker-dev-secret-change-in-production
       SERVER_URL: ${SERVER_URL}
       ADMIN_CLIENT_URL: ${ADMIN_CLIENT_URL}
+      SERVER_NODE_ENV: ${SERVER_NODE_ENV}
     depends_on:
       migrate:
         condition: service_completed_successfully
