@@ -16,6 +16,7 @@ export function createAuth(database: DB): Auth {
 
     // Solving prod problems
     advanced: {
+      ...employeeAuthConfig.advanced,
       crossSubDomainCookies: {
         enabled: process.env.NODE_ENV === "production",
         domain: ".jorgejim.com"
