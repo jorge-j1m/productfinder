@@ -15,6 +15,7 @@ export function proxy(request: NextRequest) {
     request.cookies.get("better-auth.session_token") ||
     request.cookies.get("session_token") ||
     request.cookies.get("better_auth.session_token") ||
+    request.cookies.get("__Secure-better-auth.session_token") ||
     request.cookies.get("auth_session");
 
   // If no session cookie, redirect to login with callback URL
