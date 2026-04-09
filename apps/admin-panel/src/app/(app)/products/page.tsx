@@ -4,6 +4,7 @@ import * as React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Product } from "@repo/database/types";
 import { orpc } from "#/lib/query/orpc";
+import { client } from "#/lib/orpc";
 import { DataTable } from "./data-table";
 import { createColumns } from "./columns";
 import { ProductDialog } from "./product-dialog";
@@ -201,6 +202,24 @@ export default function ProductsPage() {
     [],
   );
 
+  const handleBarcodeScan = React.useCallback(
+    async (barcode: string): Promise<string | null> => {
+      try {
+        const product = await client.products.getByBarcode({ barcode });
+        toast.success(`Found product: ${product.name}`);
+        return product.name;
+      } catch (error) {
+        if (isDefinedError(error)) {
+          toast.error(`No product found for barcode "${barcode}"`);
+        } else {
+          toast.error("Failed to look up barcode");
+        }
+        return null;
+      }
+    },
+    [],
+  );
+
   const columns = React.useMemo(
     () =>
       createColumns({
@@ -253,6 +272,7 @@ export default function ProductsPage() {
         onFilterChange={handleFilterChange}
         onSortChange={handleSortChange}
         onCreateNew={handleCreateNew}
+        onBarcodeScan={handleBarcodeScan}
         isLoading={isLoading}
       />
 

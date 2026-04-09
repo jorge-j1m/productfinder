@@ -26,7 +26,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "#/components/ui/select";
-import { ChevronLeft, ChevronRight, Plus, Package } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Package,
+  ScanBarcode,
+} from "lucide-react";
+import { BarcodeScanner } from "#/components/barcode-scanner";
 import { Skeleton } from "#/components/ui/skeleton";
 
 interface PaginationInfo {
@@ -49,6 +56,7 @@ interface DataTableProps<TData, TValue> {
   }) => void;
   onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
   onCreateNew: () => void;
+  onBarcodeScan: (barcode: string) => Promise<string | null>;
   isLoading?: boolean;
 }
 
@@ -61,12 +69,14 @@ export function DataTable<TData, TValue>({
   onFilterChange,
   onSortChange,
   onCreateNew,
+  onBarcodeScan,
   isLoading = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [nameFilter, setNameFilter] = React.useState("");
   const [skuFilter, setSkuFilter] = React.useState("");
   const [stockTypeFilter, setStockTypeFilter] = React.useState<string>("all");
+  const [scannerOpen, setScannerOpen] = React.useState(false);
 
   // Use refs to store latest callbacks to avoid effect re-runs
   const onFilterChangeRef = React.useRef(onFilterChange);
@@ -149,11 +159,28 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={onCreateNew}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Product
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => setScannerOpen(true)}>
+            <ScanBarcode className="mr-2 h-4 w-4" />
+            Scan Barcode
+          </Button>
+          <Button onClick={onCreateNew}>
+            <Plus className="mr-2 h-4 w-4" />
+            New Product
+          </Button>
+        </div>
       </div>
+
+      <BarcodeScanner
+        open={scannerOpen}
+        onOpenChange={setScannerOpen}
+        onScan={async (barcode) => {
+          const productName = await onBarcodeScan(barcode);
+          if (productName) {
+            setNameFilter(productName);
+          }
+        }}
+      />
 
       {/* Table */}
       <div className="rounded-lg border bg-card shadow-sm">
