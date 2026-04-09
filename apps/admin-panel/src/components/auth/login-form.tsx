@@ -14,7 +14,6 @@ import {
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { employeeSignIn } from "@repo/employee-auth";
-import { useSearchParams } from "next/navigation";
 
 // Client-side validation schemas - individual field validation
 const emailSchema = z.email();
@@ -27,8 +26,7 @@ export function LoginForm() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
-  const searchParams = useSearchParams();
-  const callbackURL = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackURL =  "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
