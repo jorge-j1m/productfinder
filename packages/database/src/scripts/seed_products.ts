@@ -10,8 +10,8 @@
  *   bun --inspect-brk src/scripts/seed_products.ts
  */
 
-import * as readline from "node:readline/promises";
 import { randomBytes } from "node:crypto";
+import { inArray } from "drizzle-orm";
 import { _localDb } from "../db";
 import { products, stockType } from "../entities/products/schema";
 
@@ -290,68 +290,17 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function confirm(message: string): Promise<boolean> {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  const answer = await rl.question(`${message} [y/N] `);
-  rl.close();
-  return answer.trim().toLowerCase() === "y";
-}
-
-function printProductTable(prods: SeedProduct[]): void {
-  const nameWidth = 50;
-  const barcodeWidth = 16;
-  const skuWidth = 20;
-  const typeWidth = 6;
-  const imgWidth = 5;
-
-  const header = [
-    "#".padStart(3),
-    "Name".padEnd(nameWidth),
-    "Barcode".padEnd(barcodeWidth),
-    "SKU".padEnd(skuWidth),
-    "Type".padEnd(typeWidth),
-    "Img?".padEnd(imgWidth),
-  ].join(" | ");
-
-  console.log(`  ${header}`);
-  console.log(`  ${"─".repeat(header.length)}`);
-
-  for (let i = 0; i < prods.length; i++) {
-    const p = prods[i]!;
-    const row = [
-      String(i + 1).padStart(3),
-      p.name.slice(0, nameWidth).padEnd(nameWidth),
-      p.barcode.padEnd(barcodeWidth),
-      p.sku.padEnd(skuWidth),
-      p.stockType.padEnd(typeWidth),
-      (p.image ? "yes" : "no").padEnd(imgWidth),
-    ].join(" | ");
-    console.log(`  ${row}`);
-  }
-}
-
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 if (DRY_RUN) {
   console.log("=== DRY RUN MODE — no database writes will be made ===\n");
 } else {
-  console.log("=== SEED PRODUCTS — Interactive Mode ===\n");
+  console.log("=== SEED PRODUCTS ===\n");
 }
 
 console.log(
   `Configuration: ${CATEGORIES.length} categories, ${PAGE_SIZE} products each, ${DELAY_MS}ms delay between requests\n`,
 );
-
-// ─── Step 1: Fetch ───────────────────────────────────────────────────────────
-
-console.log("STEP 1: Fetching products from Open Food Facts API...\n");
-
-const allProducts: SeedProduct[] = [];
-const seenBarcodes = new Set<string>();
-const seenNames = new Set<string>();
 
 // Shuffle categories so parallel instances hit different endpoints first
 for (let i = CATEGORIES.length - 1; i > 0; i--) {
@@ -359,95 +308,117 @@ for (let i = CATEGORIES.length - 1; i > 0; i--) {
   [CATEGORIES[i], CATEGORIES[j]] = [CATEGORIES[j]!, CATEGORIES[i]!];
 }
 
-for (const category of CATEGORIES) {
-  console.log(
-    `  Fetching "${category.name}" (stockType: ${category.stockType})...`,
-  );
-  const fetched = await fetchCategory(category);
+const seenBarcodes = new Set<string>();
+const seenNames = new Set<string>();
+let totalInserted = 0;
+let totalSkipped = 0;
+let totalFetched = 0;
 
-  let added = 0;
-  const duplicates: string[] = [];
+for (const category of CATEGORIES) {
+  console.log(`── "${category.name}" (stockType: ${category.stockType}) ──`);
+
+  // 1. Fetch from API
+  const fetched = await fetchCategory(category);
+  if (fetched.length === 0) {
+    console.log("  No products returned from API.\n");
+    await sleep(DELAY_MS);
+    continue;
+  }
+
+  // 2. Deduplicate within this run (cross-category)
+  const deduped: SeedProduct[] = [];
   for (const product of fetched) {
     const normalizedName = product.name.toLowerCase();
     if (seenBarcodes.has(product.barcode) || seenNames.has(normalizedName)) {
-      duplicates.push(product.name.slice(0, 40));
       continue;
     }
-
     seenBarcodes.add(product.barcode);
     seenNames.add(normalizedName);
-    allProducts.push(product);
-    added++;
+    deduped.push(product);
+  }
+
+  if (deduped.length === 0) {
+    console.log(`  All ${fetched.length} products already seen in this run.\n`);
+    await sleep(DELAY_MS);
+    continue;
+  }
+
+  totalFetched += deduped.length;
+
+  if (DRY_RUN) {
+    console.log(
+      `  Fetched ${fetched.length}, ${deduped.length} unique (would insert).\n`,
+    );
+    await sleep(DELAY_MS);
+    continue;
+  }
+
+  // 3. Check which barcodes already exist in DB
+  const barcodes = deduped.map((p) => p.barcode);
+  const existing = await _localDb
+    .select({ barcode: products.barcode })
+    .from(products)
+    .where(inArray(products.barcode, barcodes));
+  const existingBarcodes = new Set(existing.map((r) => r.barcode));
+
+  const toInsert = deduped.filter((p) => !existingBarcodes.has(p.barcode));
+
+  if (toInsert.length === 0) {
+    console.log(`  All ${deduped.length} products already in DB — skipping.\n`);
+    totalSkipped += deduped.length;
+    await sleep(DELAY_MS);
+    continue;
   }
 
   console.log(
-    `  -> ${added} unique products added (${fetched.length} fetched, ${duplicates.length} duplicates skipped)`,
+    `  Fetched ${fetched.length}, ${deduped.length} unique, ${existingBarcodes.size} already in DB → inserting ${toInsert.length}...`,
   );
-  if (duplicates.length > 0) {
-    console.log(`     Duplicates: ${duplicates.join(", ")}`);
+
+  // 4. Insert new products one by one
+  let catInserted = 0;
+  let catSkipped = 0;
+
+  for (const product of toInsert) {
+    try {
+      const result = await _localDb
+        .insert(products)
+        .values(product)
+        .onConflictDoNothing({ target: products.barcode })
+        .returning({ id: products.id });
+
+      if (result.length > 0) {
+        catInserted++;
+      } else {
+        catSkipped++;
+        console.log(`  SKIP (barcode conflict): ${product.name}`);
+      }
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("unique")) {
+        catSkipped++;
+        console.log(`  SKIP (unique constraint): ${product.name}`);
+        continue;
+      }
+      throw error;
+    }
   }
-  console.log();
+
+  totalInserted += catInserted;
+  totalSkipped += catSkipped;
+  console.log(`  ✓ Inserted ${catInserted}, skipped ${catSkipped}.\n`);
+
   await sleep(DELAY_MS);
 }
 
-// ─── Step 2: Preview ─────────────────────────────────────────────────────────
-
-console.log(`STEP 2: Preview — ${allProducts.length} products ready\n`);
-printProductTable(allProducts);
-
-const withImages = allProducts.filter((p) => p.image).length;
-console.log(
-  `\n  Summary: ${allProducts.length} products, ${withImages} with images, ${allProducts.length - withImages} without\n`,
-);
+// ─── Summary ────────────────────────────────────────────────────────────────
 
 if (DRY_RUN) {
-  console.log("=== DRY RUN COMPLETE — exiting without database changes ===");
-  process.exit(0);
+  console.log(
+    `=== DRY RUN COMPLETE — ${totalFetched} products would be inserted ===`,
+  );
+} else {
+  console.log(
+    `\n=== Done! Inserted: ${totalInserted}, Skipped: ${totalSkipped}, Total fetched: ${totalFetched} ===`,
+  );
 }
-
-// ─── Step 3: Confirm & Insert ────────────────────────────────────────────────
-
-const shouldInsert = await confirm(
-  `STEP 3: Insert ${allProducts.length} products into the database?`,
-);
-
-if (!shouldInsert) {
-  console.log("\nAborted — no changes made.");
-  process.exit(0);
-}
-
-console.log(`\nInserting ${allProducts.length} products...\n`);
-
-let insertedCount = 0;
-let skippedCount = 0;
-
-for (const product of allProducts) {
-  try {
-    const result = await _localDb
-      .insert(products)
-      .values(product)
-      .onConflictDoNothing({ target: products.barcode })
-      .returning({ id: products.id });
-
-    if (result.length > 0) {
-      insertedCount++;
-    } else {
-      skippedCount++;
-      console.log(`  SKIP (barcode exists): ${product.name}`);
-    }
-  } catch (error) {
-    // Handle name/sku uniqueness conflict not covered by onConflictDoNothing on barcode
-    if (error instanceof Error && error.message.includes("unique")) {
-      skippedCount++;
-      console.log(`  SKIP (unique constraint): ${product.name}`);
-      continue;
-    }
-    throw error;
-  }
-}
-
-console.log(
-  `\nDone! Inserted: ${insertedCount}, Skipped: ${skippedCount}, Total fetched: ${allProducts.length}`,
-);
 
 process.exit(0);
