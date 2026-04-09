@@ -52,7 +52,8 @@ const schema = {
 };
 
 const pool = new Pool({
-  connectionString: "postgresql://postgres:postgres@127.0.0.1:5432/bun_pf",
+  connectionString:
+    "postgresql://postgres:postgres@127.0.0.1:5433/productfinder",
   ssl: false,
 });
 
