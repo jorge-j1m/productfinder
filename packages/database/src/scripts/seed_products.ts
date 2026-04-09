@@ -393,7 +393,11 @@ for (const category of CATEGORIES) {
         console.log(`  SKIP (barcode conflict): ${product.name}`);
       }
     } catch (error) {
-      if (error instanceof Error && error.message.includes("unique")) {
+      const msg =
+        error instanceof Error
+          ? `${error.message} ${error.cause instanceof Error ? error.cause.message : ""}`
+          : "";
+      if (msg.includes("unique") || msg.includes("23505")) {
         catSkipped++;
         console.log(`  SKIP (unique constraint): ${product.name}`);
         continue;
