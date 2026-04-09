@@ -135,6 +135,26 @@ export const productsProcedures = {
       };
     }),
 
+  getByBarcode: osdb
+    .route({
+      method: "GET",
+      path: `${pathBase}/barcode/{barcode}`,
+      summary: "Get Product by Barcode",
+    })
+    .input(z.object({ barcode: z.string().min(1) }))
+    .output(productSchema)
+    .handler(async ({ input, context, errors }) => {
+      const product = await context.db.query.products.findFirst({
+        where: (fields, { eq }) => eq(fields.barcode, input.barcode),
+      });
+
+      if (!product) {
+        throw errors.NOT_FOUND();
+      }
+
+      return product;
+    }),
+
   get: osdb
     .route({
       method: "GET",

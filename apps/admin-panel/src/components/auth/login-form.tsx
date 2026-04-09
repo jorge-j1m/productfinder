@@ -26,7 +26,7 @@ export function LoginForm() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
-  const callbackURL =  "/dashboard";
+  const callbackURL = "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
