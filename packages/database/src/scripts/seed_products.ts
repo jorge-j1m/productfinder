@@ -353,6 +353,12 @@ const allProducts: SeedProduct[] = [];
 const seenBarcodes = new Set<string>();
 const seenNames = new Set<string>();
 
+// Shuffle categories so parallel instances hit different endpoints first
+for (let i = CATEGORIES.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [CATEGORIES[i], CATEGORIES[j]] = [CATEGORIES[j]!, CATEGORIES[i]!];
+}
+
 for (const category of CATEGORIES) {
   console.log(
     `  Fetching "${category.name}" (stockType: ${category.stockType})...`,
