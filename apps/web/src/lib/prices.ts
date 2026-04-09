@@ -106,6 +106,7 @@ export function processCompareData(
     sortBy: "price" | "distance";
     inStockOnly: boolean;
     brandId?: string;
+    radiusKm?: number;
   },
 ) {
   const hasLocation = options.latitude != null && options.longitude != null;
@@ -148,6 +149,13 @@ export function processCompareData(
       distanceKm,
     };
   });
+
+  // Apply radius filter (requires location)
+  if (options.radiusKm != null && hasLocation) {
+    items = items.filter(
+      (i) => i.distanceKm !== null && i.distanceKm <= options.radiusKm!,
+    );
+  }
 
   // Apply brand filter
   if (options.brandId) {

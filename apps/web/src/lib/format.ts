@@ -11,8 +11,27 @@ export function formatPrice(
   return stockType === "WEIGHT" ? `${formatted}/kg` : formatted;
 }
 
-/** Format distance in km to a human-readable string */
-export function formatDistance(km: number): string {
+export type DistanceUnit = "mi" | "km";
+
+const KM_TO_MI = 0.621371;
+
+export function kmToMi(km: number): number {
+  return km * KM_TO_MI;
+}
+
+export function miToKm(mi: number): number {
+  return mi / KM_TO_MI;
+}
+
+/** Format distance in km to a human-readable string, using the given unit */
+export function formatDistance(km: number, unit: DistanceUnit = "mi"): string {
+  if (unit === "mi") {
+    const mi = kmToMi(km);
+    if (mi < 0.1) {
+      return `${Math.round(mi * 5280)} ft away`;
+    }
+    return `${mi.toFixed(1)} mi away`;
+  }
   if (km < 1) {
     return `${Math.round(km * 1000)} m away`;
   }

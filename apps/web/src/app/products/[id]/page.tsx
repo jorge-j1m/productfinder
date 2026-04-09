@@ -21,8 +21,9 @@ import { StockTypeBadge } from "#/components/stock-type-badge";
 import { PriceDisplay } from "#/components/price-display";
 import { orpc } from "#/lib/query/orpc";
 import { useLocation } from "#/hooks/use-location";
+import { useDistanceUnit } from "#/hooks/use-distance-unit";
 import { processCompareData } from "#/lib/prices";
-import { formatPrice, formatDistance } from "#/lib/format";
+import { formatPrice, formatDistance, miToKm } from "#/lib/format";
 import { cn } from "#/lib/utils";
 import {
   ArrowLeft,
@@ -33,6 +34,25 @@ import {
   PackageX,
 } from "lucide-react";
 
+const RADIUS_OPTIONS_MI = [
+  { value: "any", label: "Any distance" },
+  { value: "1", label: "1 mile" },
+  { value: "5", label: "5 miles" },
+  { value: "10", label: "10 miles" },
+  { value: "25", label: "25 miles" },
+  { value: "50", label: "50 miles" },
+] as const;
+
+const RADIUS_OPTIONS_KM = [
+  { value: "any", label: "Any distance" },
+  { value: "2", label: "2 km" },
+  { value: "5", label: "5 km" },
+  { value: "10", label: "10 km" },
+  { value: "25", label: "25 km" },
+  { value: "50", label: "50 km" },
+  { value: "100", label: "100 km" },
+] as const;
+
 export default function ProductPriceComparisonPage({
   params,
 }: {
@@ -41,12 +61,15 @@ export default function ProductPriceComparisonPage({
   const { id } = use(params);
   const router = useRouter();
   const { latitude, longitude, resolved: locationResolved } = useLocation();
+  const { unit, toggle: toggleUnit } = useDistanceUnit();
 
   const [inStockOnly, setInStockOnly] = useState(false);
   const [brandFilter, setBrandFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"price" | "distance">("price");
+  const [radius, setRadius] = useState("any");
 
   const hasLocation = latitude !== null && longitude !== null;
+  const radiusOptions = unit === "mi" ? RADIUS_OPTIONS_MI : RADIUS_OPTIONS_KM;
 
   // Single fetch: raw product + inventory data. No filtering/sorting params.
   // Wait for geolocation to resolve so we don't show a flash of no-distance data.
@@ -69,14 +92,31 @@ export default function ProductPriceComparisonPage({
           brands: [],
         };
       }
+      const radiusKm =
+        radius !== "any"
+          ? unit === "mi"
+            ? miToKm(Number(radius))
+            : Number(radius)
+          : undefined;
+
       return processCompareData(raw.inventory, {
         latitude,
         longitude,
         sortBy,
         inStockOnly,
         brandId: brandFilter !== "all" ? brandFilter : undefined,
+        radiusKm,
       });
-    }, [raw, latitude, longitude, sortBy, inStockOnly, brandFilter]);
+    }, [
+      raw,
+      latitude,
+      longitude,
+      sortBy,
+      inStockOnly,
+      brandFilter,
+      radius,
+      unit,
+    ]);
 
   return (
     <div className="min-h-svh">
@@ -200,6 +240,33 @@ export default function ProductPriceComparisonPage({
                   </SelectItem>
                 </SelectContent>
               </Select>
+
+              <Select
+                value={radius}
+                onValueChange={setRadius}
+                disabled={!hasLocation}
+              >
+                <SelectTrigger size="sm">
+                  <MapPin className="size-3.5" />
+                  <SelectValue placeholder="Radius" />
+                </SelectTrigger>
+                <SelectContent>
+                  {radiusOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleUnit}
+                className="text-xs"
+              >
+                {unit === "mi" ? "mi" : "km"}
+              </Button>
             </div>
 
             {/* Store price cards */}
