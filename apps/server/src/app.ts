@@ -34,6 +34,7 @@ export function createApp(db: DB) {
         "http://localhost:3000",
         "http://localhost:3001",
         process.env.ADMIN_CLIENT_URL!,
+        process.env.WEB_CLIENT_URL!,
       ],
       credentials: true, // Allow cookies for authentication
     }),
