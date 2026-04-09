@@ -4,7 +4,7 @@ import { OpenAPILink } from "@orpc/openapi-client/fetch";
 import { type PublicRouter, publicRouter } from "@repo/public-orpc";
 
 const link = new OpenAPILink(publicRouter, {
-  url: "http://127.0.0.1:8080/rpc/public",
+  url: (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080") + "/rpc/public",
   interceptors: [
     onError((error: unknown) => {
       if (
