@@ -130,8 +130,8 @@ npm install
 
 ```bash
 # Set up your database connection in .env
-DATABASE_URL=postgresql://user:password@localhost:5432/productfinder
-TEST_DATABASE_URL=postgresql://user:password@localhost:5432/productfinder_test
+DATABASE_URL=postgresql://user:password@localhost:5433/productfinder
+TEST_DATABASE_URL=postgresql://user:password@localhost:5433/productfinder_test
 
 # Run migrations
 cd apps/server

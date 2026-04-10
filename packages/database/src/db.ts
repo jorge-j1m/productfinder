@@ -53,7 +53,7 @@ const schema = {
 
 const pool = new Pool({
   connectionString:
-    "postgresql://postgres:postgres@127.0.0.1:5432/productfinder",
+    "postgresql://postgres:postgres@127.0.0.1:5433/productfinder",
   ssl: false,
 });
 

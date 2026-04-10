@@ -6,7 +6,7 @@ import { type DB } from "@repo/database";
 const pool = new Pool({
   connectionString:
     process.env.DATABASE_URL! ||
-    "postgres://postgres:postgres@localhost:5432/productfinder",
+    "postgres://postgres:postgres@localhost:5433/productfinder",
   ssl: false,
 });
 
