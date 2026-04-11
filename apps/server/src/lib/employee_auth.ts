@@ -29,7 +29,10 @@ export function createAuth(database: DB) {
       provider: "pg",
     }),
 
-    trustedOrigins: ["http://localhost:3000", process.env.ADMIN_CLIENT_URL || "http://localhost:3000"],
+    trustedOrigins: [
+      "http://localhost:3000",
+      process.env.ADMIN_CLIENT_URL || "http://localhost:3000",
+    ],
 
     // Base URL for the auth server
     // Used for generating callback URLs and handling redirects

@@ -1,32 +1,27 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow access to login page
   if (pathname === "/login") {
     return NextResponse.next();
   }
 
-  // Check for better-auth session cookie
-  // Better-auth can use different cookie names, check for common ones
-  const sessionCookie =
-    request.cookies.get("better-auth.session_token") ||
-    request.cookies.get("session_token") ||
-    request.cookies.get("better_auth.session_token") ||
-    request.cookies.get("__Secure-better-auth.session_token") ||
-    request.cookies.get("auth_session");
+  // Optimistic presence check only — does NOT verify the cookie signature.
+  // Real validation happens server-side at the API layer. See better-auth
+  // docs: https://better-auth.com/docs/integrations/next
+  const sessionToken = getSessionCookie(request, {
+    cookiePrefix: "better-auth",
+  });
 
-  // If no session cookie, redirect to login with callback URL
-  if (!sessionCookie) {
+  if (!sessionToken) {
     const loginUrl = new URL("/login", request.url);
-    // Store the original URL they were trying to access
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Allow the request to proceed
   return NextResponse.next();
 }
 
