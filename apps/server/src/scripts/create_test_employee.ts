@@ -13,6 +13,7 @@ import type {
   NewEmployee,
 } from "@repo/database";
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars
 const API_URL = process.env.API_URL || "http://localhost:8080";
 const TEST_BRAND_NAME = "Test";
 const TEST_STORE_NAME = "Test";

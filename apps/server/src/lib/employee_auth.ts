@@ -1,4 +1,4 @@
-import { betterAuth, type Auth } from "better-auth";
+import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import { employeeAuthConfig } from "@repo/database";
@@ -8,7 +8,7 @@ import type { DB } from "@repo/database";
  * Creates a better-auth instance with the given database.
  * This allows us to inject different database connections for testing.
  */
-export function createAuth(database: DB): Auth {
+export function createAuth(database: DB) {
   return betterAuth({
     // Spread the shared employee auth configuration
     // This includes: custom table names, employee fields, and ID generation

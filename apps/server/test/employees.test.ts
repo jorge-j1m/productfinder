@@ -32,7 +32,7 @@ describe("Employees CRUD", () => {
     });
 
     test("returns employees with store relation", async () => {
-      const { brand, store } = await createTestDataChain();
+      const { store } = await createTestDataChain();
       const employee = await createTestEmployee(store.id);
 
       const response = await app.request("/rpc/employees", {

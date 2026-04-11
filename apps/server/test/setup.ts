@@ -10,15 +10,16 @@ export let testDb: DB;
 
 beforeAll(async () => {
   client = new PGlite();
-  const db = drizzle(client, { schema });
 
   // Apply schema using pushSchema from drizzle-kit
+  // pushSchema expects a plain drizzle instance (no schema type parameter)
   const { pushSchema } = await import("drizzle-kit/api");
-  const { apply } = await pushSchema(schema, db);
+  const { apply } = await pushSchema(schema, drizzle(client));
   await apply();
 
+  // Create the schema-aware instance for queries
   // Both drivers share the same query API, only the underlying client differs
-  testDb = db as unknown as DB;
+  testDb = drizzle(client, { schema }) as unknown as DB;
 });
 
 beforeEach(async () => {

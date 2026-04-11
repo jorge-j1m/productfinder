@@ -6,7 +6,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
-      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL", "LOG_LEVEL", "NODE_ENV"]
+      "env": ["ADMIN_CLIENT_URL", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL", "DATABASE_URL", "LOG_LEVEL", "NEXT_PUBLIC_API_URL", "NODE_ENV", "WEB_CLIENT_URL"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -17,7 +17,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["DATABASE_URL", "NEXT_PUBLIC_API_URL", "LOG_LEVEL", "NODE_ENV"]
+      "env": ["ADMIN_CLIENT_URL", "DATABASE_URL", "LOG_LEVEL", "NEXT_PUBLIC_API_URL", "NODE_ENV", "WEB_CLIENT_URL"]
     },
     "test": {
       "dependsOn": ["^build"],
