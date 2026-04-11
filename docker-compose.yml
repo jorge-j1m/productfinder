@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:17
+    profiles: ["dev", "test", "prod"]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -19,6 +20,7 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
+    profiles: ["dev", "test", "prod"]
     working_dir: /app/apps/server
     command: ["bunx", "drizzle-kit", "migrate"]
     environment:
@@ -32,6 +34,7 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
+    profiles: ["test", "prod"]
     ports:
       - "8080:8080"
     environment:
@@ -51,6 +54,7 @@ services:
       dockerfile: apps/admin-panel/Dockerfile
       args:
         ADMIN_PANEL_API_URL: ${ADMIN_PANEL_API_URL}
+    profiles: ["test", "prod"]
     ports:
       - "3000:3000"
     depends_on:
@@ -63,6 +67,7 @@ services:
       dockerfile: apps/web/Dockerfile
       args:
         WEB_API_URL: ${WEB_API_URL}
+    profiles: ["test", "prod"]
     ports:
       - "3001:3001"
     depends_on:
@@ -71,6 +76,7 @@ services:
 
   pf-tunnel:
     image: cloudflare/cloudflared:latest
+    profiles: ["prod"]
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     environment:
       - CLOUDFLARE_TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}

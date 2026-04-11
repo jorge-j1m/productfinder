@@ -3,8 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
     "lint": "eslint",
     "check-types": "tsc --noEmit"
   },
