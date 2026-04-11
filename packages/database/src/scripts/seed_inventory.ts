@@ -346,6 +346,11 @@ let totalOutOfStock = 0;
 
 for (const store of allStores) {
   console.log(`── "${store.name}" (${store.brandName}) ──`);
+  
+  // Avoid seeding test store
+  if (store.name === "Test") {
+    continue;
+  }
 
   // Check what's already in inventory for this store
   const existing = await _localDb
