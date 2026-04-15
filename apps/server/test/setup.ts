@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, beforeEach, afterEach } from "bun:test";
+import { beforeAll, afterAll, beforeEach, afterEach, mock } from "bun:test";
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 import { sql } from "drizzle-orm";
@@ -16,6 +16,14 @@ beforeAll(async () => {
   const { pushSchema } = await import("drizzle-kit/api");
   const { apply } = await pushSchema(schema, drizzle(client));
   await apply();
+
+  mock.module("@repo/database", () => ({
+    EmployeeSessionSchema: {
+      safeParse: () => ({
+        data: { user: { status: "ACTIVE" } },
+      }),
+    },
+  }));
 
   // Create the schema-aware instance for queries
   // Both drivers share the same query API, only the underlying client differs
