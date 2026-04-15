@@ -3,7 +3,34 @@ import stores from "./stores_withcoordinates.json";
 import { call, ORPCError } from "@orpc/server";
 import { adminRouter } from "@repo/admin-orpc";
 import { db, shutdownDb } from "../db";
-import { StoreBrandId } from "@repo/database";
+import type { EmployeeSession, StoreBrandId } from "@repo/database";
+
+// Synthetic ADMIN session used to satisfy the protectedProcedure middleware
+// when invoking admin-orpc handlers from a trusted local seed script.
+const seedSession = {
+  user: {
+    id: "emp_seed",
+    email: "seed@local",
+    emailVerified: true,
+    name: "Seed Script",
+    image: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    firstName: "Seed",
+    lastName: "Script",
+    role: "ADMIN",
+    storeId: "store_seed",
+    status: "ACTIVE",
+  },
+  session: {
+    id: "esess_seed",
+    userId: "emp_seed",
+    token: "seed",
+    expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+} as unknown as EmployeeSession;
 
 const dbBrands: Record<string, StoreBrandId> = {};
 for (const brand of brands) {
@@ -11,7 +38,7 @@ for (const brand of brands) {
     const created = await call(
       adminRouter.storeBrands.create,
       { name: brand.name, logo: brand.logo },
-      { context: { db, requestId: "seed-brand-stores" } },
+      { context: { db, requestId: "seed-brand-stores", session: seedSession } },
     );
 
     console.log(`Created brand ${brand.name}, using id ${created.id}`);
@@ -58,7 +85,7 @@ for (const store of stores) {
         latitude: store.latitude,
         longitude: store.longitude,
       },
-      { context: { db, requestId: "seed-brand-stores" } },
+      { context: { db, requestId: "seed-brand-stores", session: seedSession } },
     );
     console.log(`Created store ${store.name}, using id ${created.id}`);
   } catch (error) {
