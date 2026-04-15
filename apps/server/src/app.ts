@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import storeBrandsRouter from "./routes/store_brands";
 import storesRouter from "./routes/stores";
-import { type DB } from "@repo/database";
+import { type DB, EmployeeSessionSchema } from "@repo/database";
 import { typeid } from "typeid-js";
 import { rpcHandler } from "./orpc";
 import { publicRpcHandler } from "./public-orpc";
@@ -27,15 +27,17 @@ export function createApp(db: DB) {
     return next();
   });
 
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    process.env.ADMIN_CLIENT_URL,
+    process.env.WEB_CLIENT_URL,
+  ].filter((origin): origin is string => Boolean(origin));
+
   app.use(
     "*",
     cors({
-      origin: [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        process.env.ADMIN_CLIENT_URL!,
-        process.env.WEB_CLIENT_URL!,
-      ],
+      origin: allowedOrigins,
       credentials: true, // Allow cookies for authentication
     }),
   );
@@ -72,13 +74,20 @@ export function createApp(db: DB) {
     return next();
   });
 
-  // Admin API - employee authentication required
+  // Admin API - employee authentication required.
+  // Session is extracted here at the Hono boundary and injected into the
+  // oRPC context. The protectedProcedure middleware in @repo/admin-orpc
+  // converts a null session into a 401.
   app.use("/rpc/*", async (c, next) => {
+    const rawSession = await auth.api.getSession({ headers: c.req.raw.headers });
+    const session = EmployeeSessionSchema.safeParse(rawSession).data ?? null;
+
     const { matched, response } = await rpcHandler.handle(c.req.raw, {
       prefix: "/rpc",
       context: {
         db: c.get("db"),
         requestId: c.get("requestId"),
+        session,
       },
     });
 

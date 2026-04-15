@@ -1,9 +1,7 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import {
   inventorySchema,
   newInventorySchema,
-  DB,
   inventory,
   isInventoryId,
   asInventoryId,
@@ -16,12 +14,9 @@ import {
   inventoryIdSchema,
 } from "@repo/database";
 import { eq, asc, desc, count, and, sql } from "drizzle-orm";
+import { protectedProcedure } from "./base";
 
-const osdb = os.$context<{ db: DB; requestId: string }>().errors({
-  INTERNAL_SERVER_ERROR: {
-    status: 500,
-    message: "Internal server error",
-  },
+const osdb = protectedProcedure.errors({
   NOT_FOUND: {
     status: 404,
     message: "Inventory record not found",

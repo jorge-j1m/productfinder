@@ -1,27 +1,18 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import {
   storeBrandSchema,
   newStoreBrandSchema,
-  DB,
   storeBrands,
   isStoreBrandId,
   asStoreBrandId,
 } from "@repo/database";
 import { eq, asc, desc, ilike, count } from "drizzle-orm";
+import { protectedProcedure } from "./base";
 
-const osdb = os.$context<{ db: DB; requestId: string }>().errors({
-  INTERNAL_SERVER_ERROR: {
-    status: 500,
-    message: "Internal server error",
-  },
+const osdb = protectedProcedure.errors({
   NOT_FOUND: {
     status: 404,
     message: "Store brand not found",
-  },
-  VALIDATION_ERROR: {
-    status: 400,
-    message: "Validation error",
   },
   CONFLICT: {
     status: 409,

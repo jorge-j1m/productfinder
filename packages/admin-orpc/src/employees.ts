@@ -1,9 +1,7 @@
-import { os } from "@orpc/server";
 import { z } from "zod";
 import {
   employeeSchema,
   newEmployeeSchema,
-  DB,
   employees,
   isEmployeeId,
   asEmployeeId,
@@ -11,12 +9,9 @@ import {
   asStoreId,
 } from "@repo/database";
 import { eq, ilike, count, and } from "drizzle-orm";
+import { protectedProcedure } from "./base";
 
-const osdb = os.$context<{ db: DB; requestId: string }>().errors({
-  INTERNAL_SERVER_ERROR: {
-    status: 500,
-    message: "Internal server error",
-  },
+const osdb = protectedProcedure.errors({
   NOT_FOUND: {
     status: 404,
     message: "Employee not found",
@@ -24,10 +19,6 @@ const osdb = os.$context<{ db: DB; requestId: string }>().errors({
   STORE_NOT_FOUND: {
     status: 404,
     message: "Store not found",
-  },
-  VALIDATION_ERROR: {
-    status: 400,
-    message: "Validation error",
   },
   CONFLICT: {
     status: 409,

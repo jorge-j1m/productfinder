@@ -5,15 +5,11 @@ import { type AdminRouter, adminRouter } from "@repo/admin-orpc";
 
 const link = new OpenAPILink(adminRouter, {
   url: (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080") + "/rpc",
-  // headers: () => ({
-  //   'x-api-key': 'my-api-key',
-  // }),
-  // fetch: (request, init) => {
-  //   return globalThis.fetch(request, {
-  //     ...init,
-  //     credentials: 'include', // Include cookies for cross-origin requests
-  //   })
-  // },
+  fetch: (request, init) =>
+    globalThis.fetch(request, {
+      ...init,
+      credentials: "include",
+    }),
   interceptors: [
     onError((error: unknown) => {
       // Ignore AbortErrors - they're expected when navigating away from a page
