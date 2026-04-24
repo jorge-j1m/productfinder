@@ -17,6 +17,11 @@ await _localDb.execute(`DELETE FROM stores`);
 console.log("Emptied stores");
 await _localDb.execute(`DELETE FROM store_brands`);
 console.log("Emptied store_brands");
+await _localDb.execute(`DELETE FROM products`);
+console.log("Emptied products");
+await _localDb.execute(`DELETE FROM inventory`);
+console.log("Emptied inventory");
+
 console.log("Tables emptied successfully");
 
 process.exit(0);

@@ -17,6 +17,10 @@ await _localDb.execute(`DROP TABLE IF EXISTS stores CASCADE`);
 console.log("Dropped stores");
 await _localDb.execute(`DROP TABLE IF EXISTS store_brands CASCADE`);
 console.log("Dropped store_brands");
+await _localDb.execute(`DROP TABLE IF EXISTS products CASCADE`);
+console.log("Dropped products");
+await _localDb.execute(`DROP TABLE IF EXISTS inventory CASCADE`);
+console.log("Dropped inventory");
 console.log("Tables dropped successfully");
 
 process.exit(0);
