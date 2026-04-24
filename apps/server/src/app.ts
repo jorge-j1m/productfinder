@@ -79,7 +79,9 @@ export function createApp(db: DB) {
   // oRPC context. The protectedProcedure middleware in @repo/admin-orpc
   // converts a null session into a 401.
   app.use("/rpc/*", async (c, next) => {
-    const rawSession = await auth.api.getSession({ headers: c.req.raw.headers });
+    const rawSession = await auth.api.getSession({
+      headers: c.req.raw.headers,
+    });
     const session = EmployeeSessionSchema.safeParse(rawSession).data ?? null;
 
     const { matched, response } = await rpcHandler.handle(c.req.raw, {
