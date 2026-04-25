@@ -1,26 +1,29 @@
 /**
- * Will drop all the tables from the database
+ * Completely resets the database: drops every table, enum, and the
+ * drizzle-kit migrations bookkeeping schema. Run this when you want to
+ * replay migrations from scratch.
  */
 
 import { _localDb } from "../db";
 
-console.log("Dropping tables...");
-await _localDb.execute(`DROP TABLE IF EXISTS employees CASCADE`);
-console.log("Dropped employees");
-await _localDb.execute(`DROP TABLE IF EXISTS employee_sessions CASCADE`);
-console.log("Dropped employee_sessions");
-await _localDb.execute(`DROP TABLE IF EXISTS employee_accounts CASCADE`);
-console.log("Dropped employee_accounts");
-await _localDb.execute(`DROP TABLE IF EXISTS employee_verifications CASCADE`);
-console.log("Dropped employee_verifications");
-await _localDb.execute(`DROP TABLE IF EXISTS stores CASCADE`);
-console.log("Dropped stores");
-await _localDb.execute(`DROP TABLE IF EXISTS store_brands CASCADE`);
-console.log("Dropped store_brands");
-await _localDb.execute(`DROP TABLE IF EXISTS products CASCADE`);
-console.log("Dropped products");
-await _localDb.execute(`DROP TABLE IF EXISTS inventory CASCADE`);
-console.log("Dropped inventory");
-console.log("Tables dropped successfully");
+console.log("Resetting database...");
+
+// Wipes every object (tables, enums, sequences, functions, …) in the
+// application schema, then rebuilds an empty public schema.
+await _localDb.execute(`DROP SCHEMA IF EXISTS public CASCADE`);
+console.log("Dropped public schema");
+
+await _localDb.execute(`CREATE SCHEMA public`);
+console.log("Recreated public schema");
+
+await _localDb.execute(`GRANT ALL ON SCHEMA public TO public`);
+
+// drizzle-kit stores applied-migration bookkeeping in its own schema;
+// without dropping it, `drizzle-kit migrate` skips replaying migrations
+// even though the tables are gone.
+await _localDb.execute(`DROP SCHEMA IF EXISTS drizzle CASCADE`);
+console.log("Dropped drizzle migrations schema");
+
+console.log("Database reset successfully");
 
 process.exit(0);
