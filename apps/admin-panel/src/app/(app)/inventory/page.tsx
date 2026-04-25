@@ -434,7 +434,6 @@ export default function InventoryPage() {
         isPending={createMutation.isPending || updateMutation.isPending}
         serverError={dialogError}
         stores={stores}
-        products={products}
       />
 
       <AdjustStockDialog

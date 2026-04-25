@@ -1,6 +1,10 @@
 "use client";
 
 import * as React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { isDefinedError } from "@orpc/client";
+import { toast } from "sonner";
+import { ScanBarcode, Search, Loader2, X } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import {
   Dialog,
@@ -19,6 +23,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "#/components/ui/select";
+import { BarcodeScanner } from "#/components/barcode-scanner";
+import { orpc } from "#/lib/query/orpc";
+import { client } from "#/lib/orpc";
 import type { InventoryWithRelations } from "./columns";
 
 interface StoreOption {
@@ -26,10 +33,11 @@ interface StoreOption {
   name: string;
 }
 
-interface ProductOption {
+interface SelectedProductInfo {
   id: string;
   name: string;
   stockType: "WEIGHT" | "UNITS";
+  sku?: string | null;
 }
 
 interface InventoryDialogProps {
@@ -48,7 +56,6 @@ interface InventoryDialogProps {
   isPending?: boolean;
   serverError?: string | null;
   stores: StoreOption[];
-  products: ProductOption[];
 }
 
 export function InventoryDialog({
@@ -59,32 +66,38 @@ export function InventoryDialog({
   isPending = false,
   serverError = null,
   stores,
-  products,
 }: InventoryDialogProps) {
   const [storeId, setStoreId] = React.useState("");
-  const [productId, setProductId] = React.useState("");
+  const [selectedProduct, setSelectedProduct] =
+    React.useState<SelectedProductInfo | null>(null);
+  const [productSearch, setProductSearch] = React.useState("");
+  const [debouncedSearch, setDebouncedSearch] = React.useState("");
   const [quantity, setQuantity] = React.useState("");
   const [regularPrice, setRegularPrice] = React.useState("");
   const [salePrice, setSalePrice] = React.useState("");
   const [saleStartDate, setSaleStartDate] = React.useState("");
   const [saleEndDate, setSaleEndDate] = React.useState("");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
-
-  // Get selected product to display unit hints
-  const selectedProduct = React.useMemo(
-    () => products.find((p) => p.id === productId),
-    [products, productId],
-  );
+  const [scannerOpen, setScannerOpen] = React.useState(false);
+  const [isLookingUpBarcode, setIsLookingUpBarcode] = React.useState(false);
 
   const isEditMode = !!inventory;
 
-  // Reset form when dialog opens/closes or inventory changes
   React.useEffect(() => {
     if (open) {
       setStoreId(inventory?.storeId || "");
-      setProductId(inventory?.productId || "");
+      setSelectedProduct(
+        inventory?.product
+          ? {
+              id: inventory.product.id,
+              name: inventory.product.name,
+              stockType: inventory.product.stockType,
+            }
+          : null,
+      );
+      setProductSearch("");
+      setDebouncedSearch("");
       setQuantity(inventory?.quantity?.toString() || "0");
-      // Convert cents to dollars for display
       setRegularPrice(
         inventory?.regularPrice
           ? (inventory.regularPrice / 100).toFixed(2)
@@ -107,6 +120,79 @@ export function InventoryDialog({
     }
   }, [open, inventory]);
 
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(productSearch);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [productSearch]);
+
+  const productSearchEnabled = open && !isEditMode && !selectedProduct;
+  const { data: searchData, isFetching: isSearching } = useQuery(
+    orpc.products.getAll.queryOptions({
+      input: {
+        page: 1,
+        pageSize: 10,
+        name: debouncedSearch || undefined,
+        sortBy: "name",
+        sortOrder: "asc",
+      },
+      enabled: productSearchEnabled,
+    }),
+  );
+
+  const searchResults = searchData?.data || [];
+
+  const handleSelectProduct = React.useCallback(
+    (product: {
+      id: string;
+      name: string;
+      stockType: "WEIGHT" | "UNITS";
+      sku?: string | null;
+    }) => {
+      setSelectedProduct({
+        id: product.id,
+        name: product.name,
+        stockType: product.stockType,
+        sku: product.sku ?? null,
+      });
+      setProductSearch("");
+      setDebouncedSearch("");
+    },
+    [],
+  );
+
+  const handleClearProduct = React.useCallback(() => {
+    setSelectedProduct(null);
+    setProductSearch("");
+    setDebouncedSearch("");
+  }, []);
+
+  const handleBarcodeScan = React.useCallback(
+    async (barcode: string) => {
+      setIsLookingUpBarcode(true);
+      try {
+        const product = await client.products.getByBarcode({ barcode });
+        handleSelectProduct({
+          id: product.id,
+          name: product.name,
+          stockType: product.stockType,
+          sku: product.sku,
+        });
+        toast.success(`Selected: ${product.name}`);
+      } catch (error) {
+        if (isDefinedError(error)) {
+          toast.error(`No product found for barcode "${barcode}"`);
+        } else {
+          toast.error("Failed to look up barcode");
+        }
+      } finally {
+        setIsLookingUpBarcode(false);
+      }
+    },
+    [handleSelectProduct],
+  );
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
 
@@ -114,7 +200,7 @@ export function InventoryDialog({
       newErrors.storeId = "Store is required";
     }
 
-    if (!productId) {
+    if (!selectedProduct) {
       newErrors.productId = "Product is required";
     }
 
@@ -144,12 +230,11 @@ export function InventoryDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validate()) {
+    if (validate() && selectedProduct) {
       onSubmit({
         storeId,
-        productId,
+        productId: selectedProduct.id,
         quantity: parseInt(quantity, 10),
-        // Convert dollars to cents
         regularPrice: Math.round(parseFloat(regularPrice) * 100),
         salePrice: salePrice ? Math.round(parseFloat(salePrice) * 100) : null,
         saleStartDate: saleStartDate ? new Date(saleStartDate) : null,
@@ -206,25 +291,112 @@ export function InventoryDialog({
 
             {/* Product Selection */}
             <div className="grid gap-2">
-              <Label htmlFor="product">
+              <Label htmlFor="product-search">
                 Product <span className="text-destructive">*</span>
               </Label>
-              <Select
-                value={productId}
-                onValueChange={setProductId}
-                disabled={isPending || isEditMode}
-              >
-                <SelectTrigger id="product">
-                  <SelectValue placeholder="Select a product" />
-                </SelectTrigger>
-                <SelectContent>
-                  {products.map((product) => (
-                    <SelectItem key={product.id} value={product.id}>
-                      {product.name} ({product.stockType})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+
+              {isEditMode || selectedProduct ? (
+                <div className="flex items-center justify-between rounded-md border bg-muted/30 px-3 py-2">
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-medium truncate">
+                      {selectedProduct?.name || "Unknown Product"}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {selectedProduct?.stockType ?? ""}
+                      {selectedProduct?.sku
+                        ? ` • SKU: ${selectedProduct.sku}`
+                        : ""}
+                    </span>
+                  </div>
+                  {!isEditMode && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleClearProduct}
+                      disabled={isPending}
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Change
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id="product-search"
+                        value={productSearch}
+                        onChange={(e) => setProductSearch(e.target.value)}
+                        placeholder="Search products by name..."
+                        disabled={isPending || isLookingUpBarcode}
+                        className="pl-8"
+                        autoComplete="off"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setScannerOpen(true)}
+                      disabled={isPending || isLookingUpBarcode}
+                      title="Scan barcode"
+                    >
+                      {isLookingUpBarcode ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <ScanBarcode className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+
+                  <div className="rounded-md border max-h-[220px] overflow-y-auto">
+                    {isSearching ? (
+                      <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Searching...
+                      </div>
+                    ) : searchResults.length === 0 ? (
+                      <div className="py-4 text-center text-sm text-muted-foreground">
+                        {debouncedSearch
+                          ? `No products found matching "${debouncedSearch}"`
+                          : "No products available"}
+                      </div>
+                    ) : (
+                      <ul className="divide-y">
+                        {searchResults.map((product) => (
+                          <li key={product.id}>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleSelectProduct({
+                                  id: product.id,
+                                  name: product.name,
+                                  stockType: product.stockType,
+                                  sku: product.sku,
+                                })
+                              }
+                              className="w-full text-left px-3 py-2 hover:bg-accent focus:bg-accent focus:outline-none transition-colors"
+                            >
+                              <div className="flex flex-col">
+                                <span className="font-medium">
+                                  {product.name}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  {product.stockType}
+                                  {product.sku ? ` • SKU: ${product.sku}` : ""}
+                                </span>
+                              </div>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </>
+              )}
               {errors.productId && (
                 <p className="text-sm text-destructive">{errors.productId}</p>
               )}
@@ -370,6 +542,12 @@ export function InventoryDialog({
           </DialogFooter>
         </form>
       </DialogContent>
+
+      <BarcodeScanner
+        open={scannerOpen}
+        onOpenChange={setScannerOpen}
+        onScan={handleBarcodeScan}
+      />
     </Dialog>
   );
 }
